@@ -14,7 +14,9 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    $res = $router->app->version();
+    $res .= ' ' . phpinfo();
+    return $res;
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
