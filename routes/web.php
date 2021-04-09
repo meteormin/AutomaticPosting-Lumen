@@ -20,6 +20,11 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('stocks', [
+        'middleware' => 'client',
+        'uses' => 'StockController@index'
+    ]);
+
     $router->post('stocks', [
         'middleware' => 'client',
         'uses' => 'StockController@store'

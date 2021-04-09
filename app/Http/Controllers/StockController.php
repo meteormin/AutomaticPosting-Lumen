@@ -12,6 +12,10 @@ class StockController extends Controller
     {
     }
 
+    public function index(Request $request)
+    {
+    }
+
     public function store(Request $request)
     {
         $stock = $request->all();
