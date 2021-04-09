@@ -37,7 +37,6 @@ class OpenDart extends Command
      */
     public function handle()
     {
-
         $this->info('hello world.');
     }
 }

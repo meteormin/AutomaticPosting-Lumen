@@ -35,7 +35,7 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        Storage::disk('local')->put('app/opendart/', $response);
+        Storage::disk('local')->put('opendart/', $response);
 
         $zip = new ZipArchive;
         $zip->open($response);
