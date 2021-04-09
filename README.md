@@ -1,4 +1,10 @@
-# Lumen PHP Framework
+# Automatic Postirng With Lumen PHP Framework
+> Version: 0.0.1
+
+## Details
+https://github.com/miniyus/AutomaticPosting
+
+## About Lumen
 
 [![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
