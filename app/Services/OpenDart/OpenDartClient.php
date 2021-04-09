@@ -51,7 +51,11 @@ class OpenDartClient
             }
         }
 
-        return new Entities($list);
+        return (new Entities($list))->filter(function ($item) {
+            if ($item instanceof CorpCodeEntity) {
+                return !is_null($item->getStockCode());
+            }
+        });
     }
 
     /**
