@@ -22,7 +22,7 @@ class Entities extends Collection
     /**
      * @param \Illuminate\Support\Collection|EntityInterface[] $entities
      */
-    public function __construct($entities)
+    public function __construct($entities = [])
     {
         if (is_array($entities) || ($entities instanceof ArrayAccess)) {
             parent::__construct($entities);

@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\DefaultController;
+use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Facades\Storage;
 
-class StockController extends Controller
+class StockController extends DefaultController
 {
-    public function __construct()
+    /**
+     * open dart service
+     *
+     * @var OpenDartService
+     */
+    protected $openDart;
+
+    public function __construct(OpenDartService $OpenDartService)
     {
+        $this->openDart = $OpenDartService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
+        $entities = $this->openDart->getMultiple(['005935']);
+
+        return $this->response($entities, 200);
     }
 
     public function store(Request $request)
