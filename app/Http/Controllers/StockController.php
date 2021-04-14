@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\DefaultController;
-use App\Services\Libraries\ConfigParser;
+use App\Services\Libraries\ArrayParser;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,7 +42,7 @@ class StockController extends DefaultController
 
     public function getSetctors(Request $request, string $market = null)
     {
-        $config = new ConfigParser('sectors');
+        $config = new ArrayParser(config('sectors'));
 
         if ($config->has($market)) {
             return $this->response($config->get($market), 200);

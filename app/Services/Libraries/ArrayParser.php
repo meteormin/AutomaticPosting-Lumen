@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 /**
  * config parser
  */
-class ConfigParser extends Collection
+class ArrayParser extends Collection
 {
     /**
      * attributes
@@ -19,17 +19,11 @@ class ConfigParser extends Collection
     /**
      * Undocumented function
      *
-     * @param string|array|null $configName
+     * @param array|null $configName
      */
-    public function __construct($configName = null)
+    public function __construct(array $config = [])
     {
-        if (is_string($configName)) {
-            parent::__construct(config($configName));
-        }
-
-        if (is_array($configName)) {
-            parent::__construct($configName);
-        }
+        parent::__construct($config);
     }
 
     /**
