@@ -50,7 +50,7 @@ class OpenDartClient
     {
         $json = Storage::disk('local')->get('opendart/codes.json');
         $jsonObject = json_decode($json);
-
+        dd($jsonObject);
         $list = [];
         foreach ($jsonObject as $corp) {
             if (!empty($corp->stock_code)) {
