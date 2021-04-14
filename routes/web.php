@@ -25,6 +25,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         'uses' => 'StockController@index'
     ]);
 
+    $router->get('stocks/sectors/{market}', [
+        'middleware' => 'client',
+        'uses' => 'StockController@getSectors'
+    ]);
+
+    $router->get('stocks', [
+        'middleware' => 'client',
+        'uses' => 'StockController@index'
+    ]);
+
     $router->post('stocks', [
         'middleware' => 'client',
         'uses' => 'StockController@store'
