@@ -38,7 +38,7 @@ class OpenDartClient
         Storage::disk('local')->put('opendart/CORPCODE.zip', $response);
 
         $zip = new ZipArchive;
-        $zip->open($response);
+        $zip->open(storage_path('app/opendart/CORPCODE.zip'));
         $zip->extractTo(storage_path('app/opendart/CORPCODE.xml'));
         $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
 
