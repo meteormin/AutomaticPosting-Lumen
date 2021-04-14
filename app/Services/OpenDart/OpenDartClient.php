@@ -53,6 +53,8 @@ class OpenDartClient
 
         $list = [];
         foreach ($jsonObject->list as $corp) {
+            dd($corp);
+            exit;
             if (!empty($corp->stock_code)) {
                 $corpCode = new CorpCodeEntity;
                 $corpCode->map($corp);
