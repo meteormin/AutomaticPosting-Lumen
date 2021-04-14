@@ -22,6 +22,17 @@ class StockController extends DefaultController
         $this->openDart = $OpenDartService;
     }
 
+    public function storeCorpCodes()
+    {
+        $bool = $this->openDart->saveCorpCodes();
+
+        if ($bool) {
+            return $this->response($bool, 200);
+        }
+
+        return $this->error(99, $bool);
+    }
+
     public function index(Request $request)
     {
         $entities = $this->openDart->getMultiple(['005935']);
@@ -46,7 +57,7 @@ class StockController extends DefaultController
     }
 
 
-    public function store(Request $request)
+    public function storeStock(Request $request)
     {
         $stock = $request->all();
 

@@ -24,6 +24,11 @@ class OpenDartService extends Service
         $this->module = new OpenDartClient();
     }
 
+    public function saveCorpCodes()
+    {
+        return $this->module->requestCorpCodes();
+    }
+
     public function getSingle(int $stockCode)
     {
         $cropCodes = $this->module->getCorpCode();

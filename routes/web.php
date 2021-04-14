@@ -20,6 +20,8 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
 
+    $router->post('stocks/corpCodes', 'StockController@storeCorpCodes');
+
     $router->get('stocks/sectors/{market}', 'StockController@getSectors');
 
     $router->get('stocks', 'StockController@index');

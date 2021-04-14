@@ -23,12 +23,8 @@ class OpenDartClient
         $this->client = new Client(config('opendart.host'));
     }
 
-    /**
-     * 회사 고유 코드 가져오기
-     *
-     * @return Entities
-     */
-    public function getCorpCode()
+
+    public function requestCorpCodes()
     {
         $response = $this->client->get(config('opendart.method.corpCode.url') . '?crtfc_key=' . config('opendart.api_key'));
         if (is_null($response)) {
@@ -42,8 +38,19 @@ class OpenDartClient
         $zip->extractTo(storage_path('app/opendart/'));
         $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
 
-        $jsonObject = json_decode(json_encode($xml));
-        
+        return Storage::disk('local')->put('opendart/codes.json', json_encode($xml));
+    }
+
+    /**
+     * 회사 고유 코드 가져오기
+     *
+     * @return Entities
+     */
+    public function getCorpCode()
+    {
+        $json = Storage::disk('local')->get('opendart/codes.json');
+        $jsonObject = json_decode($json);
+
         $list = [];
         foreach ($jsonObject as $corp) {
             if (!empty($corp->stock_code)) {
