@@ -29,7 +29,7 @@ class ApiResponse
     public static function success($data, $method = 'GET')
     {
         $method = strtoupper($method);
-        $http_status = config('http_status');
+        $http_status = __('http_status');
         foreach ($http_status as $key => $value) {
             if ($method == $key) {
                 $response_code = $value;
