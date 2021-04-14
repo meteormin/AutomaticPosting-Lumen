@@ -12,13 +12,24 @@ class ConfigParser extends Collection
 {
     /**
      * attributes
-     * @var string[]
+     * @var array
      */
     protected $items = [];
 
-    public function __construct(string $configName)
+    /**
+     * Undocumented function
+     *
+     * @param string|array|null $configName
+     */
+    public function __construct($configName = null)
     {
-        $this->items = config($configName);
+        if (is_string($configName)) {
+            parent::__construct(config($configName));
+        }
+
+        if (is_array($configName)) {
+            parent::__construct($configName);
+        }
     }
 
     /**
