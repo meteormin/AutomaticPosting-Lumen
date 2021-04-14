@@ -35,11 +35,11 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        Storage::disk('local')->put('opendart/', $response);
+        Storage::disk('local')->put('opendart/CORPCODE.xml', $response);
 
         $zip = new ZipArchive;
         $zip->open($response);
-        $zip->extractTo(storage_path('app/opendart/'));
+        $zip->extractTo(storage_path('app/opendart/CORPCODE.xml'));
         $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
 
         $list = [];
