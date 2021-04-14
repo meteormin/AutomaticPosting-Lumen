@@ -62,8 +62,13 @@ $app->bind(\Laravel\Passport\Http\Middleware\CheckCredentials::class, \App\Http\
 */
 
 $app->configure('app');
-
 $app->configure('auth');
+$app->configure('cache');
+$app->configure('database');
+$app->configure('logging');
+$app->configure('opendart');
+$app->configure('sectors');
+$app->configure('view');
 
 /*
 |--------------------------------------------------------------------------
