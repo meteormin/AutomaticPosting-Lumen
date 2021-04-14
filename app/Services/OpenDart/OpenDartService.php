@@ -32,8 +32,7 @@ class OpenDartService extends Service
     public function getSingle(int $stockCode)
     {
         $corpCodes = $this->module->getCorpCode();
-        dd($corpCodes);
-        exit;
+
         $corpCodes = $corpCodes->map(function ($item) use ($stockCode) {
             if ($item instanceof CorpCodeEntity) {
                 if ($item->getStockCode() == $stockCode) {
