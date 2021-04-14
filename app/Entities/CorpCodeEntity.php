@@ -31,7 +31,7 @@ class CorpCodeEntity extends Entity
      *
      * @return  string
      */
-    public function getCorpCode()
+    public function getCorpCode(): string
     {
         return $this->corpCode;
     }

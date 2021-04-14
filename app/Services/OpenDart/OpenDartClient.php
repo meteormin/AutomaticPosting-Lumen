@@ -71,7 +71,7 @@ class OpenDartClient
      *
      * @return AcntEntity
      */
-    public function getSinglAcnt(int $corpCode)
+    public function getSinglAcnt(string $corpCode)
     {
         $query = Arr::query([
             'crtfc_key' => config('opendart.api_key'),
