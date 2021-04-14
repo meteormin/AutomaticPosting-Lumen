@@ -40,7 +40,7 @@ class StockController extends DefaultController
         return $this->response($entities, 200);
     }
 
-    public function getSetctors(Request $request, string $market)
+    public function getSetctors(Request $request, ?string $market)
     {
         $config = new ConfigParser('sectors');
 
