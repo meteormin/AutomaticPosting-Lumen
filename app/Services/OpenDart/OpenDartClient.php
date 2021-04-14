@@ -39,7 +39,7 @@ class OpenDartClient
 
         $zip = new ZipArchive;
         $zip->open(storage_path('app/opendart/CORPCODE.zip'));
-        $zip->extractTo(storage_path('app/opendart/CORPCODE.xml'));
+        $zip->extractTo(storage_path('app/opendart/'));
         $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
 
         $list = [];
