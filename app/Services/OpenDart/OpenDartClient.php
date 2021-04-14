@@ -80,8 +80,6 @@ class OpenDartClient
             'reprt_code' => '11011'
         ]);
 
-        print_r(config('opendart.method.SinglAcnt.url') . '?' . $query);
-
         $response = $this->client->get(config('opendart.method.SinglAcnt.url') . '?' . $query);
 
         if (is_null($response)) {
