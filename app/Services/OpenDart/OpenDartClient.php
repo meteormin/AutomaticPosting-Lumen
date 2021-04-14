@@ -85,7 +85,7 @@ class OpenDartClient
         if (is_null($response)) {
             return $this->client->getError();
         }
-        var_dump($response);
+
         return (new AcntEntity)->map($response['list']);
     }
 
