@@ -15,16 +15,10 @@
 
 $router->get('/', function () use ($router) {
     $res = $router->app->version();
-    $res .= ' ' . phpinfo();
     return $res;
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('stocks', [
-        'middleware' => 'client',
-        'uses' => 'StockController@index'
-    ]);
-
     $router->get('stocks/sectors/{market}', [
         'middleware' => 'client',
         'uses' => 'StockController@getSectors'
@@ -34,6 +28,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         'middleware' => 'client',
         'uses' => 'StockController@index'
     ]);
+
 
     $router->post('stocks', [
         'middleware' => 'client',
