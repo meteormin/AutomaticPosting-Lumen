@@ -18,20 +18,11 @@ $router->get('/', function () use ($router) {
     return $res;
 });
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('stocks/sectors/{market}', [
-        'middleware' => 'client',
-        'uses' => 'StockController@getSectors'
-    ]);
+$router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
 
-    $router->get('stocks', [
-        'middleware' => 'client',
-        'uses' => 'StockController@index'
-    ]);
+    $router->get('stocks/sectors/{market}', 'StockController@getSectors');
 
+    $router->get('stocks', 'StockController@index');
 
-    $router->post('stocks', [
-        'middleware' => 'client',
-        'uses' => 'StockController@store'
-    ]);
+    $router->post('stocks', 'StockController@store');
 });
