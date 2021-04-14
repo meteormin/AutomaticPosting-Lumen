@@ -42,7 +42,7 @@ class StockController extends DefaultController
 
     public function getSetctors(Request $request, string $market)
     {
-        $config = new ConfigParser('sector');
+        $config = new ConfigParser('sectors');
 
         if ($config->has($market)) {
             return $this->response($config->get($market), 200);
