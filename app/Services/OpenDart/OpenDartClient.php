@@ -73,13 +73,14 @@ class OpenDartClient
      */
     public function getSinglAcnt(int $corpCode)
     {
-        var_dump($corpCode);
         $query = Arr::query([
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $corpCode,
             'bsns_year' => '2020',
             'reprt_code' => '11011'
         ]);
+
+        print_r(config('opendart.method.SinglAcnt.url') . '?' . $query);
 
         $response = $this->client->get(config('opendart.method.SinglAcnt.url') . '?' . $query);
 
