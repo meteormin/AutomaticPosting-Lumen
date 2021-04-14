@@ -53,18 +53,14 @@ class OpenDartClient
 
         $list = [];
         foreach ($jsonObject->list as $corp) {
-            if (!empty($corp->stock_code)) {
+            if (!is_object($corp->stock_code)) {
                 $corpCode = new CorpCodeEntity;
                 $corpCode->map($corp);
                 $list[] = $corpCode;
             }
         }
 
-        return (new Entities($list))->filter(function ($item) {
-            if ($item instanceof CorpCodeEntity) {
-                return !is_null($item->getStockCode());
-            }
-        });
+        return new Entities($list);
     }
 
     /**
