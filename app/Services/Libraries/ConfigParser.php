@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\MapperV2;
+namespace App\Services1\Libraries;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
