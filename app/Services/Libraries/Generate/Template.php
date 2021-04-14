@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries\Generate;
+namespace App\Services\Libraries\Generate;
 
 use JsonMapper;
 
