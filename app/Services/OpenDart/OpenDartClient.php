@@ -53,7 +53,7 @@ class OpenDartClient
 
         $list = [];
         foreach ($jsonObject->list as $corp) {
-            dd($corp->stock_code);
+            var_dump($corp->stock_code);
             exit;
             if (!empty($corp->stock_code)) {
                 $corpCode = new CorpCodeEntity;
