@@ -35,13 +35,12 @@ class OpenDartService extends Service
 
         $corpCodes = $corpCodes->map(function ($item) use ($stockCode) {
             if ($item instanceof CorpCodeEntity) {
-                
                 if (!is_object($item->getStockCode())) {
                     return $item;
                 }
             }
         });
-
+        var_dump($corpCodes);
         return $this->module->getSinglAcnt($corpCodes->first()->getCorpCode());
     }
 
