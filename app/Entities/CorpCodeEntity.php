@@ -17,9 +17,9 @@ class CorpCodeEntity extends Entity
     protected string $corpName;
 
     /**
-     * @var string $stockCode
+     * @var mixed $stockCode
      */
-    protected string $stockCode;
+    protected $stockCode;
 
     /**
      * @var string $modifyDate
@@ -77,7 +77,7 @@ class CorpCodeEntity extends Entity
     /**
      * Get $stockCode
      *
-     * @return  string
+     * @return  mixed
      */
     public function getStockCode()
     {
@@ -87,11 +87,11 @@ class CorpCodeEntity extends Entity
     /**
      * Set $stockCode
      *
-     * @param  string  $stockCode  $stockCode
+     * @param  mixed  $stockCode  $stockCode
      *
      * @return  self
      */
-    public function setStockCode(string $stockCode)
+    public function setStockCode($stockCode = null)
     {
         $this->stockCode = $stockCode;
 
