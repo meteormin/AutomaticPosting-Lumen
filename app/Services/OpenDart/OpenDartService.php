@@ -31,8 +31,10 @@ class OpenDartService extends Service
 
     public function getSingle(int $stockCode)
     {
-        $cropCodes = $this->module->getCorpCode();
-        $cropCodes = $cropCodes->map(function ($item) use ($stockCode) {
+        $corpCodes = $this->module->getCorpCode();
+        dd($corpCodes);
+        exit;
+        $corpCodes = $corpCodes->map(function ($item) use ($stockCode) {
             if ($item instanceof CorpCodeEntity) {
                 if ($item->getStockCode() == $stockCode) {
                     return $item;
@@ -40,7 +42,7 @@ class OpenDartService extends Service
             }
         });
 
-        return $this->module->getSinglAcnt($cropCodes->first()->getCorpCode());
+        return $this->module->getSinglAcnt($corpCodes->first()->getCorpCode());
     }
 
     public function getMultiple(array $stockCodes)
