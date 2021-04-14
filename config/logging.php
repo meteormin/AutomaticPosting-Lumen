@@ -4,6 +4,11 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
+$log_channel =  env('LOG_CHANNEL', 'stack');
+if ($app->runningInConsole()) {
+    $log_channel = 'cli';
+}
+
 return [
 
     /*
