@@ -2,12 +2,15 @@
 
 namespace App\Exceptions;
 
+use Throwable;
+use App\Response\ApiResponse;
+use App\Response\ErrorCode;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +52,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($request->is('api/*')) {
+            if ($exception instanceof NotFoundHttpException) {
+                return ApiResponse::error(20, $exception->getMessage());
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }
