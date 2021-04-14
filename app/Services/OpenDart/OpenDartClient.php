@@ -7,6 +7,7 @@ use App\Entities\AcntEntity;
 use App\Entities\CorpCodeEntity;
 use App\Services\Libraries\Client;
 use App\Entities\Abstracts\Entities;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class OpenDartClient
@@ -72,17 +73,19 @@ class OpenDartClient
      */
     public function getSinglAcnt(int $corpCode)
     {
-        $response = $this->client->get(config('opendart.method.SinglAcnt.url'), [
+        $query = Arr::query([
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $corpCode,
             'bsns_year' => '2020',
             'reprt_code' => '11011'
         ]);
 
+        $response = $this->client->get(config('opendart.method.SinglAcnt.url') . '?' . $query);
+
         if (is_null($response)) {
             return $this->client->getError();
         }
-
+        var_dump($response);
         return (new AcntEntity)->map($response['list']);
     }
 
