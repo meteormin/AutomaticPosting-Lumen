@@ -69,6 +69,7 @@ $app->configure('logging');
 $app->configure('opendart');
 $app->configure('sectors');
 $app->configure('view');
+$app->configure('error');
 
 /*
 |--------------------------------------------------------------------------
