@@ -84,7 +84,7 @@ class AcntEntity extends Entity
 
     public function getIdentifier(): string
     {
-        return '';
+        return 'Acnt';
     }
 
     /**

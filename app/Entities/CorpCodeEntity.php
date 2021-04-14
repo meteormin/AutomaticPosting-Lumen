@@ -124,6 +124,6 @@ class CorpCodeEntity extends Entity
 
     public function getIdentifier(): string
     {
-        return '';
+        return 'CorpCode';
     }
 }

@@ -40,23 +40,6 @@ class StockController extends DefaultController
         return $this->response($entities, 200);
     }
 
-    public function getSetctors(Request $request, string $market = null)
-    {
-        $config = new ArrayParser(config('sectors'));
-
-        if ($config->has($market)) {
-            return $this->response($config->get($market), 200);
-        } else {
-            $market_sector = $config->findByAttribute(['market_code' => $market]);
-            if (!$market_sector->empty()) {
-                return $this->response($market_sector, 200);
-            }
-        }
-
-        return $this->response($config, 200);
-    }
-
-
     public function storeStock(Request $request)
     {
         $stock = $request->all();
