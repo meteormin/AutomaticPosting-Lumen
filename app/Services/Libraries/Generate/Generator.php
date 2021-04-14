@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Libraries\generate;
+namespace App\Services\Libraries\Generate;
 
 abstract class Generator
 {
@@ -17,14 +17,14 @@ abstract class Generator
     /**
      * template
      *
-     * @var \App\Libraries\Generate\Template
+     * @var Template
      */
     protected $template;
 
     /**
      *
      *
-     * @var \App\Libraries\Generate\MakeClass
+     * @var MakeClass
      */
     protected $maker;
 
@@ -63,9 +63,9 @@ abstract class Generator
     /**
      * get template
      *
-     * @return \App\Libraries\Generate\Template|null
+     * @return Template|null
      */
-    public function getTemplate(): ?\App\Libraries\Generate\Template
+    public function getTemplate(): ?Template
     {
         return $this->template;
     }

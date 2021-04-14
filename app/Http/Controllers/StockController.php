@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\DefaultController;
-use App\Libraries\MapperV2\ConfigParser;
+use App\Services\Libraries\ConfigParser;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Facades\Storage;
 

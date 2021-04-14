@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services1\Libraries;
+namespace App\Services\Libraries;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
