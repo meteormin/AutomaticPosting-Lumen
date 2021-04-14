@@ -74,14 +74,16 @@ class OpenDartClient
     {
         $response = $this->client->get(config('opendart.method.SinglAcnt.url'), [
             'crtfc_key' => config('opendart.api_key'),
-            'corp_code' => $corpCode
+            'corp_code' => $corpCode,
+            'bsns_year' => '2020',
+            'reprt_code' => '11011'
         ]);
 
         if (is_null($response)) {
             return $this->client->getError();
         }
 
-        return (new AcntEntity)->map($response);
+        return (new AcntEntity)->map($response['list']);
     }
 
     /**
