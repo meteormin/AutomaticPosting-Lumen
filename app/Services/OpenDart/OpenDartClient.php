@@ -30,7 +30,7 @@ class OpenDartClient
      */
     public function getCorpCode()
     {
-        $response = $this->client->get(config('opendart.method.corpCode.url'), ['crtfc_key' => config('opendart.api_key')]);
+        $response = $this->client->get(config('opendart.method.corpCode.url') . '?crtfc_key=' . config('opendart.api_key'));
         if (is_null($response)) {
             return $this->client->getError();
         }
