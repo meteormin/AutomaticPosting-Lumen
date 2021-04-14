@@ -81,8 +81,6 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        $response;
-
         return (new AcntEntity)->map($response);
     }
 

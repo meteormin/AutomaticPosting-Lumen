@@ -40,7 +40,7 @@ class OpenDartService extends Service
                 }
             }
         });
-
+        var_dump($corpCodes);
         return $this->module->getSinglAcnt($corpCodes->first()->getCorpCode());
     }
 
