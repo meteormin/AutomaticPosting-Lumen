@@ -108,4 +108,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'aliases' => [
+        'App' => \Illuminate\Support\Facades\App::class
+    ]
 ];
