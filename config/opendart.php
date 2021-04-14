@@ -2,7 +2,7 @@
 
 return [
     'host' => 'https://opendart.fss.or.kr',
-    'api_key' => '',
+    'api_key' => env('open_dart_api_key'),
     'method' => [
         'corpCode' => [
             'url' => '/api/corpCode.xml',
