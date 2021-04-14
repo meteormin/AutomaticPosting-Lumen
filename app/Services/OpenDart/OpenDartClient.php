@@ -53,9 +53,9 @@ class OpenDartClient
 
         $list = [];
         foreach ($jsonObject->list as $corp) {
-            var_dump($corp->stock_code);
-            exit;
             if (!empty($corp->stock_code)) {
+                var_dump($corp->stock_code);
+                exit;
                 $corpCode = new CorpCodeEntity;
                 $corpCode->map($corp);
                 $list[] = $corpCode;
