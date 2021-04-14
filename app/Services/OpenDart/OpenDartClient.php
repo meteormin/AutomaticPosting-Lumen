@@ -42,8 +42,10 @@ class OpenDartClient
         $zip->extractTo(storage_path('app/opendart/'));
         $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
 
+        $jsonObject = json_decode(json_encode($xml));
+        
         $list = [];
-        foreach ($xml->children() as $corp) {
+        foreach ($jsonObject as $corp) {
             if (!empty($corp->stock_code)) {
                 $corpCode = new CorpCodeEntity;
                 $corpCode->map($corp);
