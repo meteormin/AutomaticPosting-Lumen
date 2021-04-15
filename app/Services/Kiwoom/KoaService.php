@@ -31,8 +31,7 @@ class KoaService extends Service
                 'sector_name' => $stock->get('stock_name'),
                 'result' => Storage::disk('local')->put(
                     "kiwoom/{$stock->get('file_name')}",
-                    $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE),
-
+                    $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
                 )
             ];
 
