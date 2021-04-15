@@ -61,7 +61,7 @@ class Stocks
         $stockInfo = new StockInfo;
         $res = new Entities;
 
-        $files = $this->disk->directories($this->path);
+        $files = $this->disk->files($this->path);
 
         foreach ($files as $file) {
             $stock = new ArrayParser($file['stock_data']);
