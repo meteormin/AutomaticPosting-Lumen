@@ -28,7 +28,11 @@ class PostStockRequest
         $jsonArray = collect();
 
         try {
-            $jsonArray->add(self::convert($request->all()));
+            if ($request->has('code') && $request->has('name') && $request->has('data')) {
+                $jsonArray->add(self::convert($request->all()));
+            } else {
+                self::failedValidation("Failed Parse Request: 필수 항목 누락");
+            }
         } catch (Throwable $e) {
             self::failedValidation("Failed Parse Request: {$e->getMessage()}");
         }
