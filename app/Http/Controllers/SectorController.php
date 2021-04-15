@@ -7,7 +7,7 @@ use App\Http\Controllers\DefaultController;
 use App\Response\ErrorCode;
 use App\Services\Libraries\ArrayParser;
 
-class Sectorontroller extends DefaultController
+class SectorController extends DefaultController
 {
     /**
      * open dart service
