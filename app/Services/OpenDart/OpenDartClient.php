@@ -82,7 +82,7 @@ class OpenDartClient
             }
 
             return false;
-        })->valeus();
+        })->values();
 
         return $list;
     }
