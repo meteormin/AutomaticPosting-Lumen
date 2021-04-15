@@ -49,7 +49,13 @@ class OpenDartService extends Service
      */
     public function getCorpCode(string $code = null)
     {
-        return $this->module->getCorpCode($code);
+        $codes = explode(',', $code);
+        $res = [];
+        foreach ($codes as $code) {
+            $res[] = $this->module->getCorpCode($code);
+        }
+
+        return $res;
     }
 
     /**

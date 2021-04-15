@@ -21,9 +21,9 @@ class ArrayParser extends Collection
      *
      * @param array|null $configName
      */
-    public function __construct(array $config = [])
+    public function __construct(array $arr = [])
     {
-        parent::__construct($config);
+        parent::__construct($arr);
     }
 
     /**
