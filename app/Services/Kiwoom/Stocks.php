@@ -17,7 +17,19 @@ class Stocks
      */
     protected $disk;
 
+    /**
+     * Undocumented variable
+     *
+     * @var string
+     */
     protected $path = 'kiwoom';
+
+    /**
+     *
+     *
+     * @var ArrayParser
+     */
+    protected $parser;
 
     public function __construct()
     {
