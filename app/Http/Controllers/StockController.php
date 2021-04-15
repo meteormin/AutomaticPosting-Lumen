@@ -44,7 +44,7 @@ class StockController extends DefaultController
 
     public function showCorpCode(Request $request)
     {
-        return $this->openDart->getCorpCode($request->get('corp_code', null));
+        return $this->response($this->openDart->getCorpCode($request->get('corp_code', null)));
     }
 
     /**
@@ -79,6 +79,6 @@ class StockController extends DefaultController
 
     public function showStock(Request $request)
     {
-        return $this->koa->showStock($request->get('stock_code', null));
+        return $this->response($this->koa->showStock($request->get('stock_code', null)));
     }
 }
