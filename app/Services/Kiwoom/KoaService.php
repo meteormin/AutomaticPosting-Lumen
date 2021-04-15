@@ -39,7 +39,6 @@ class KoaService extends Service
                 $this->throw(ErrorCode::CONFLICT, '섹터 별 주가정보 저장 실패,' . $stocks->get('stock_code'));
             }
         } else {
-
             $stocks->each(function ($item) use (&$rs) {
                 $rs[] = [
                     'sector_code' => $item->get('stock_code'),
