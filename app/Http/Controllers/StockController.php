@@ -71,10 +71,7 @@ class StockController extends DefaultController
     {
         $stocks = PostStockRequests::parse($request);
         $rs = $this->koa->storeStock($stocks);
-        if ($rs) {
-            return $this->success($rs, 'POST');
-        }
 
-        return $this->error(ErrorCode::CONFLICT, $rs);
+        return $this->success($rs, 'POST');
     }
 }
