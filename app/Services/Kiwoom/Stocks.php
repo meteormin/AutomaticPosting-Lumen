@@ -29,12 +29,12 @@ class Stocks
      *
      * @var ArrayParser
      */
-    protected $parser;
+    protected $sectors;
 
     public function __construct()
     {
         $this->disk = Storage::disk('local');
-        $this->parser = new ArrayParser();
+        $this->sectors = new ArrayParser(config('sectors'));
     }
 
     public function put(Collection $stock)
@@ -47,6 +47,11 @@ class Stocks
                 $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
             )
         ];
+    }
+
+    public function sectors()
+    {
+        return $this->sectors;
     }
 
     /**
@@ -68,7 +73,7 @@ class Stocks
 
             $stock = new ArrayParser($contents['stock_data']);
             if (is_null($code)) {
-                $res->add($stockInfo->mapList($stock));
+                return $stockInfo->mapList($stock);
             } else {
                 $stock = $stock->findByAttribute(['stock_code' => $code]);
                 if (!$stock->isEmpty()) {
