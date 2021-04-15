@@ -4,6 +4,7 @@ namespace App\Services\Kiwoom;
 
 use Storage;
 use App\Entities\StockInfo;
+use App\Entities\Utils\Entities;
 use Illuminate\Support\Collection;
 use App\Services\Libraries\ArrayParser;
 
@@ -36,21 +37,33 @@ class Stocks
         ];
     }
 
-    public function get(string $code)
+    /**
+     * Undocumented function
+     *
+     * @param string $code
+     *
+     * @return Entities
+     */
+    public function get(string $code = null)
     {
         $stockInfo = new StockInfo;
+        $res = new Entities;
 
         $files = Storage::disk('local')->directories('kiwwom');
 
         foreach ($files as $file) {
             $stock = new ArrayParser($file['stock_data']);
-            $stock = $stock->findByAttribute(['stock_code' => $code]);
-            if (!$stock->isEmpty()) {
-                $stockInfo->map($stock);
-                break;
+            if (is_null($code)) {
+                $res->add($stockInfo->map($stock));
+            } else {
+                $stock = $stock->findByAttribute(['stock_code' => $code]);
+                if (!$stock->isEmpty()) {
+                    $res->add($stockInfo->map($stock));
+                    break;
+                }
             }
         }
 
-        return $stockInfo;
+        return $res;
     }
 }

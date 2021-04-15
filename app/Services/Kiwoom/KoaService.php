@@ -46,13 +46,16 @@ class KoaService extends Service
         return $rs;
     }
 
-    public function showStock(string $code)
+    public function showStock(string $code = null)
     {
-        $codes = explode(',', $code);
+        if (is_null($code)) {
+            return $this->module->get();
+        }
 
+        $codes = explode(',', $code);
         $rs = new Entities;
         foreach ($codes as $code) {
-            $rs->add($this->module->get($code));
+            $rs->add($this->module->get($code)->first());
         }
 
         return $rs;
