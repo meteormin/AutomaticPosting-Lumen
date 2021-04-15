@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Response\ErrorCode;
 use Illuminate\Http\Request;
 use App\Services\Kiwoom\KoaService;
 use App\Http\Requets\PostStockRequests;
-use App\Services\Libraries\ArrayParser;
-use Illuminate\Support\Facades\Storage;
 use App\Services\OpenDart\OpenDartService;
 use App\Http\Controllers\DefaultController;
 
