@@ -68,20 +68,20 @@ class OpenDartClient
         $corpCode = new CorpCodeEntity;
         $entities = $corpCode->mapList($jsonObject->list);
 
-        $list = $entities->map(function ($item) use ($code) {
+        $list = $entities->filter(function ($item) use ($code) {
             if ($item instanceof CorpCodeEntity) {
                 if (!is_object($item->getStockCode())) {
                     if (is_null($code)) {
-                        return $item;
+                        return true;
                     }
 
                     if ($code == $item->getCorpCode()) {
-                        return $item;
+                        return true;
                     }
                 }
             }
 
-            return null;
+            return false;
         });
 
         return $list;
