@@ -3,8 +3,8 @@
 namespace App\Services\Kiwoom;
 
 use App\Services\Service;
-use App\Entities\Utils\Entities;
 use App\Response\ErrorCode;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class KoaService extends Service
@@ -16,11 +16,11 @@ class KoaService extends Service
     /**
      * Undocumented function
      *
-     * @param Entities $stocks
+     * @param Collection $stocks
      *
      * @return bool
      */
-    public function storeStock(Entities $stocks)
+    public function storeStock(Collection $stocks)
     {
         $rs = [];
 
