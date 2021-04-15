@@ -66,7 +66,7 @@ class Stocks
         foreach ($files as $file) {
             $contents = json_decode($this->disk->get($file), true);
 
-            $stock = new ArrayParser($contents->stock_data);
+            $stock = new ArrayParser($contents['stock_data']);
             if (is_null($code)) {
                 $res->add($stockInfo->mapList($stock));
             } else {
