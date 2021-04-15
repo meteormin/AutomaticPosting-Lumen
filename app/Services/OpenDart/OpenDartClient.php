@@ -43,7 +43,7 @@ class OpenDartClient
         $zip->extractTo(storage_path('app/opendart/'));
         $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
 
-        return Storage::disk('local')->put('opendart/codes.json', json_encode($xml));
+        return Storage::disk('local')->put('opendart/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE));
     }
 
     /**

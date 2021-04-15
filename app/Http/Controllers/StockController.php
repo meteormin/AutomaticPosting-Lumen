@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\DefaultController;
-use App\Http\Requets\PostStockRequests;
 use App\Response\ErrorCode;
+use Illuminate\Http\Request;
+use App\Services\Kiwoom\KoaService;
+use App\Http\Requets\PostStockRequests;
 use App\Services\Libraries\ArrayParser;
-use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Facades\Storage;
+use App\Services\OpenDart\OpenDartService;
+use App\Http\Controllers\DefaultController;
 
 class StockController extends DefaultController
 {
@@ -19,25 +20,29 @@ class StockController extends DefaultController
      */
     protected $openDart;
 
-    public function __construct(OpenDartService $OpenDartService)
+    /**
+     * koa service
+     *
+     * @var KoaService
+     */
+    protected $koa;
+
+    public function __construct(OpenDartService $OpenDartService, KoaService $koa)
     {
         $this->openDart = $OpenDartService;
+        $this->koa = $koa;
     }
 
     /**
      * store CorpCodes
      * Open Dart API를 통해 회사 고유코드 json으로 저장
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function storeCorpCodes()
     {
         $rs = $this->openDart->saveCorpCodes();
 
-        if ($rs) {
-            return $this->success($rs, 'POST');
-        }
-
-        return $this->error(ErrorCode::CONFLICT, 'failed store corp codes');
+        return $this->success($rs, 'POST');
     }
 
     /**
@@ -45,7 +50,7 @@ class StockController extends DefaultController
      *
      * @param Request $request
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -60,32 +65,12 @@ class StockController extends DefaultController
      *
      * @param Request $request
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function storeStock(Request $request)
     {
         $stocks = PostStockRequests::parse($request);
-
-        if ($stocks->count() == 1) {
-            $rs = Storage::disk('local')->put(
-                "kiwoom/{$stocks->first()->get('file_name')}",
-                json_encode(
-                    $stocks->except('file_name')
-                )
-            );
-        } else {
-            $rs = false;
-
-            $stocks->each(function ($item) use (&$rs) {
-                $rs = Storage::disk('local')->put(
-                    "kiwoom/{$item->get('file_name')}",
-                    json_encode(
-                        $item->except('file_name')
-                    )
-                );
-            });
-        }
-
+        $rs = $this->koa->storeStock($stocks);
         if ($rs) {
             return $this->success($rs, 'POST');
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Requets;
 
 use Throwable;
+use App\Entities\StockInfo;
 use App\Response\ErrorCode;
 use Illuminate\Http\Request;
 use App\Response\ApiResponse;
@@ -57,13 +58,13 @@ class PostStockRequests
     protected static function convert(array $req)
     {
         $req = collect($req);
-
+        $stockInfo = new StockInfo;
         return collect([
             'file_name' => "sector_{$req->get('code')}",
             'sector_code' => $req->get('code'),
             'sector_name' => $req->get('name'),
             'updated_at' => Carbon::now()->format('Y-m-d'),
-            'stock_data' => $req->get('data')
+            'stock_data' => $stockInfo->mapList($req->get('data'))
         ]);
     }
 

@@ -4,6 +4,8 @@ namespace App\Services\OpenDart;
 
 use App\Models\OpenDart;
 use App\Services\Service;
+use App\Response\ErrorCode;
+use App\Entities\AcntEntity;
 use App\Entities\CorpCodeEntity;
 use App\Entities\Utils\Entities;
 
@@ -31,7 +33,11 @@ class OpenDartService extends Service
      */
     public function saveCorpCodes()
     {
-        return $this->module->requestCorpCodes();
+        if ($this->module->requestCorpCodes()) {
+            return true;
+        }
+
+        $this->throw(ErrorCode::CONFLICT, 'failed store corp codes');
     }
 
     /**
@@ -39,7 +45,7 @@ class OpenDartService extends Service
      *
      * @param integer $stockCode
      *
-     * @return void
+     * @return AcntEntity
      */
     public function getSingle(int $stockCode)
     {
@@ -49,11 +55,14 @@ class OpenDartService extends Service
             if ($item instanceof CorpCodeEntity) {
                 return $item->getStockCode() == $stockCode;
             }
-
             return false;
         });
 
-        return $this->module->getSinglAcnt($corpCodes->first()->getCorpCode());
+        $corpCode = $corpCodes->first();
+        if (is_null($corpCode)) {
+            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
+        }
+        return $this->module->getSinglAcnt($corpCode->getCorpCode());
     }
 
     /**
@@ -61,7 +70,7 @@ class OpenDartService extends Service
      *
      * @param array $stockCodes
      *
-     * @return void
+     * @return Entities
      */
     public function getMultiple(array $stockCodes)
     {
@@ -69,6 +78,10 @@ class OpenDartService extends Service
 
         foreach ($stockCodes as $stockCode) {
             $entities->add($this->getSingle($stockCode));
+        }
+
+        if ($entities->isEmpty()) {
+            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found storcks");
         }
 
         return $entities;
