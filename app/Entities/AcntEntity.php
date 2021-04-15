@@ -22,61 +22,115 @@ class AcntEntity extends Entity
     protected ?string $reptCode;
 
     /**
+     * 사업 년도
      * @var string|null $bsnsYear
      */
     protected ?string $bsnsYear;
 
     /**
+     * 회사 고유 번호
      * @var string|null $corpCode
      */
     protected ?string $corpCode;
 
     /**
-     * @var string|null $sjDiv
-     */
-    protected ?string $sjDiv;
-
-    /**
-     * @var string|null $sjNm;
-     */
-    protected ?string $sjNm;
-
-    /**
+     * 종목코드
      * @var string|null $stockCode;
      */
     protected ?string $stockCode;
 
     /**
+     * 개별/연결구분
+     * @var string|null
+     */
+    protected ?string $fsDiv;
+
+    /**
+     * 개별/연결명
+     * @var string|null
+     */
+    protected ?string $fsNm;
+
+    /**
+     * 재무제표구분
+     * @var string|null $sjDiv
+     */
+    protected ?string $sjDiv;
+
+    /**
+     * 재무제표명
+     * @var string|null $sjNm;
+     */
+    protected ?string $sjNm;
+
+    /**
+     * 계정 ID
      * @var string|null $accountId
      */
     protected ?string $accountId;
 
     /**
+     * 계정 명
      * @var string|null $accountNm
      */
     protected ?string $accountNm;
 
     /**
+     * 당기 명
+     * @var string|null $thstrmNm
+     */
+    protected ?string $thstrmNm;
+
+    /**
+     * 당기일자
+     * @var string|null $thstrmDt
+     */
+    protected ?string $thstrmDt;
+
+    /**
+     * 당기금액
      * @var string|null $thstrmAmount
      */
     protected ?string $thstrmAmount;
 
     /**
+     * 당기누적금액
+     * @var string|null $thstrmAddAmount
+     */
+    protected ?string $thstrmAddAmount;
+
+    /**
+     * 전기명
      * @var string|null $frmtrmNm
      */
     protected ?string $frmtrmNm;
 
     /**
+     * 전기금액
      * @var string|null $frmtrmAmount
      */
     protected ?string $frmtrmAmount;
 
     /**
+     * 전기 누적금액
+     * @var string|null $frmtrmAddAmount
+     */
+    protected ?string $frmtrmAddAmount;
+
+    /**
+     * 전전기명
      * @var string|null $bfefrmtrmNm
      */
     protected ?string $bfefrmtrmNm;
 
     /**
+     * 전전기일자
+     * @var string|null $bfermtrmDt
+     */
+    protected ?string $bfermtrmDt;
+
+    /**
+     * 전전기금액
      * @var string|null $bfefrmtrmAmount
      */
     protected ?string $bfefrmtrmAmount;
@@ -90,7 +144,7 @@ class AcntEntity extends Entity
     /**
      * Get $ord
      *
-     * @return  int|null
+     * @return int|null
      */
     public function getOrd()
     {
@@ -100,9 +154,9 @@ class AcntEntity extends Entity
     /**
      * Set $ord
      *
-     * @param  int|null  $ord  $ord
+     * @param int|null $ord  $ord
      *
-     * @return  self
+     * @return self
      */
     public function setOrd($ord)
     {
@@ -114,7 +168,7 @@ class AcntEntity extends Entity
     /**
      * Get $rceptNo
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getRceptNo()
     {
@@ -124,9 +178,9 @@ class AcntEntity extends Entity
     /**
      * Set $rceptNo
      *
-     * @param  string|null  $rceptNo  $rceptNo
+     * @param string|null $rceptNo  $rceptNo
      *
-     * @return  self
+     * @return self
      */
     public function setRceptNo($rceptNo)
     {
@@ -138,7 +192,7 @@ class AcntEntity extends Entity
     /**
      * Get $reptCode
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getReptCode()
     {
@@ -148,9 +202,9 @@ class AcntEntity extends Entity
     /**
      * Set $reptCode
      *
-     * @param  string|null  $reptCode  $reptCode
+     * @param string|null $reptCode  $reptCode
      *
-     * @return  self
+     * @return self
      */
     public function setReptCode($reptCode)
     {
@@ -162,7 +216,7 @@ class AcntEntity extends Entity
     /**
      * Get $bsnsYear
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getBsnsYear()
     {
@@ -172,9 +226,9 @@ class AcntEntity extends Entity
     /**
      * Set $bsnsYear
      *
-     * @param  string|null  $bsnsYear  $bsnsYear
+     * @param string|null $bsnsYear  $bsnsYear
      *
-     * @return  self
+     * @return self
      */
     public function setBsnsYear($bsnsYear)
     {
@@ -186,7 +240,7 @@ class AcntEntity extends Entity
     /**
      * Get $corpCode
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getCorpCode()
     {
@@ -196,9 +250,9 @@ class AcntEntity extends Entity
     /**
      * Set $corpCode
      *
-     * @param  string|null  $corpCode  $corpCode
+     * @param string|null $corpCode  $corpCode
      *
-     * @return  self
+     * @return self
      */
     public function setCorpCode($corpCode)
     {
@@ -208,9 +262,81 @@ class AcntEntity extends Entity
     }
 
     /**
+     * Get $stockCode;
+     *
+     * @return string|null
+     */
+    public function getStockCode()
+    {
+        return $this->stockCode;
+    }
+
+    /**
+     * Set $stockCode;
+     *
+     * @param string|null $stockCode  $stockCode;
+     *
+     * @return self
+     */
+    public function setStockCode($stockCode)
+    {
+        $this->stockCode = $stockCode;
+
+        return $this;
+    }
+
+    /**
+     * Get 개별/연결구분
+     *
+     * @return string|null
+     */
+    public function getFsDiv()
+    {
+        return $this->fsDiv;
+    }
+
+    /**
+     * Set 개별/연결구분
+     *
+     * @param string|null $fsDiv  개별/연결구분
+     *
+     * @return self
+     */
+    public function setFsDiv($fsDiv)
+    {
+        $this->fsDiv = $fsDiv;
+
+        return $this;
+    }
+
+    /**
+     * Get 개별/연결명
+     *
+     * @return string|null
+     */
+    public function getFsNm()
+    {
+        return $this->fsNm;
+    }
+
+    /**
+     * Set 개별/연결명
+     *
+     * @param string|null $fsNm  개별/연결명
+     *
+     * @return self
+     */
+    public function setFsNm($fsNm)
+    {
+        $this->fsNm = $fsNm;
+
+        return $this;
+    }
+
+    /**
      * Get $sjDiv
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getSjDiv()
     {
@@ -220,9 +346,9 @@ class AcntEntity extends Entity
     /**
      * Set $sjDiv
      *
-     * @param  string|null  $sjDiv  $sjDiv
+     * @param string|null $sjDiv  $sjDiv
      *
-     * @return  self
+     * @return self
      */
     public function setSjDiv($sjDiv)
     {
@@ -234,7 +360,7 @@ class AcntEntity extends Entity
     /**
      * Get $sjNm;
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getSjNm()
     {
@@ -244,9 +370,9 @@ class AcntEntity extends Entity
     /**
      * Set $sjNm;
      *
-     * @param  string|null  $sjNm  $sjNm;
+     * @param string|null $sjNm  $sjNm;
      *
-     * @return  self
+     * @return self
      */
     public function setSjNm($sjNm)
     {
@@ -256,33 +382,9 @@ class AcntEntity extends Entity
     }
 
     /**
-     * Get $stockCode;
-     *
-     * @return  string|null
-     */
-    public function getStockCode()
-    {
-        return $this->stockCode;
-    }
-
-    /**
-     * Set $stockCode;
-     *
-     * @param  string|null  $stockCode  $stockCode;
-     *
-     * @return  self
-     */
-    public function setStockCode($stockCode)
-    {
-        $this->stockCode = $stockCode;
-
-        return $this;
-    }
-
-    /**
      * Get $accountId
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getAccountId()
     {
@@ -292,9 +394,9 @@ class AcntEntity extends Entity
     /**
      * Set $accountId
      *
-     * @param  string|null  $accountId  $accountId
+     * @param string|null $accountId  $accountId
      *
-     * @return  self
+     * @return self
      */
     public function setAccountId($accountId)
     {
@@ -306,7 +408,7 @@ class AcntEntity extends Entity
     /**
      * Get $accountNm
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getAccountNm()
     {
@@ -316,9 +418,9 @@ class AcntEntity extends Entity
     /**
      * Set $accountNm
      *
-     * @param  string|null  $accountNm  $accountNm
+     * @param string|null $accountNm  $accountNm
      *
-     * @return  self
+     * @return self
      */
     public function setAccountNm($accountNm)
     {
@@ -328,9 +430,57 @@ class AcntEntity extends Entity
     }
 
     /**
+     * Get $thstrmNm
+     *
+     * @return string|null
+     */
+    public function getThstrmNm()
+    {
+        return $this->thstrmNm;
+    }
+
+    /**
+     * Set $thstrmNm
+     *
+     * @param string|null $thstrmNm  $thstrmNm
+     *
+     * @return self
+     */
+    public function setThstrmNm($thstrmNm)
+    {
+        $this->thstrmNm = $thstrmNm;
+
+        return $this;
+    }
+
+    /**
+     * Get $thstrmDt
+     *
+     * @return string|null
+     */
+    public function getThstrmDt()
+    {
+        return $this->thstrmDt;
+    }
+
+    /**
+     * Set $thstrmDt
+     *
+     * @param string|null $thstrmDt  $thstrmDt
+     *
+     * @return self
+     */
+    public function setThstrmDt($thstrmDt)
+    {
+        $this->thstrmDt = $thstrmDt;
+
+        return $this;
+    }
+
+    /**
      * Get $thstrmAmount
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getThstrmAmount()
     {
@@ -340,9 +490,9 @@ class AcntEntity extends Entity
     /**
      * Set $thstrmAmount
      *
-     * @param  string|null  $thstrmAmount  $thstrmAmount
+     * @param string|null $thstrmAmount  $thstrmAmount
      *
-     * @return  self
+     * @return self
      */
     public function setThstrmAmount($thstrmAmount)
     {
@@ -352,9 +502,33 @@ class AcntEntity extends Entity
     }
 
     /**
+     * Get $thstrmAddAmount
+     *
+     * @return string|null
+     */
+    public function getThstrmAddAmount()
+    {
+        return $this->thstrmAddAmount;
+    }
+
+    /**
+     * Set $thstrmAddAmount
+     *
+     * @param string|null $thstrmAddAmount  $thstrmAddAmount
+     *
+     * @return self
+     */
+    public function setThstrmAddAmount($thstrmAddAmount)
+    {
+        $this->thstrmAddAmount = $thstrmAddAmount;
+
+        return $this;
+    }
+
+    /**
      * Get $frmtrmNm
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getFrmtrmNm()
     {
@@ -364,9 +538,9 @@ class AcntEntity extends Entity
     /**
      * Set $frmtrmNm
      *
-     * @param  string|null  $frmtrmNm  $frmtrmNm
+     * @param string|null $frmtrmNm  $frmtrmNm
      *
-     * @return  self
+     * @return self
      */
     public function setFrmtrmNm($frmtrmNm)
     {
@@ -378,7 +552,7 @@ class AcntEntity extends Entity
     /**
      * Get $frmtrmAmount
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getFrmtrmAmount()
     {
@@ -388,9 +562,9 @@ class AcntEntity extends Entity
     /**
      * Set $frmtrmAmount
      *
-     * @param  string|null  $frmtrmAmount  $frmtrmAmount
+     * @param string|null $frmtrmAmount  $frmtrmAmount
      *
-     * @return  self
+     * @return self
      */
     public function setFrmtrmAmount($frmtrmAmount)
     {
@@ -400,9 +574,33 @@ class AcntEntity extends Entity
     }
 
     /**
+     * Get $frmtrmAddAmount
+     *
+     * @return string|null
+     */
+    public function getFrmtrmAddAmount()
+    {
+        return $this->frmtrmAddAmount;
+    }
+
+    /**
+     * Set $frmtrmAddAmount
+     *
+     * @param string|null $frmtrmAddAmount  $frmtrmAddAmount
+     *
+     * @return self
+     */
+    public function setFrmtrmAddAmount($frmtrmAddAmount)
+    {
+        $this->frmtrmAddAmount = $frmtrmAddAmount;
+
+        return $this;
+    }
+
+    /**
      * Get $bfefrmtrmNm
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getBfefrmtrmNm()
     {
@@ -412,9 +610,9 @@ class AcntEntity extends Entity
     /**
      * Set $bfefrmtrmNm
      *
-     * @param  string|null  $bfefrmtrmNm  $bfefrmtrmNm
+     * @param string|null $bfefrmtrmNm  $bfefrmtrmNm
      *
-     * @return  self
+     * @return self
      */
     public function setBfefrmtrmNm($bfefrmtrmNm)
     {
@@ -424,9 +622,33 @@ class AcntEntity extends Entity
     }
 
     /**
+     * Get $bfermtrmDt
+     *
+     * @return string|null
+     */
+    public function getBfermtrmDt()
+    {
+        return $this->bfermtrmDt;
+    }
+
+    /**
+     * Set $bfermtrmDt
+     *
+     * @param string|null $bfermtrmDt  $bfermtrmDt
+     *
+     * @return self
+     */
+    public function setBfermtrmDt($bfermtrmDt)
+    {
+        $this->bfermtrmDt = $bfermtrmDt;
+
+        return $this;
+    }
+
+    /**
      * Get $bfefrmtrmAmount
      *
-     * @return  string|null
+     * @return string|null
      */
     public function getBfefrmtrmAmount()
     {
@@ -436,9 +658,9 @@ class AcntEntity extends Entity
     /**
      * Set $bfefrmtrmAmount
      *
-     * @param  string|null  $bfefrmtrmAmount  $bfefrmtrmAmount
+     * @param string|null $bfefrmtrmAmount  $bfefrmtrmAmount
      *
-     * @return  self
+     * @return self
      */
     public function setBfefrmtrmAmount($bfefrmtrmAmount)
     {
