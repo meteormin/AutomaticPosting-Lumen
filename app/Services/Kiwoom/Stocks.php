@@ -49,7 +49,7 @@ class Stocks
         $stockInfo = new StockInfo;
         $res = new Entities;
 
-        $files = Storage::disk('local')->directories('kiwwom');
+        $files = Storage::disk('local')->directories('kiwoom');
 
         foreach ($files as $file) {
             $stock = new ArrayParser($file['stock_data']);
