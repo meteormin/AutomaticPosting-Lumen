@@ -6,7 +6,7 @@ use ZipArchive;
 use App\Entities\AcntEntity;
 use App\Entities\CorpCodeEntity;
 use App\Services\Libraries\Client;
-use App\Entities\Abstracts\Entities;
+use App\Entities\Utils\Entities;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
@@ -49,19 +49,32 @@ class OpenDartClient
      */
     public function getCorpCode()
     {
+        $json = '';
+
+        if (!Storage::disk('local')->exists('opendart/codes.json')) {
+            if ($this->requestCorpCodes()) {
+                $json = Storage::disk('local')->get('opendart/codes.json');
+            }
+        }
+
         $json = Storage::disk('local')->get('opendart/codes.json');
         $jsonObject = json_decode($json);
 
         $list = [];
-        foreach ($jsonObject->list as $corp) {
-            if (!is_object($corp->stock_code)) {
-                $corpCode = new CorpCodeEntity;
-                $corpCode->map($corp);
-                $list[] = $corpCode;
-            }
-        }
+        $corpCode = new CorpCodeEntity;
+        $entities = $corpCode->mapList($jsonObject->list);
 
-        return new Entities($list);
+        $list = $entities->filter(function ($item) {
+            if ($item instanceof CorpCodeEntity) {
+                if (!is_object($item->getStockCode())) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+        return $list;
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Services\OpenDart;
 use App\Models\OpenDart;
 use App\Services\Service;
 use App\Entities\CorpCodeEntity;
-use App\Entities\Abstracts\Entities;
+use App\Entities\Utils\Entities;
 
 class OpenDartService extends Service
 {
@@ -46,8 +46,10 @@ class OpenDartService extends Service
 
     public function getMultiple(array $stockCodes)
     {
+        $entities = new Entities;
+
         foreach ($stockCodes as $stockCode) {
-            $entities = (new Entities)->add($this->getSingle($stockCode));
+            $entities->add($this->getSingle($stockCode));
         }
 
         return $entities;

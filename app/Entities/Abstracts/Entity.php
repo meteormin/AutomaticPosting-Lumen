@@ -3,8 +3,9 @@
 namespace  App\Entities\Abstracts;
 
 use JsonMapper;
-use Illuminate\Support\Collection;
+use App\Entities\Utils\Entities;
 use App\Entities\Utils\Property;
+use Illuminate\Support\Collection;
 use App\Entities\Utils\ArrController;
 use App\Exceptions\EntityErrorException;
 use Illuminate\Contracts\Support\Jsonable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace  App\Entities\Abstracts;
+namespace  App\Entities\Utils;
 
 use ArrayAccess;
 use Illuminate\Support\Collection;
