@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\Kiwoom\KoaService;
-use App\Http\Requests\PostStockRequests;
+use App\Http\Requests\PostStockRequest;
 use App\Services\OpenDart\OpenDartService;
 use App\Http\Controllers\DefaultController;
 
@@ -66,7 +66,7 @@ class StockController extends DefaultController
      */
     public function storeStock(Request $request)
     {
-        $stocks = PostStockRequests::parse($request);
+        $stocks = PostStockRequest::parse($request);
         $rs = $this->koa->storeStock($stocks);
 
         return $this->success($rs, 'POST');

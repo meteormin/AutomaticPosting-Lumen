@@ -14,7 +14,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 /**
  * request에 대한 처리
  */
-class PostStockRequests
+class PostStockRequest
 {
     /**
      * parse
