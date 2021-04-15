@@ -3,12 +3,9 @@
 namespace App\Services\Kiwoom;
 
 use App\Services\Service;
-use App\Entities\StockInfo;
 use App\Response\ErrorCode;
 use App\Entities\Utils\Entities;
 use Illuminate\Support\Collection;
-use App\Services\Libraries\ArrayParser;
-use Illuminate\Support\Facades\Storage;
 
 class KoaService extends Service
 {
@@ -56,6 +53,23 @@ class KoaService extends Service
         $rs = new Entities;
         foreach ($codes as $code) {
             $rs->add($this->module->get($code)->first());
+        }
+
+        return $rs;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $sector
+     *
+     * @return Entities
+     */
+    public function showBySector(string $sector)
+    {
+        $rs = $this->module->getBySector($sector);
+        if (is_null($rs)) {
+            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, 'not found sector: ' . $sector);
         }
 
         return $rs;

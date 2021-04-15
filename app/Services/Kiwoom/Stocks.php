@@ -6,7 +6,6 @@ use Storage;
 use App\Entities\StockInfo;
 use App\Entities\Utils\Entities;
 use Illuminate\Support\Collection;
-use App\Services\Libraries\ArrayParser;
 
 class Stocks
 {
@@ -27,14 +26,22 @@ class Stocks
     /**
      *
      *
-     * @var ArrayParser
+     * @var Collection
      */
     protected $sectors;
+
+    /**
+     * Undocumented variable
+     *
+     * @var StockInfo
+     */
+    protected $stockInfo;
 
     public function __construct()
     {
         $this->disk = Storage::disk('local');
-        $this->sectors = new ArrayParser(config('sectors'));
+        $this->sectors = collect(config('sectors'));
+        $this->stockInfo = new StockInfo;
     }
 
     public function put(Collection $stock)
@@ -49,9 +56,31 @@ class Stocks
         ];
     }
 
-    public function sectors()
+    /**
+     * Undocumented function
+     * @param string
+     * @return Collection
+     */
+    protected function sectors()
     {
         return $this->sectors;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $sector
+     *
+     * @return Entities|null
+     */
+    public function getBySector(string $sector)
+    {
+        if ($this->disk->exists($this->path . '/sector_' . $sector)) {
+            $file = json_decode($this->disk->get($this->path . '/sector_' . $sector), true);
+            return $this->stockInfo->mapList(collect($file['stock_data']));
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -63,7 +92,6 @@ class Stocks
      */
     public function get(string $code = null)
     {
-        $stockInfo = new StockInfo;
         $res = new Entities;
 
         $files = $this->disk->files($this->path);
@@ -71,13 +99,13 @@ class Stocks
         foreach ($files as $file) {
             $contents = json_decode($this->disk->get($file), true);
 
-            $stock = new ArrayParser($contents['stock_data']);
+            $stock = collect($contents['stock_data']);
             if (is_null($code)) {
-                return $stockInfo->mapList($stock);
+                return $this->stockInfo->mapList($stock);
             } else {
-                $stock = $stock->findByAttribute(['stock_code' => $code]);
+                $stock = $stock->where('stock_code', $code);
                 if (!$stock->isEmpty()) {
-                    $res->add($stockInfo->map($stock));
+                    $res->add($this->stockInfo->map($stock));
                     break;
                 }
             }

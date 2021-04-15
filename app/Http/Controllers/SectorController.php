@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\DefaultController;
 use App\Response\ErrorCode;
-use App\Services\Libraries\ArrayParser;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use App\Http\Controllers\DefaultController;
 
 class SectorController extends DefaultController
 {
     /**
      * open dart service
      *
-     * @var ArrayParser
+     * @var Collection
      */
     protected $sectors;
 
     public function __construct()
     {
-        $this->sectors = new ArrayParser(config('sectors'));
+        $this->sectors = collect(config('sectors'));
     }
 
     /**
