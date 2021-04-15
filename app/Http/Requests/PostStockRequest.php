@@ -28,15 +28,7 @@ class PostStockRequest
         $jsonArray = collect();
 
         try {
-            if ($request->has('sectors')) {
-                $sectors = collect($request->get('sectors'));
-
-                $sectors->each(function ($item) use (&$jsonArray) {
-                    $jsonArray->add(self::convert($item));
-                });
-            } else {
-                $jsonArray->add(self::convert($request->all()));
-            }
+            $jsonArray->add(self::convert($request->all()));
         } catch (Throwable $e) {
             self::failedValidation("Failed Parse Request: {$e->getMessage()}");
         }
@@ -64,7 +56,7 @@ class PostStockRequest
             'sector_code' => $req->get('code'),
             'sector_name' => $req->get('name'),
             'updated_at' => Carbon::now()->format('Y-m-d'),
-            'stock_data' => $stockInfo->mapList($req->get('data'))
+            'stock_data' => $stockInfo->mapList(collect($req->get('data')))
         ]);
     }
 
