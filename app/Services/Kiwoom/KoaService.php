@@ -27,10 +27,10 @@ class KoaService extends Service
         if ($stocks->count() == 1) {
             $stock = $stocks->first();
             $rs[] = [
-                'sector_code' => $stock->get('stock_code'),
-                'sector_name' => $stock->get('stock_name'),
+                'sector_code' => $stock->get('sector_code'),
+                'sector_name' => $stock->get('sector_name'),
                 'result' => Storage::disk('local')->put(
-                    "kiwoom/{$stock->get('file_name')}",
+                    "kiwoom/{$stock->get('file_name')}.json",
                     $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
                 )
             ];
@@ -44,7 +44,7 @@ class KoaService extends Service
                     'sector_code' => $item->get('stock_code'),
                     'sector_name' => $item->get('stock_name'),
                     'result' => Storage::disk('local')->put(
-                        "kiwoom/{$item->get('file_name')}",
+                        "kiwoom/{$item->get('file_name')}.json",
                         $item->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
                     )
                 ];
