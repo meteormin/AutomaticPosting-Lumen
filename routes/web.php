@@ -32,7 +32,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
 
     $router->get('stocks', 'StockController@index');
 
-    $router->get('stock', 'StockController@getStock');
+    $router->get('stock', 'StockController@showStock');
 
     $router->post('stocks', 'StockController@storeStock');
 });

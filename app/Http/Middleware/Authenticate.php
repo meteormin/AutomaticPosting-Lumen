@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Response\ErrorCode;
+use App\Response\ApiResponse;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
 class Authenticate
@@ -36,6 +38,10 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
+            if ($request->is('api/*')) {
+                return ApiResponse::error(ErrorCode::UNAUTHORIZED, 'Unauthorized.');
+            }
+
             return response('Unauthorized.', 401);
         }
 
