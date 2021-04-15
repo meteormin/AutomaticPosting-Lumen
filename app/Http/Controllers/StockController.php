@@ -42,6 +42,17 @@ class StockController extends DefaultController
         return $this->success($rs, 'POST');
     }
 
+    public function showCorpCode(Request $request)
+    {
+        $corpCodes = null;
+
+        if ($request->has('corp_code')) {
+            $corpCodes = explode(',', $request->get('corp_code'));
+        }
+
+        return $this->openDart->getCorpCode($corpCodes);
+    }
+
     /**
      * 회사 주요계정 가져오기
      *
@@ -70,5 +81,14 @@ class StockController extends DefaultController
         $rs = $this->koa->storeStock($stocks);
 
         return $this->success($rs, 'POST');
+    }
+
+    public function showStock(Request $request)
+    {
+        $stockCodes = null;
+        if ($request->has('stock_code')) {
+            $stockCodes = explode(',', $request->get('stock_code'));
+        }
+        return $this->koa->showStock($stockCodes);
     }
 }

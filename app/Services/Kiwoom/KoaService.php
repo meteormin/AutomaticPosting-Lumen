@@ -3,7 +3,9 @@
 namespace App\Services\Kiwoom;
 
 use App\Services\Service;
+use App\Entities\StockInfo;
 use App\Response\ErrorCode;
+use App\Services\Libraries\ArrayParser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,5 +58,23 @@ class KoaService extends Service
         }
 
         return $rs;
+    }
+
+    public function showStock(string $code)
+    {
+        $stockInfo = new StockInfo;
+
+        $files = Storage::disk('local')->directories('kiwwom');
+
+        foreach ($files as $file) {
+            $stock = new ArrayParser($file['stock_data']);
+            $stock = $stock->findByAttribute(['stock_code' => $code]);
+            if (!$stock->isEmpty()) {
+                $stockInfo->map($stock);
+                break;
+            }
+        }
+
+        return $stockInfo;
     }
 }

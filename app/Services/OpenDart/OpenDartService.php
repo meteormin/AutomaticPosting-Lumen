@@ -41,6 +41,18 @@ class OpenDartService extends Service
     }
 
     /**
+     * Undocumented function
+     *
+     * @param string $code
+     *
+     * @return Entities
+     */
+    public function getCorpCode(string $code = null)
+    {
+        return $this->module->getCorpCode($code);
+    }
+
+    /**
      * 단일 회사 주요 계정가져오기
      *
      * @param integer $stockCode

@@ -22,13 +22,17 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
 
-    $router->post('stocks/corp-codes', 'StockController@storeCorpCodes');
+    $router->post('corp-codes', 'StockController@storeCorpCodes');
+
+    $router->get('corp-code', 'StockController@showCorpCode');
 
     $router->get('sectors', 'SectoController@index');
 
     $router->get('sectors/{market}', 'SectorController@show');
 
     $router->get('stocks', 'StockController@index');
+
+    $router->get('stock', 'StockController@getStock');
 
     $router->post('stocks', 'StockController@storeStock');
 });

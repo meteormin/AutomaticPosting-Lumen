@@ -48,10 +48,10 @@ class OpenDartClient
 
     /**
      * 회사 고유 코드 가져오기
-     *
+     * @param string|null $code
      * @return Entities
      */
-    public function getCorpCode()
+    public function getCorpCode(string $code = null)
     {
         $json = '';
 
@@ -68,10 +68,16 @@ class OpenDartClient
         $corpCode = new CorpCodeEntity;
         $entities = $corpCode->mapList($jsonObject->list);
 
-        $list = $entities->filter(function ($item) {
+        $list = $entities->filter(function ($item) use ($code) {
             if ($item instanceof CorpCodeEntity) {
                 if (!is_object($item->getStockCode())) {
-                    return true;
+                    if (is_null($code)) {
+                        return true;
+                    }
+
+                    if ($code == $item->getCorpCode()) {
+                        return true;
+                    }
                 }
             }
 
