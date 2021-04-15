@@ -3,7 +3,7 @@
 return
     [
         'kospi' => [
-            'market_code' => '001',
+            'market_code' => '0',
             'sectors' => [
                 ['code' => '001', 'name' => '종합(KOSPI)'],
                 ['code' => '002', 'name' => '대형주'],
