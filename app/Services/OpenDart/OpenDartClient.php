@@ -24,7 +24,11 @@ class OpenDartClient
         $this->client = new Client(config('opendart.host'));
     }
 
-
+    /**
+     * 회사 고유코드 xml -> json 저장
+     *
+     * @return bool
+     */
     public function requestCorpCodes()
     {
         $response = $this->client->get(config('opendart.method.corpCode.url') . '?crtfc_key=' . config('opendart.api_key'));

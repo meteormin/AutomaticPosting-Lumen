@@ -24,11 +24,23 @@ class OpenDartService extends Service
         $this->module = new OpenDartClient();
     }
 
+    /**
+     * 회사 고유코드 저장
+     *
+     * @return AcntEntity
+     */
     public function saveCorpCodes()
     {
         return $this->module->requestCorpCodes();
     }
 
+    /**
+     * 단일 회사 주요 계정가져오기
+     *
+     * @param integer $stockCode
+     *
+     * @return void
+     */
     public function getSingle(int $stockCode)
     {
         $corpCodes = $this->module->getCorpCode();
@@ -44,6 +56,13 @@ class OpenDartService extends Service
         return $this->module->getSinglAcnt($corpCodes->first()->getCorpCode());
     }
 
+    /**
+     * 다중 회사 주요 계정 가져오기
+     *
+     * @param array $stockCodes
+     *
+     * @return void
+     */
     public function getMultiple(array $stockCodes)
     {
         $entities = new Entities;
