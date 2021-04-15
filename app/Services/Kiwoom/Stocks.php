@@ -64,11 +64,11 @@ class Stocks
         $files = $this->disk->files($this->path);
 
         foreach ($files as $file) {
-            $contents = json_decode($this->disk->get($file));
+            $contents = json_decode($this->disk->get($file), true);
 
             $stock = new ArrayParser($contents->stock_data);
             if (is_null($code)) {
-                $res->add($stockInfo->map($stock));
+                $res->add($stockInfo->mapList($stock));
             } else {
                 $stock = $stock->findByAttribute(['stock_code' => $code]);
                 if (!$stock->isEmpty()) {
