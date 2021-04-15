@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requets;
+namespace App\Http\Requests;
 
 use Throwable;
 use App\Entities\StockInfo;
