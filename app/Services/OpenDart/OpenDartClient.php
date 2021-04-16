@@ -87,7 +87,7 @@ class OpenDartClient
     /**
      * 회사 고유 코드 가져오기
      * @param string|null $code
-     * @return Collection
+     * @return Collection|Paginator
      */
     public function getCorpCode(string $code = null)
     {
@@ -105,22 +105,7 @@ class OpenDartClient
         $list = collect();
         $entities = $this->corpCode->mapList($jsonObject->list);
 
-        if (!$entities->isEmpty() && request()->has('page')) {
-            $page = request()->get('page');
-            $perPage = 15;
-            $paginator = new Paginator($entities, $perPage, $page, [
-                'path' => Paginator::resolveCurrentPath(),
-                'query' => request()->query()
-            ]);
-        }
-
-        if (isset($paginator)) {
-            $items = collect($paginator->items());
-        } else {
-            $items = $entities;
-        }
-
-        $list = $items->filter(function ($item) use ($code) {
+        $list = $entities->filter(function ($item) use ($code) {
             if ($item instanceof CorpCodeEntity) {
                 if (!is_object($item->getStockCode())) {
                     if (is_null($code)) {
@@ -136,7 +121,16 @@ class OpenDartClient
             return false;
         })->values();
 
+        if (!$list->isEmpty() && request()->has('page')) {
+            $page = request()->get('page');
+            $perPage = 15;
+            $paginator = new Paginator($list, $perPage, $page, [
+                'path' => Paginator::resolveCurrentPath(),
+                'query' => request()->query()
+            ]);
 
+            return $paginator;
+        }
 
         return $list;
     }

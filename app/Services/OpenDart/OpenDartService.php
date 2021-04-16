@@ -5,9 +5,10 @@ namespace App\Services\OpenDart;
 use App\Services\Service;
 use App\Response\ErrorCode;
 use App\Entities\AcntEntity;
+use Illuminate\Support\Carbon;
 use App\Entities\CorpCodeEntity;
 use App\Entities\Utils\Entities;
-use Illuminate\Support\Carbon;
+use Illuminate\Pagination\Paginator;
 
 class OpenDartService extends Service
 {
@@ -45,7 +46,7 @@ class OpenDartService extends Service
      *
      * @param string $code
      *
-     * @return Entities
+     * @return Entities|Collection|Paginator
      */
     public function getCorpCode(string $code = null)
     {
