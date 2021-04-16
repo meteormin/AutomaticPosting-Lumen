@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entities;
+namespace App\DataTransferObjects;
 
-use App\Entities\Abstracts\Entity;
+use App\DataTransferObjects\Abstracts\Dto;
 
-class StockInfo extends Entity
+class StockInfo extends Dto
 {
     /**
      * @var string $code
@@ -20,11 +20,6 @@ class StockInfo extends Entity
      * @var int $currentPrice
      */
     protected int $currentPrice;
-
-    protected function getIdentifier(): string
-    {
-        return 'StockInfo';
-    }
 
     /**
      * Get $code

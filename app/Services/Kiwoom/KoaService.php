@@ -4,7 +4,7 @@ namespace App\Services\Kiwoom;
 
 use App\Services\Service;
 use App\Response\ErrorCode;
-use App\Entities\Utils\Entities;
+use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Support\Collection;
 
 class KoaService extends Service
@@ -50,7 +50,7 @@ class KoaService extends Service
         }
 
         $codes = explode(',', $code);
-        $rs = new Entities;
+        $rs = new Dtos;
         foreach ($codes as $code) {
             $rs->add($this->module->get($code)->first());
         }
@@ -63,7 +63,7 @@ class KoaService extends Service
      *
      * @param string $sector
      *
-     * @return Entities
+     * @return Dtos
      */
     public function showBySector(string $sector)
     {

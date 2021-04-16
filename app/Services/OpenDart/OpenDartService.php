@@ -4,19 +4,14 @@ namespace App\Services\OpenDart;
 
 use App\Services\Service;
 use App\Response\ErrorCode;
-use App\Entities\AcntEntity;
 use Illuminate\Support\Carbon;
-use App\Entities\CorpCodeEntity;
-use App\Entities\Utils\Entities;
 use Illuminate\Pagination\Paginator;
+use App\DataTransferObjects\CorpCode;
+use App\DataTransferObjects\AcntEntity;
+use App\DataTransferObjects\Utils\Dtos;
 
 class OpenDartService extends Service
 {
-    /**
-     * @var Model
-     */
-    protected $model;
-
     /**
      * @var OpenDartClient
      */
@@ -30,7 +25,7 @@ class OpenDartService extends Service
     /**
      * 회사 고유코드 저장
      *
-     * @return AcntEntity
+     * @return Acnt
      */
     public function saveCorpCodes()
     {
@@ -46,7 +41,7 @@ class OpenDartService extends Service
      *
      * @param string $code
      *
-     * @return Entities|Collection|Paginator
+     * @return Dtos|Collection|Paginator
      */
     public function getCorpCode(string $code = null)
     {
@@ -55,7 +50,7 @@ class OpenDartService extends Service
         }
 
         $codes = explode(',', $code);
-        $res = new Entities;
+        $res = new Dtos;
         foreach ($codes as $code) {
             $res->add($this->module->getCorpCode($code)->first());
         }
@@ -69,14 +64,14 @@ class OpenDartService extends Service
      * @param integer $stockCode
      * @param string|null $year
      *
-     * @return AcntEntity
+     * @return Acnt
      */
     public function getSingle(int $stockCode, string $year = null)
     {
         $corpCodes = $this->module->getCorpCode();
 
         $corpCodes = $corpCodes->filter(function ($item) use ($stockCode) {
-            if ($item instanceof CorpCodeEntity) {
+            if ($item instanceof CorpCode) {
                 return $item->getStockCode() == $stockCode;
             }
             return false;
@@ -103,20 +98,20 @@ class OpenDartService extends Service
      *
      * @param array $stockCodes
      *
-     * @return Entities
+     * @return Dtos
      */
     public function getMultiple(array $stockCodes)
     {
-        $entities = new Entities;
+        $dtos = new Dtos;
 
         foreach ($stockCodes as $stockCode) {
-            $entities->add($this->getSingle($stockCode));
+            $dtos->add($this->getSingle($stockCode));
         }
 
-        if ($entities->isEmpty()) {
+        if ($dtos->isEmpty()) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found storcks");
         }
 
-        return $entities;
+        return $dtos;
     }
 }

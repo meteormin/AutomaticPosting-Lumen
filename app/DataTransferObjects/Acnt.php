@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entities;
+namespace App\DataTransferObjects;
 
-use App\Entities\Abstracts\Entity;
+use App\DataTransferObjects\Abstracts\Dto;
 
-class AcntEntity extends Entity
+class Acnt extends Dto
 {
     /**
      * @var int|null $ord
@@ -134,12 +134,6 @@ class AcntEntity extends Entity
      * @var string|null $bfefrmtrmAmount
      */
     protected ?string $bfefrmtrmAmount;
-
-
-    public function getIdentifier(): string
-    {
-        return 'Acnt';
-    }
 
     /**
      * Get $ord

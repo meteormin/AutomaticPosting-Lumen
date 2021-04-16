@@ -3,10 +3,11 @@
 namespace App\Services\OpenDart;
 
 use ZipArchive;
-use App\Entities\AcntEntity;
-use App\Entities\CorpCodeEntity;
+use App\DataTransferObjects\Acnt;
+use App\DataTransferObjects\CorpCode;
+use App\DataTransferObjects\Paginator as SimplePaginator;
 use App\Services\Libraries\Client;
-use App\Entities\Utils\Entities;
+use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -37,23 +38,23 @@ class OpenDartClient
     /**
      * acnt entity
      *
-     * @var AcntEntity
+     * @var Acnt
      */
     protected $acnt;
 
     /**
      * corpCode entity
      *
-     * @var CorpCodeEntity $corpCode
+     * @var CorpCode $corpCode
      */
     protected $corpCode;
 
     /**
      * @param Client $client
-     * @param AcntEntity $acnt
-     * @param CorpCodeEntity $corpCode
+     * @param Acnt $acnt
+     * @param CorpCode $corpCode
      */
-    public function __construct(Client $client, AcntEntity $acnt, CorpCodeEntity $corpCode)
+    public function __construct(Client $client, Acnt $acnt, CorpCode $corpCode)
     {
         $this->client = $client->setHost(config('opendart.host'));
         $this->path = 'opendart';
@@ -103,10 +104,10 @@ class OpenDartClient
         $jsonObject = json_decode($json);
 
         $list = collect();
-        $entities = $this->corpCode->mapList($jsonObject->list);
+        $dtos = $this->corpCode->mapList($jsonObject->list);
 
-        $list = $entities->filter(function ($item) use ($code) {
-            if ($item instanceof CorpCodeEntity) {
+        $list = $dtos->filter(function ($item) use ($code) {
+            if ($item instanceof CorpCode) {
                 if (!is_object($item->getStockCode())) {
                     if (is_null($code)) {
                         return true;
@@ -130,7 +131,9 @@ class OpenDartClient
                 'query' => request()->query()
             ]);
 
-            return $paginator;
+            $simplePaginator = new SimplePaginator($paginator, 'corp_codes', $this->corpCode->newInstance());
+
+            return $simplePaginator;
         }
 
         return $list;
@@ -142,7 +145,7 @@ class OpenDartClient
      * @param string $corpCode
      * @param string $year
      *
-     * @return AcntEntity
+     * @return Acnt
      */
     public function getSinglAcnt(string $corpCode, string $year)
     {
@@ -167,7 +170,7 @@ class OpenDartClient
      *
      * @param integer[] $corpCode
      *
-     * @return Entities|AcntEntity[]
+     * @return Dtos|Acnt[]
      */
     public function getMultiAcnt(array $corpCode)
     {

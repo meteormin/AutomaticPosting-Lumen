@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Entities;
+namespace App\DataTransferObjects;
 
-use App\Entities\Abstracts\Entity;
+use App\DataTransferObjects\Abstracts\Dto;
 
-class CorpCodeEntity extends Entity
+class CorpCode extends Dto
 {
     /**
      * @var string $corpCode
@@ -120,10 +120,5 @@ class CorpCodeEntity extends Entity
         $this->modifyDate = $modifyDate;
 
         return $this;
-    }
-
-    public function getIdentifier(): string
-    {
-        return 'CorpCode';
     }
 }
