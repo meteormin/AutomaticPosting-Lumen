@@ -124,8 +124,9 @@ class OpenDartClient
         if (!$list->isEmpty() && request()->has('page')) {
             $page = request()->get('page');
             $perPage = 15;
-            $paginator = new Paginator($list->forPage($page, $perPage), $perPage, $page, [
-                'path' => Paginator::resolveCurrentPath()
+            $paginator = new Paginator($list, $perPage, $page, [
+                'path' => Paginator::resolveCurrentPath(),
+                'query' => request()->query()
             ]);
 
             return $paginator;
