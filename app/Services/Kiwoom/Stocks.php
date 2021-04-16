@@ -55,6 +55,8 @@ class Stocks
                 $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
             )
         ];
+
+        return $rs;
     }
 
     /**
