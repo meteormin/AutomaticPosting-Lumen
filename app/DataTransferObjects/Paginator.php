@@ -159,7 +159,7 @@ class Paginator extends Dto
      * @param boolean $allowNull
      * @return array|null
      */
-    public function toArray(bool $allowNull = false): ?array
+    public function toArray(bool $allowNull = true): ?array
     {
         $this->makeHidden(['hidden', 'data_key']);
         $attributes = collect(parent::toArray($allowNull));

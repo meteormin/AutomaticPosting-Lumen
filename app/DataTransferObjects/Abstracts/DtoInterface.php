@@ -8,9 +8,9 @@ interface DtoInterface
 {
     public function __set($key, $value);
 
-    public function toArray(bool $allowNull = false): ?array;
+    public function toArray(bool $allowNull = true): ?array;
 
-    public function toJson($options = JSON_UNESCAPED_UNICODE, $allowNull = false): string;
+    public function toJson($options = JSON_UNESCAPED_UNICODE, $allowNull = true): string;
 
     public function __toString(): string;
 
