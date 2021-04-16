@@ -26,7 +26,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
 
     $router->get('corp-code', 'StockController@showCorpCode');
 
-    $router->get('sectors', 'SectoController@index');
+    $router->get('sectors', 'SectorController@index');
 
     $router->get('sectors/{market}', 'SectorController@show');
 

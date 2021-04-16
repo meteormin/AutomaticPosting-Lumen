@@ -19,9 +19,33 @@ class OpenDartClient
      */
     protected $client;
 
-    public function __construct()
+    /**
+     * disk
+     *
+     * @var \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    protected $disk;
+
+    /**
+     * path
+     *
+     * @var string
+     */
+    protected $path;
+
+    /**
+     * acnt entity
+     *
+     * @var AcntEntity
+     */
+    protected $acnt;
+
+    public function __construct(Client $client, AcntEntity $entity)
     {
-        $this->client = new Client(config('opendart.host'));
+        $this->client = $client->setHost(config('opendart.host'));
+        $this->path = 'opendart';
+        $this->disk = Storage::disk('local');
+        $this->acnt = $entity;
     }
 
     /**
@@ -36,14 +60,14 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        Storage::disk('local')->put('opendart/CORPCODE.zip', $response);
+        $this->disk->put($this->path . '/CORPCODE.zip', $response);
 
         $zip = new ZipArchive;
-        $zip->open(storage_path('app/opendart/CORPCODE.zip'));
-        $zip->extractTo(storage_path('app/opendart/'));
-        $xml = simplexml_load_file(storage_path('app/opendart/CORPCODE.xml'));
+        $zip->open(storage_path('app/' . $this->path . '/CORPCODE.zip'));
+        $zip->extractTo(storage_path('app/' . $this->path));
+        $xml = simplexml_load_file(storage_path('app/' . $this->path . '/CORPCODE.xml'));
 
-        return Storage::disk('local')->put('opendart/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE));
+        return Storage::disk('local')->put($this->path . '/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -55,13 +79,13 @@ class OpenDartClient
     {
         $json = '';
 
-        if (!Storage::disk('local')->exists('opendart/codes.json')) {
+        if (!$this->disk->exists($this->path . '/codes.json')) {
             if ($this->requestCorpCodes()) {
-                $json = Storage::disk('local')->get('opendart/codes.json');
+                $json = $this->disk->get($this->path . '/codes.json');
             }
         }
 
-        $json = Storage::disk('local')->get('opendart/codes.json');
+        $json = $this->disk->get($this->path . '/codes.json');
         $jsonObject = json_decode($json);
 
         $list = [];
@@ -90,16 +114,17 @@ class OpenDartClient
     /**
      * 단일 회사 주요 계정 가져오기
      *
-     * @param integer $corpCode
+     * @param string $corpCode
+     * @param string $year
      *
      * @return AcntEntity
      */
-    public function getSinglAcnt(string $corpCode)
+    public function getSinglAcnt(string $corpCode, string $year)
     {
         $query = Arr::query([
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $corpCode,
-            'bsns_year' => '2020',
+            'bsns_year' => $year,
             'reprt_code' => '11011'
         ]);
 
@@ -109,7 +134,7 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        return (new AcntEntity)->mapList($response['list']);
+        return $this->acnt->mapList($response['list']);
     }
 
     /**
@@ -132,6 +157,6 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        return (new AcntEntity)->mapList($response);
+        return $this->acnt->mapList($response);
     }
 }

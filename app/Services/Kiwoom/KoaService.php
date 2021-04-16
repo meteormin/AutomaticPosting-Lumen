@@ -16,9 +16,9 @@ class KoaService extends Service
      */
     protected $module;
 
-    public function __construct()
+    public function __construct(Stocks $module)
     {
-        $this->module = new Stocks;
+        $this->module = $module;
     }
 
     /**

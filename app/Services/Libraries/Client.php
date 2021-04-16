@@ -5,6 +5,9 @@ namespace App\Services\Libraries;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response as HttpResponse;
 
+/**
+ * Laravel Http Client wrapper
+ */
 class Client
 {
     private $host;
@@ -27,7 +30,7 @@ class Client
      * @param   string  $token_type  [$token_type description]
      *
      */
-    public function __construct(string $host, string $token = null, string $token_type = 'Bearer')
+    public function __construct(string $host = null, string $token = null, string $token_type = 'Bearer')
     {
         $this->host = $host;
         $this->token = $token;
@@ -151,7 +154,7 @@ class Client
     /**
      * 설정한 토큰 가져오기
      *
-     * @return  [type]  [return description]
+     * @return  string [return description]
      */
     public function getToken()
     {
@@ -162,9 +165,9 @@ class Client
      * 파일 첨부
      *
      * @param   string  $key     [$key description]
-     * @param   [type]  $attach  [$attach description]
+     * @param   mixed  $attach  [$attach description]
      *
-     * @return  [type]           [return description]
+     * @return  $this           [return description]
      */
     public function setAttach(string $key, $attach)
     {
@@ -176,7 +179,7 @@ class Client
     /**
      * 첨부한 파일 조회
      *
-     * @return  [type]  [return description]
+     * @return  mixed  [return description]
      */
     public function getAttach()
     {
@@ -227,6 +230,7 @@ class Client
 
     /**
      * Get the value of host
+     * @return string
      */
     public function getHost()
     {
@@ -235,10 +239,10 @@ class Client
 
     /**
      * Set the value of host
-     *
-     * @return  self
+     * @param string $host
+     * @return  $this
      */
-    public function setHost($host)
+    public function setHost(string $host)
     {
         $this->host = $host;
 

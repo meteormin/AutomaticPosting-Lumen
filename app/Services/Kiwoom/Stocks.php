@@ -21,7 +21,7 @@ class Stocks
      *
      * @var string
      */
-    protected $path = 'kiwoom';
+    protected $path;
 
     /**
      *
@@ -37,11 +37,12 @@ class Stocks
      */
     protected $stockInfo;
 
-    public function __construct()
+    public function __construct(StockInfo $stockInfo)
     {
         $this->disk = Storage::disk('local');
         $this->sectors = collect(config('sectors'));
-        $this->stockInfo = new StockInfo;
+        $this->stockInfo = $stockInfo;
+        $this->path = 'kiwoom';
     }
 
     public function put(Collection $stock)

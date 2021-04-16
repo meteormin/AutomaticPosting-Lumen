@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Exceptions\ApiErrorException;
 use App\Response\ErrorCode;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * service 클래스
@@ -22,11 +21,6 @@ class Service
      * @var string $error 간단한 에러 메시지
      */
     protected $error;
-
-    /**
-     * @var Model
-     */
-    protected $model;
 
     /**
      * ApiErrorException Throw

@@ -8,6 +8,7 @@ use App\Response\ErrorCode;
 use App\Entities\AcntEntity;
 use App\Entities\CorpCodeEntity;
 use App\Entities\Utils\Entities;
+use Illuminate\Support\Carbon;
 
 class OpenDartService extends Service
 {
@@ -21,9 +22,9 @@ class OpenDartService extends Service
      */
     protected $module;
 
-    public function __construct()
+    public function __construct(OpenDartClient $client)
     {
-        $this->module = new OpenDartClient();
+        $this->module = $client;
     }
 
     /**
@@ -66,10 +67,11 @@ class OpenDartService extends Service
      * 단일 회사 주요 계정가져오기
      *
      * @param integer $stockCode
+     * @param string|null $year
      *
      * @return AcntEntity
      */
-    public function getSingle(int $stockCode)
+    public function getSingle(int $stockCode, string $year = null)
     {
         $corpCodes = $this->module->getCorpCode();
 
@@ -84,7 +86,16 @@ class OpenDartService extends Service
         if (is_null($corpCode)) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
         }
-        return $this->module->getSinglAcnt($corpCode->getCorpCode());
+
+        if (is_null($year)) {
+            $year = Carbon::now()->format('Y');
+        }
+
+        if (!is_numeric($year) || strlen($year) != 4) {
+            $this->throw(ErrorCode::VALIDATION_FAIL, "year parameter must be 'yyyy' format");
+        }
+
+        return $this->module->getSinglAcnt($corpCode->getCorpCode(), $year);
     }
 
     /**

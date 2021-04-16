@@ -7,6 +7,7 @@ use App\Response\ApiResponse;
 use App\Response\ErrorCode;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -52,10 +53,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($request->is('api/*')) {
+        if ($request->is('api/*') || $request->is('oauth/*')) {
             if ($exception instanceof NotFoundHttpException) {
-                return ApiResponse::error(20, $exception->getMessage());
+                return ApiResponse::error(ErrorCode::NOT_FOUND, $exception->getMessage());
             }
+
+            if ($exception instanceof AuthenticationException) {
+                return ApiResponse::error(ErrorCode::UNAUTHORIZED, $exception->getMessage());
+            }
+
+            if ($exception instanceof ApiErrorException) {
+                return ApiResponse::error($exception->getCode(), $exception->getMessage());
+            }
+
+            return ApiResponse::error(ErrorCode::SERVER_ERROR, $exception->getMessage());
         }
 
         return parent::render($request, $exception);
