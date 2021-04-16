@@ -22,11 +22,11 @@ class Paginator extends Dto
 
     public function __construct(LengthAwarePaginator $paginate, string $data = 'data', DtoInterface $entity)
     {
-        $this->setCurrentPage($paginate->currentPage() ?? 0);
-        $this->setLastPageUrl($paginate->lastPage() ?? 0);
-        $this->setPrevPageUrl($paginate->previousPageUrl() ?? '');
-        $this->setNextPageUrl($paginate->nextPageUrl() ?? '');
-        $this->setTotal($paginate->total() ?? 0);
+        $this->setCurrentPage($paginate->currentPage());
+        $this->setLastPageUrl($paginate->lastPage());
+        $this->setPrevPageUrl($paginate->previousPageUrl());
+        $this->setNextPageUrl($paginate->nextPageUrl());
+        $this->setTotal($paginate->total());
         $this->setData($data, $entity->mapList($paginate->items()) ?? []);
     }
 
