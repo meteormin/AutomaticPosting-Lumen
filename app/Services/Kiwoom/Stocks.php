@@ -106,7 +106,7 @@ class Stocks
             } else {
                 $stock = $stock->where('code', $code);
                 if (!$stock->isEmpty()) {
-                    $res->add($this->stockInfo->map($stock));
+                    $res->add($this->stockInfo->map($stock->first()));
                     break;
                 }
             }
