@@ -2,7 +2,6 @@
 
 namespace App\Services\OpenDart;
 
-use App\Models\OpenDart;
 use App\Services\Service;
 use App\Response\ErrorCode;
 use App\Entities\AcntEntity;

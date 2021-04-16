@@ -9,6 +9,7 @@ use App\Services\Libraries\Client;
 use App\Entities\Utils\Entities;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\Paginator;
 
 class OpenDartClient
 {
@@ -40,12 +41,25 @@ class OpenDartClient
      */
     protected $acnt;
 
-    public function __construct(Client $client, AcntEntity $entity)
+    /**
+     * corpCode entity
+     *
+     * @var CorpCodeEntity $corpCode
+     */
+    protected $corpCode;
+
+    /**
+     * @param Client $client
+     * @param AcntEntity $acnt
+     * @param CorpCodeEntity $corpCode
+     */
+    public function __construct(Client $client, AcntEntity $acnt, CorpCodeEntity $corpCode)
     {
         $this->client = $client->setHost(config('opendart.host'));
         $this->path = 'opendart';
         $this->disk = Storage::disk('local');
-        $this->acnt = $entity;
+        $this->acnt = $acnt;
+        $this->corpCode = $corpCode;
     }
 
     /**
@@ -88,9 +102,8 @@ class OpenDartClient
         $json = $this->disk->get($this->path . '/codes.json');
         $jsonObject = json_decode($json);
 
-        $list = [];
-        $corpCode = new CorpCodeEntity;
-        $entities = $corpCode->mapList($jsonObject->list);
+        $list = collect();
+        $entities = $this->corpCode->mapList($jsonObject->list);
 
         $list = $entities->filter(function ($item) use ($code) {
             if ($item instanceof CorpCodeEntity) {
@@ -107,6 +120,16 @@ class OpenDartClient
 
             return false;
         })->values();
+
+        if (!$list->isEmpty() && request()->has('page')) {
+            $page = request()->get('page') ?? 1;
+            $perPage = 15;
+            $paginator = new Paginator($list->forPage($page, $perPage), $perPage, $page, [
+                'path' => Paginator::resolveCurrentPath()
+            ]);
+
+            return $paginator;
+        }
 
         return $list;
     }
