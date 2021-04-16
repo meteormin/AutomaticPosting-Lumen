@@ -104,7 +104,7 @@ class Stocks
             if (is_null($code)) {
                 return $this->stockInfo->mapList($stock);
             } else {
-                $stock = $stock->where('stock_code', $code);
+                $stock = $stock->where('code', $code);
                 if (!$stock->isEmpty()) {
                     $res->add($this->stockInfo->map($stock));
                     break;
