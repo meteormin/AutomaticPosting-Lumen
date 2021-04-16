@@ -9,7 +9,7 @@ use App\Services\Libraries\Client;
 use App\Entities\Utils\Entities;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class OpenDartClient
 {
@@ -124,7 +124,8 @@ class OpenDartClient
         if (!$list->isEmpty() && request()->has('page')) {
             $page = request()->get('page');
             $perPage = 15;
-            $paginator = new Paginator($list, $perPage, $page, [
+
+            $paginator = new Paginator($list->forPage($page, $perPage), count($list), $perPage, $page, [
                 'path' => Paginator::resolveCurrentPath(),
                 'query' => request()->query()
             ]);
