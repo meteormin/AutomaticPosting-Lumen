@@ -11,6 +11,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -64,6 +65,10 @@ class Handler extends ExceptionHandler
 
             if ($exception instanceof ApiErrorException) {
                 return ApiResponse::error($exception->getCode(), $exception->getMessage());
+            }
+
+            if ($exception instanceof MethodNotAllowedHttpException) {
+                return ApiResponse::error(ErrorCode::ALLOW_NOT_METHOD, $exception->getMessage());
             }
 
             return ApiResponse::error(ErrorCode::SERVER_ERROR, $exception->getMessage());
