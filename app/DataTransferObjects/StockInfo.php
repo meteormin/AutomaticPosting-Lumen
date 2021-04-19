@@ -17,6 +17,26 @@ class StockInfo extends Dto
     protected string $name;
 
     /**
+     * @var int $capital
+     */
+    protected int $capital;
+
+    /**
+     * @var int $roe
+     */
+    protected int $roe;
+
+    /**
+     * @var int $per
+     */
+    protected int $per;
+
+    /**
+     * @var int $pbr
+     */
+    protected int $pbr;
+
+    /**
      * @var int $currentPrice
      */
     protected int $currentPrice;
@@ -89,6 +109,102 @@ class StockInfo extends Dto
     public function setCurrentPrice(int $currentPrice)
     {
         $this->currentPrice = $currentPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get $capital
+     *
+     * @return int
+     */
+    public function getCapital()
+    {
+        return $this->capital;
+    }
+
+    /**
+     * Set $capital
+     *
+     * @param int $capital  $capital
+     *
+     * @return self
+     */
+    public function setCapital(int $capital)
+    {
+        $this->capital = $capital;
+
+        return $this;
+    }
+
+    /**
+     * Get $roe
+     *
+     * @return int
+     */
+    public function getRoe()
+    {
+        return $this->roe;
+    }
+
+    /**
+     * Set $roe
+     *
+     * @param int $roe  $roe
+     *
+     * @return self
+     */
+    public function setRoe(int $roe)
+    {
+        $this->roe = $roe;
+
+        return $this;
+    }
+
+    /**
+     * Get $per
+     *
+     * @return int
+     */
+    public function getPer()
+    {
+        return $this->per;
+    }
+
+    /**
+     * Set $per
+     *
+     * @param int $per  $per
+     *
+     * @return self
+     */
+    public function setPer(int $per)
+    {
+        $this->per = $per;
+
+        return $this;
+    }
+
+    /**
+     * Get $pbr
+     *
+     * @return int
+     */
+    public function getPbr()
+    {
+        return $this->pbr;
+    }
+
+    /**
+     * Set $pbr
+     *
+     * @param int $pbr  $pbr
+     *
+     * @return self
+     */
+    public function setPbr(int $pbr)
+    {
+        $this->pbr = $pbr;
 
         return $this;
     }
