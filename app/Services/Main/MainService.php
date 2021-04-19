@@ -45,10 +45,10 @@ class MainService extends Service
 
         $acnt = $this->openDart->getSingle('005930', '2020');
 
-        return [
+        return collect([
             'stcok' => $stock,
             'acnt' => $acnt
-        ];
+        ]);
     }
 
     protected function getSectorPriority()
