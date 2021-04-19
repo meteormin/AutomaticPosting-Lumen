@@ -23,23 +23,15 @@ class MainService extends Service
      */
     protected $openDart;
 
-    /**
-     * Undocumented variable
-     *
-     * @var AnalysisSector
-     */
-    protected $analysis;
-
-    public function __construct(KoaService $koa, OpenDartService $openDart, AnalysisSector $analysis)
+    public function __construct(KoaService $koa, OpenDartService $openDart)
     {
         $this->koa = $koa;
         $this->openDart = $openDart;
-        $this->analysis = $analysis;
     }
 
     public function getRefinedData()
     {
-        $sector = $this->analysis->getSectorPriority();
+        $sector = $this->getSectorPriority();
 
         $stockInfo = $this->koa->showBySector($sector);
 
@@ -56,5 +48,30 @@ class MainService extends Service
             'stcok' => $stock,
             'acnt' => $acnt
         ];
+    }
+
+    protected function getSectorPriority()
+    {
+        // $sectors = config('sectors');
+        // $sectors = $sectors['kospi'];
+        // $sectors = collect($sectors['sectors']);
+        // $stocks = null;
+        // $sectors->each(function ($sector) use (&$stocks) {
+        //     $stocks = $this->koa->showBySector($sector);
+        // });
+        // $this->stocks = $stocks;
+
+        // if (!is_null($stocks)) {
+        //     $acnts = collect();
+        //     $stocks->each(function ($stock) use (&$acnts) {
+        //         $acnts->add($this->openDart->getSingle($stock->getCode()));
+        //     });
+        //     $this->acnts = $acnts;
+        // }
+
+        // 분석하기
+
+        // 임시, 일단 전자기기로 고정
+        return '013';
     }
 }
