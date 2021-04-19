@@ -38,6 +38,7 @@ class MainService extends Service
         $stock = $stockInfo->filter(function ($stock) {
             if ($stock instanceof StockInfo) {
                 if ($stock->getCode() == '005930') {
+                    return $stock;
                 }
             }
         })->first();
