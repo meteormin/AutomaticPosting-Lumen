@@ -29,7 +29,7 @@ class MainService extends Service
         $this->openDart = $openDart;
     }
 
-    public function getRowData()
+    public function getRawData()
     {
         $sector = $this->getSectorPriority();
 

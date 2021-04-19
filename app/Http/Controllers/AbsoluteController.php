@@ -26,4 +26,9 @@ class AbsoluteController extends DefaultController
     {
         return $this->response($this->mainService->getRefinedData());
     }
+
+    public function raw()
+    {
+        return $this->response($this->mainService->getRawData());
+    }
 }
