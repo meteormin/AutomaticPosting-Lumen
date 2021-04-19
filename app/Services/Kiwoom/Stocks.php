@@ -78,8 +78,8 @@ class Stocks
      */
     public function getBySector(string $sector)
     {
-        if ($this->disk->exists($this->path . '/sector_' . $sector)) {
-            $file = json_decode($this->disk->get($this->path . '/sector_' . $sector), true);
+        if ($this->disk->exists($this->path . '/sector_' . $sector . '.json')) {
+            $file = json_decode($this->disk->get($this->path . '/sector_' . $sector . '.json'), true);
             return $this->stockInfo->mapList(collect($file['stock_data']));
         } else {
             return null;
