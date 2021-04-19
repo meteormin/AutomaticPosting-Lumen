@@ -64,7 +64,7 @@ class OpenDartService extends Service
      * @param integer $stockCode
      * @param string|null $year
      *
-     * @return Acnt
+     * @return Dtos|Acnt[]
      */
     public function getSingle(string $stockCode, string $year = null)
     {
