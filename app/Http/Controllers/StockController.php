@@ -56,7 +56,7 @@ class StockController extends DefaultController
      */
     public function index(Request $request)
     {
-        $dtos = $this->openDart->getMultiple(['005935']);
+        $dtos = $this->openDart->getMultiple(['005930']);
 
         return $this->response($dtos, 200);
     }
