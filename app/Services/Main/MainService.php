@@ -6,6 +6,7 @@ use App\DataTransferObjects\StockInfo;
 use App\Services\Service;
 use App\Services\Kiwoom\KoaService;
 use App\Services\OpenDart\OpenDartService;
+use Exception;
 
 class MainService extends Service
 {
@@ -41,7 +42,12 @@ class MainService extends Service
 
         $stockInfo->each(function ($stock) use (&$acnts, &$rsList) {
             if ($stock instanceof StockInfo) {
-                $acnts->add($this->openDart->getSingle($stock->getCode(), '2020'));
+                try {
+                    $acnts = $this->openDart->getSingle($stock->getCode(), '2020');
+                } catch (Exception $e) {
+                    $acnts->add([$e->getMessage()]);
+                }
+
                 $rsList->add(collect([
                     'stocks' => $stock,
                     'acnts' => $acnts
