@@ -40,9 +40,8 @@ class MainService extends Service
         $acnts = collect();
         $rsList = collect();
 
-        set_time_limit(300);
-
-        $stockInfo->each(function ($stock) use (&$acnts, &$rsList) {
+        $cnt = 1;
+        $stockInfo->each(function ($stock) use (&$acnts, &$rsList, &$cnt) {
             if ($stock instanceof StockInfo) {
                 try {
                     $acnts = $this->openDart->getSingle($stock->getCode(), '2020');
@@ -54,6 +53,10 @@ class MainService extends Service
                     'stocks' => $stock,
                     'acnts' => $acnts
                 ]));
+            }
+            $cnt++;
+            if ($cnt > 10) {
+                return;
             }
         })->first();
 
