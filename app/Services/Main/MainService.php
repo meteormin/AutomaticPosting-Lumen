@@ -29,6 +29,29 @@ class MainService extends Service
         $this->openDart = $openDart;
     }
 
+    public function getRowData()
+    {
+        $sector = $this->getSectorPriority();
+
+        $stockInfo = $this->koa->showBySector($sector);
+
+
+        $acnts = collect();
+        $rsList = collect();
+
+        $stockInfo->each(function ($stock) use (&$acnts, &$rsList) {
+            if ($stock instanceof StockInfo) {
+                $acnts->add($this->openDart->getSingle($stock->getCode(), '2020'));
+                $rsList->add(collect([
+                    'stocks' => $stock,
+                    'acnts' => $acnts
+                ]));
+            }
+        })->first();
+
+        return $rsList;
+    }
+
     public function getRefinedData()
     {
         $sector = $this->getSectorPriority();
