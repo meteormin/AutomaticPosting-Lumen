@@ -3,13 +3,14 @@
 namespace App\Services\OpenDart;
 
 use ZipArchive;
-use App\DataTransferObjects\Acnt;
-use App\DataTransferObjects\CorpCode;
-use App\DataTransferObjects\Paginator as SimplePaginator;
-use App\Services\Libraries\Client;
-use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Support\Arr;
+use App\DataTransferObjects\Acnt;
+use App\Services\Libraries\Client;
+use Illuminate\Support\Collection;
+use App\DataTransferObjects\CorpCode;
+use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Support\Facades\Storage;
+use App\DataTransferObjects\Paginator as SimplePaginator;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class OpenDartClient
@@ -145,7 +146,7 @@ class OpenDartClient
      * @param string $corpCode
      * @param string $year
      *
-     * @return Acnt
+     * @return Dtos|Acnt[]
      */
     public function getSinglAcnt(string $corpCode, string $year)
     {
@@ -168,9 +169,9 @@ class OpenDartClient
     /**
      * 다중 회사 주요 계정 가져오기
      *
-     * @param integer[] $corpCode
+     * @param string[] $corpCode
      *
-     * @return Dtos|Acnt[]
+     * @return Collection
      */
     public function getMultiAcnt(array $corpCode)
     {
@@ -185,6 +186,16 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        return $this->acnt->mapList($response);
+        $dtos = $this->acnt->mapList($response['list']);
+
+        $rsList = collect();
+
+        $dtos->each(function ($acnt) use (&$rsList) {
+            if ($acnt instanceof Acnt) {
+                $rsList[$acnt->getStockCode()][] = $acnt;
+            }
+        });
+
+        return $rsList;
     }
 }

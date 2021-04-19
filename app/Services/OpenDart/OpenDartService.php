@@ -66,7 +66,7 @@ class OpenDartService extends Service
      *
      * @return Acnt
      */
-    public function getSingle(int $stockCode, string $year = null)
+    public function getSingle(string $stockCode, string $year = null)
     {
         $corpCodes = $this->module->getCorpCode();
 
