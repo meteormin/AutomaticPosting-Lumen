@@ -40,6 +40,8 @@ class MainService extends Service
         $acnts = collect();
         $rsList = collect();
 
+        set_time_limit(300);
+
         $stockInfo->each(function ($stock) use (&$acnts, &$rsList) {
             if ($stock instanceof StockInfo) {
                 try {
