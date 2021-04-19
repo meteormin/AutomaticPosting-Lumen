@@ -45,12 +45,12 @@ class MainService extends Service
 
         $stock = $stockInfo->filter(function ($stock) {
             if ($stock instanceof StockInfo) {
-                if ($stock->getCode() == '005935') {
+                if ($stock->getCode() == '005930') {
                 }
             }
         })->first();
 
-        $acnt = $this->openDart->getSingle('005935', '2020');
+        $acnt = $this->openDart->getSingle('005930', '2020');
 
         return [
             'stcok' => $stock,
