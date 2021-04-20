@@ -132,7 +132,7 @@ class OpenDartClient
             return $simplePaginator;
         }
 
-        return $list;
+        return $dtos;
     }
 
     /**

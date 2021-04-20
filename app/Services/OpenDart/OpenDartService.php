@@ -133,7 +133,8 @@ class OpenDartService extends Service
                 $corpCodes->add($corpCode->getCorpCode());
             }
         }
-
+        print_r($corpCodes->all());
+        exit;
         $res = $this->module->getMultiAcnt($corpCodes->all(), '2020');
         if ($res->isEmpty()) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found storcks");
