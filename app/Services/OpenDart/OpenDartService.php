@@ -104,6 +104,7 @@ class OpenDartService extends Service
     {
         $dtos = new Dtos;
 
+        $this->module->getMultiAcnt($stockCodes, '2020');
         foreach ($stockCodes as $stockCode) {
             $dtos->add($this->getSingle($stockCode));
         }

@@ -145,16 +145,16 @@ class OpenDartClient
      *
      * @param string $corpCode
      * @param string $year
-     *
+     * @param string $reprtCode
      * @return Dtos|Acnt[]
      */
-    public function getSinglAcnt(string $corpCode, string $year)
+    public function getSinglAcnt(string $corpCode, string $year, string $reprtCdoe = '11011')
     {
         $query = Arr::query([
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $corpCode,
             'bsns_year' => $year,
-            'reprt_code' => '11011'
+            'reprt_code' => $reprtCdoe
         ]);
 
         $response = $this->client->get(config('opendart.method.SinglAcnt.url') . '?' . $query);
@@ -170,16 +170,19 @@ class OpenDartClient
      * 다중 회사 주요 계정 가져오기
      *
      * @param string[] $corpCode
-     *
+     * @param string $year
+     * @param string $reprtCode
      * @return Collection
      */
-    public function getMultiAcnt(array $corpCode)
+    public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011')
     {
         $codeStr = implode(',', $corpCode);
 
         $response = $this->client->get(config('opendart.method.MultiAcnt.url'), [
             'crtfc_key' => config('opendart.api_key'),
-            'corp_code' => $codeStr
+            'corp_code' => $codeStr,
+            'bsns_year' => $year,
+            'reprt_code' => $reprtCode
         ]);
 
         if (is_null($response)) {
@@ -192,7 +195,11 @@ class OpenDartClient
 
         $dtos->each(function ($acnt) use (&$rsList) {
             if ($acnt instanceof Acnt) {
-                $rsList[$acnt->getStockCode()][] = $acnt;
+                if (!$rsList->has($acnt->getStockCode())) {
+                    $rsList[$acnt->getStockCode()] = collect();
+                }
+
+                $rsList->get($acnt->getStockCode())->add($acnt);
             }
         });
 
