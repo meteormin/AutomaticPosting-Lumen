@@ -10,7 +10,7 @@ class FinanceData
 {
     protected $financeData;
 
-    protected $fillable = ['year', 'current_assets', 'floating_debt', 'net_income'];
+    protected $fillable = ['year', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income'];
 
     protected $attributes = [];
 
@@ -110,7 +110,9 @@ class FinanceData
         return [
             'account_nm' => [
                 'current_assets' => '유동자산',
+                'total_assets' => '자산총계',
                 'floating_debt' => '유동부채',
+                'total_debt' => '부채총계',
                 'net_income' => '당기순이익'
             ],
         ];
