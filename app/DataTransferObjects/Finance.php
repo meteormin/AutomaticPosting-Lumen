@@ -101,18 +101,22 @@ class Finance extends Dto
         $where = $this->requiredAttributeInAcnt();
 
         $acnt = collect();
-        $this->getAcnt()->each(function ($item) use (&$acnt, $where) {
-            $collection = $item instanceof Acnt ? collect($item->toArray()) : collect($item);
-            print_r($collection);
-            foreach ($where as $attr => $value) {
-                print_r($attr . ': ' . json_encode($value, JSON_UNESCAPED_UNICODE));
-                $collection = $collection->whereIn($attr, $value);
-                print_r($collection);
-            }
-            print_r($collection);
-            exit;
-            $acnt->add($collection);
-        });
+        foreach ($where as $attr => $value) {
+            $acnt = collect($this->getAcnt()->toArray())->whereIn($attr, $value);
+        }
+
+        // $this->getAcnt()->each(function ($item) use (&$acnt, $where) {
+        //     $collection = $item instanceof Acnt ? collect($item->toArray()) : collect($item);
+        //     print_r($collection);
+        //     foreach ($where as $attr => $value) {
+
+        //         $collection = $collection->whereIn($attr, $value);
+        //         print_r($collection);
+        //     }
+        //     print_r($collection);
+        //     exit;
+        //     $acnt->add($collection);
+        // });
 
         $rsList = collect($this->getStock()->toArray());
         $rsList->put('finance_data', $acnt);
