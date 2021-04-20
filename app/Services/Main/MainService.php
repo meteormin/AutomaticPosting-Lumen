@@ -51,7 +51,7 @@ class MainService extends Service
             }
         });
 
-        $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020',);
+        $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020');
 
         $stockCodes->each(function ($code) use (&$acnts, &$rsList) {
             $rsList->get($code)->put('acnt', $acnts->get($code));
