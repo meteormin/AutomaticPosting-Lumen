@@ -51,7 +51,7 @@ class MainService extends Service
      *
      * @param string|null $sector
      *
-     * @return void
+     * @return Collection
      */
     public function getRawData(string $sector = null)
     {
@@ -100,12 +100,12 @@ class MainService extends Service
         $refinedData = collect();
 
         $rawData->each(function ($raw) use (&$refinedData) {
+            if ($raw instanceof Finance) {
+                $refinedData->add($raw->refine());
+            }
         });
 
-        return collect([
-            'stcok' => $stock,
-            'acnt' => $acnt
-        ]);
+        return $refinedData;
     }
 
     protected function getSectorPriority()

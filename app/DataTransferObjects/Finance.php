@@ -17,8 +17,6 @@ class Finance extends Dto
      */
     protected $acnt;
 
-    protected $refinedData;
-
     /**
      * 재무정보 filter 조건
      *
@@ -121,5 +119,17 @@ class Finance extends Dto
         $rsList->put('finance_data', $acnt);
 
         return $rsList->toArray();
+    }
+
+    public function refine()
+    {
+        $refinedData = new FinanceData;
+        $raw = $this->toArray();
+
+        $refinedData->map($raw['finance_data']);
+
+        $raw['finance_data'] = $refinedData;
+
+        return collect($raw);
     }
 }
