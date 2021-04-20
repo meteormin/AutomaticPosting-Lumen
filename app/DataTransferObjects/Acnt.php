@@ -106,6 +106,12 @@ class Acnt extends Dto
     protected ?string $frmtrmNm;
 
     /**
+     * 전기날짜
+     * @var string|null $frmtrmDt
+     */
+    protected ?string $frmtrmDt;
+
+    /**
      * 전기금액
      * @var string|null $frmtrmAmount
      */
@@ -125,9 +131,9 @@ class Acnt extends Dto
 
     /**
      * 전전기일자
-     * @var string|null $bfermtrmDt
+     * @var string|null $bfefrmtrmDt
      */
-    protected ?string $bfermtrmDt;
+    protected ?string $bfefrmtrmDt;
 
     /**
      * 전전기금액
@@ -616,30 +622,6 @@ class Acnt extends Dto
     }
 
     /**
-     * Get $bfermtrmDt
-     *
-     * @return string|null
-     */
-    public function getBfermtrmDt()
-    {
-        return $this->bfermtrmDt;
-    }
-
-    /**
-     * Set $bfermtrmDt
-     *
-     * @param string|null $bfermtrmDt  $bfermtrmDt
-     *
-     * @return self
-     */
-    public function setBfermtrmDt($bfermtrmDt)
-    {
-        $this->bfermtrmDt = $bfermtrmDt;
-
-        return $this;
-    }
-
-    /**
      * Get $bfefrmtrmAmount
      *
      * @return string|null
@@ -659,6 +641,54 @@ class Acnt extends Dto
     public function setBfefrmtrmAmount($bfefrmtrmAmount)
     {
         $this->bfefrmtrmAmount = $bfefrmtrmAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get $frmtrmDt
+     *
+     * @return string|null
+     */
+    public function getFrmtrmDt()
+    {
+        return $this->frmtrmDt;
+    }
+
+    /**
+     * Set $frmtrmDt
+     *
+     * @param string|null $frmtrmDt  $frmtrmDt
+     *
+     * @return self
+     */
+    public function setFrmtrmDt($frmtrmDt)
+    {
+        $this->frmtrmDt = $frmtrmDt;
+
+        return $this;
+    }
+
+    /**
+     * Get $bfefrmtrmDt
+     *
+     * @return string|null
+     */
+    public function getBfefrmtrmDt()
+    {
+        return $this->bfefrmtrmDt;
+    }
+
+    /**
+     * Set $bfefrmtrmDt
+     *
+     * @param string|null $bfefrmtrmDt  $bfefrmtrmDt
+     *
+     * @return self
+     */
+    public function setBfefrmtrmDt($bfefrmtrmDt)
+    {
+        $this->bfefrmtrmDt = $bfefrmtrmDt;
 
         return $this;
     }

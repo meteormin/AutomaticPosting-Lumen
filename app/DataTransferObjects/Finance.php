@@ -17,6 +17,8 @@ class Finance extends Dto
      */
     protected $acnt;
 
+    protected $refinedData;
+
     /**
      * 재무정보 filter 조건
      *

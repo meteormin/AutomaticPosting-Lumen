@@ -28,6 +28,8 @@ class MainService extends Service
 
     public function __construct(KoaService $koa, OpenDartService $openDart)
     {
+        set_time_limit(300);
+
         $this->koa = $koa;
         $this->openDart = $openDart;
 
@@ -44,11 +46,19 @@ class MainService extends Service
         ]);
     }
 
-    public function getRawData()
+    /**
+     * Undocumented function
+     *
+     * @param string|null $sector
+     *
+     * @return void
+     */
+    public function getRawData(string $sector = null)
     {
-        set_time_limit(300);
+        if (is_null($sector)) {
+            $sector = $this->getSectorPriority();
+        }
 
-        $sector = $this->getSectorPriority();
         $stockInfo = $this->koa->showBySector($sector);
 
         $acnts = collect();
@@ -79,21 +89,18 @@ class MainService extends Service
         return $rsList;
     }
 
-    public function getRefinedData()
+    public function getRefinedData(string $sector = null)
     {
-        $sector = $this->getSectorPriority();
+        if (is_null($sector)) {
+            $sector = $this->getSectorPriority();
+        }
 
-        $stockInfo = $this->koa->showBySector($sector);
+        $rawData = $this->getRawData($sector);
 
-        $stock = $stockInfo->filter(function ($stock) {
-            if ($stock instanceof StockInfo) {
-                if ($stock->getCode() == '005930') {
-                    return $stock;
-                }
-            }
-        })->first();
+        $refinedData = collect();
 
-        $acnt = $this->openDart->getSingle('005930', '2020');
+        $rawData->each(function ($raw) use (&$refinedData) {
+        });
 
         return collect([
             'stcok' => $stock,
