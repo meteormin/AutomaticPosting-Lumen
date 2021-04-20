@@ -196,7 +196,7 @@ class OpenDartClient
         $dtos->each(function ($acnt) use (&$rsList) {
             if ($acnt instanceof Acnt) {
                 if (!$rsList->has($acnt->getStockCode())) {
-                    $rsList[$acnt->getStockCode()] = new Dtos();
+                    $rsList->put($acnt->getStockCode(), new Dtos());
                 }
 
                 $rsList->get($acnt->getStockCode())->add($acnt);

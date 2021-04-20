@@ -2,11 +2,12 @@
 
 namespace App\Services\Main;
 
-use App\DataTransferObjects\StockInfo;
+use Exception;
 use App\Services\Service;
 use App\Services\Kiwoom\KoaService;
+use App\DataTransferObjects\StockInfo;
+use App\DataTransferObjects\Utils\Dtos;
 use App\Services\OpenDart\OpenDartService;
-use Exception;
 
 class MainService extends Service
 {
@@ -36,29 +37,24 @@ class MainService extends Service
 
         $stockInfo = $this->koa->showBySector($sector);
 
-
         $acnts = collect();
         $rsList = collect();
+        $stockCodes = collect();
 
-        $cnt = 1;
-        $stockInfo->each(function ($stock) use (&$acnts, &$rsList, &$cnt) {
+        $stockInfo->each(function ($stock) use (&$stockCodes, &$rsList) {
             if ($stock instanceof StockInfo) {
-                try {
-                    $acnts = $this->openDart->getSingle($stock->getCode(), '2020');
-                } catch (Exception $e) {
-                    $acnts->add([$e->getMessage()]);
-                }
+                $stockCodes->add($stock->getCode());
 
-                $rsList->add(collect([
-                    'stocks' => $stock,
-                    'acnts' => $acnts
-                ]));
+                $rsList->put($stock->getCode(), new Dtos());
+                $rsList[$stock->getCode()]->put('stock', $stock);
             }
-            $cnt++;
-            if ($cnt > 10) {
-                return;
-            }
-        })->first();
+        });
+
+        $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020');
+
+        $stockCodes->each(function ($code) use (&$acnts, &$rsList) {
+            $rsList->get($code)->put('acnt', $acnts->get($code));
+        });
 
         return $rsList;
     }

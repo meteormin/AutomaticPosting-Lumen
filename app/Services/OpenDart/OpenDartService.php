@@ -82,18 +82,12 @@ class OpenDartService extends Service
      *
      * @param string $stockCode
      * @param string|null $year
+     * @param string $reprtCode
      *
      * @return Dtos|Acnt[]
      */
-    public function getSingle(string $stockCode, string $year = null)
+    public function getSingle(string $stockCode, string $year = null, string $reprtCode = '11011')
     {
-        $corpCode = $this->findCorpCodeByStockCode($stockCode);
-
-        $corpCode = $corpCode;
-        if (is_null($corpCode)) {
-            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
-        }
-
         if (is_null($year)) {
             $year = Carbon::now()->format('Y');
         }
@@ -102,19 +96,36 @@ class OpenDartService extends Service
             $this->throw(ErrorCode::VALIDATION_FAIL, "year parameter must be 'yyyy' format");
         }
 
-        return $this->module->getSinglAcnt($corpCode->getCorpCode(), $year);
+        $corpCode = $this->findCorpCodeByStockCode($stockCode);
+
+        $corpCode = $corpCode;
+        if (is_null($corpCode)) {
+            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
+        }
+
+        return $this->module->getSinglAcnt($corpCode->getCorpCode(), $year, $reprtCode);
     }
 
     /**
      * 다중 회사 주요 계정 가져오기
      *
      * @param array $stockCodes
+     * @param string $year
+     * @param string $reprtCoe
      *
      * @return Collection
      */
-    public function getMultiple(array $stockCodes)
+    public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011')
     {
         $corpCodes = collect();
+
+        if (is_null($year)) {
+            $year = Carbon::now()->format('Y');
+        }
+
+        if (!is_numeric($year) || strlen($year) != 4) {
+            $this->throw(ErrorCode::VALIDATION_FAIL, "year parameter must be 'yyyy' format");
+        }
 
         foreach ($stockCodes as $stockCode) {
             $corpCodes->add($this->findCorpCodeByStockCode($stockCode)->getCorpCode());
