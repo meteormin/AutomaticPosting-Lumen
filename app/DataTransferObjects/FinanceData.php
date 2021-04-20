@@ -154,9 +154,9 @@ class FinanceData
             }
         }
 
-        $rsList->add($current);
-        $rsList->add($prev);
-        $rsList->add($preprev);
+        $rsList->add($current->toArray());
+        $rsList->add($prev->toArray());
+        $rsList->add($preprev->toArray());
 
         return $rsList->toArray();
     }
