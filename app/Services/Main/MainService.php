@@ -46,21 +46,25 @@ class MainService extends Service
         $stockInfo->each(function ($stock) use (&$stockCodes, &$rsList) {
             if ($stock instanceof StockInfo) {
                 $stockCodes->add($stock->getCode());
-                $rsList->put($stock->getCode(), new Dtos());
-                $rsList->get($stock->getCode())->put('stock', $stock);
+                $finance = new Finance;
+                $finance->setStock($stock);
+                $rsList->add($finance);
             }
         });
 
         $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020');
 
-        $stockCodes->each(function ($code) use (&$acnts, &$rsList) {
-            $rsList->get($code)->put('acnt', $acnts->get($code));
+        $rsList->filter(function (&$finance) use ($acnts) {
+            if ($finance instanceof Finance) {
+                $code = $finance->getStock()->getCode();
+                $finance->setAcnt($acnts->get($code));
+                return true;
+            }
+
+            return false;
         });
 
-        $finance = new Finance;
-        $finance->mapList($rsList->values());
-
-        return $finance;
+        return $rsList;
     }
 
     public function getRefinedData()

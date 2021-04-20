@@ -100,7 +100,7 @@ class Finance extends Dto
         $items = collect(parent::toArray($allowNull));
 
         $where = $this->requiredAttributeInAcnt();
-        $acnt = $items->get('acnt')->filter(function ($item) use ($where) {
+        $acnt = collect($items->get('acnt'))->filter(function ($item) use ($where) {
             $flag = false;
             foreach ($where as $attr => $value) {
                 if (is_array($value)) {
@@ -121,7 +121,7 @@ class Finance extends Dto
             return $flag;
         });
 
-        $rsList = $items->get('stock');
+        $rsList = collect($items->get('stock'));
         $rsList->put('finance_data', $acnt);
 
         return $rsList->toArray();
