@@ -2,6 +2,8 @@
 
 namespace App\Services\Libraries;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response as HttpResponse;
 
@@ -94,6 +96,14 @@ class Client
         } else {
             $response = $client->{$method}($this->host . $ep, $parameters);
         }
+
+        $upperMethod = Str::upper($method);
+        Log::info("
+        [Http Client Connect]\n
+        request: {$upperMethod} {$this->host}{$ep}\n
+        input:" . json_encode($parameters, JSON_UNESCAPED_UNICODE) . "\n
+        response:" . json_encode($response->json()) . "
+        ");
 
         return $this->response($response);
     }
