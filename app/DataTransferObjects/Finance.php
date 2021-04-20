@@ -17,6 +17,17 @@ class Finance extends Dto
      */
     protected $acnt;
 
+    protected $filters = [
+        'account_nm' => [
+            '유동자산',
+            '유동부채',
+            '당기순이익'
+        ],
+        'fs_div' => [
+            'CFS'
+        ]
+    ];
+
     /**
      * construct
      *
@@ -76,47 +87,37 @@ class Finance extends Dto
     }
 
     /**
+     * Undocumented function
+     *
+     * @param array $filter
+     *
+     * @return void
+     */
+    public function setFilterAttributeInAcnt(array $filters)
+    {
+        $this->filters = $filters;
+    }
+
+    /**
      * 필터 조건
      * 1차원 요소 AND 조건
      * 2차원 요소 OR 조건
      *
      * @return array
      */
-    protected function requiredAttributeInAcnt()
+    protected function getFilterAttributeInAcnt()
     {
-        return [
-            'account_nm' => [
-                '유동자산',
-                '유동부채',
-                '당기순이익'
-            ],
-            'fs_div' => [
-                'CFS'
-            ]
-        ];
+        return $this->filters;
     }
 
     public function toArray(bool $allowNull = true): ?array
     {
-        $where = $this->requiredAttributeInAcnt();
+        $where = $this->getFilterAttributeInAcnt();
 
         $acnt = collect($this->getAcnt()->toArray());
         foreach ($where as $attr => $value) {
             $acnt = $acnt->whereIn($attr, $value);
         }
-
-        // $this->getAcnt()->each(function ($item) use (&$acnt, $where) {
-        //     $collection = $item instanceof Acnt ? collect($item->toArray()) : collect($item);
-        //     print_r($collection);
-        //     foreach ($where as $attr => $value) {
-
-        //         $collection = $collection->whereIn($attr, $value);
-        //         print_r($collection);
-        //     }
-        //     print_r($collection);
-        //     exit;
-        //     $acnt->add($collection);
-        // });
 
         $rsList = collect($this->getStock()->toArray());
         $rsList->put('finance_data', $acnt);
