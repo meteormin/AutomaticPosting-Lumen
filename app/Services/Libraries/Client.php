@@ -97,10 +97,9 @@ class Client
             $response = $client->{$method}($this->host . $ep, $parameters);
         }
 
-        $upperMethod = Str::upper($method);
         Log::info("
         [Http Client Connect]\n
-        request: {$upperMethod} {$this->host}{$ep}\n
+        request: " . Str::upper($method) . " {$this->host}{$ep}\n
         input:" . json_encode($parameters, JSON_UNESCAPED_UNICODE) . "\n
         response:" . json_encode($response->json()) . "
         ");
