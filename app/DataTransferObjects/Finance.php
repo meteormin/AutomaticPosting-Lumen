@@ -90,7 +90,7 @@ class Finance extends Dto
                 '유동부채',
                 '당기순이익'
             ],
-            'fs_div' => 'CFS'
+            'fs_div' => ['CFS']
 
         ];
     }
@@ -100,15 +100,13 @@ class Finance extends Dto
         $where = $this->requiredAttributeInAcnt();
         $acnt = $this->getAcnt()->filter(function ($item) use ($where) {
             $flag = false;
+            if ($item instanceof Acnt) {
+                $arr = $item->toArray();
+            }
+
             foreach ($where as $attr => $value) {
                 if (is_array($value)) {
-                    if (in_array($item[$attr], $value)) {
-                        $flag = true;
-                    } else {
-                        $flag = false;
-                    }
-                } else {
-                    if ($item[$attr] == $value) {
+                    if (in_array($arr[$attr], $value)) {
                         $flag = true;
                     } else {
                         $flag = false;
