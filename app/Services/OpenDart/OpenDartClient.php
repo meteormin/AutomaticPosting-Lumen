@@ -105,29 +105,24 @@ class OpenDartClient
         $jsonObject = json_decode($json);
 
         $list = collect();
-        $dtos = $this->corpCode->mapList($jsonObject->list);
 
-        $list = $dtos->filter(function ($item) use ($code) {
-            if ($item instanceof CorpCode) {
-                if (!is_object($item->getStockCode())) {
-                    if (is_null($code)) {
-                        return true;
-                    }
-
-                    if ($code == $item->getCorpCode()) {
-                        return true;
-                    }
+        foreach ($jsonObject->list as $value) {
+            if (!is_object($value->stock_code)) {
+                if (is_null($code)) {
+                    $list->add($value);
+                } else if ($value->stock_code == $code) {
+                    $list->add($value);
                 }
             }
+        }
 
-            return false;
-        })->values();
+        $dtos = $this->corpCode->mapList($list->all());
 
-        if (!$list->isEmpty() && request()->has('page')) {
+        if (!$dtos->isEmpty() && request()->has('page')) {
             $page = request()->get('page');
             $perPage = 15;
 
-            $paginator = new Paginator($list->forPage($page, $perPage), count($list), $perPage, $page, [
+            $paginator = new Paginator($list->forPage($page, $perPage), count($dtos), $perPage, $page, [
                 'path' => Paginator::resolveCurrentPath(),
                 'query' => request()->query()
             ]);
