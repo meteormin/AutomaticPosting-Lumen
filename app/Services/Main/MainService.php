@@ -36,7 +36,6 @@ class MainService extends Service
         set_time_limit(300);
 
         $sector = $this->getSectorPriority();
-
         $stockInfo = $this->koa->showBySector($sector);
 
         $acnts = collect();
@@ -47,7 +46,7 @@ class MainService extends Service
             if ($stock instanceof StockInfo) {
                 $stockCodes->add($stock->getCode());
                 $rsList->put($stock->getCode(), new Dtos());
-                $rsList[$stock->getCode()]->put('stock', $stock);
+                $rsList->get($stock->getCode())->put('stock', $stock);
             }
         });
 
