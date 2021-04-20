@@ -102,7 +102,7 @@ class Finance extends Dto
 
         $acnt = collect();
         $this->getAcnt()->each(function ($item) use (&$acnt, $where) {
-            $collection = $item instanceof Acnt ? $item->toArray() : $item;
+            $collection = $item instanceof Acnt ? collect($item->toArray()) : collect($item);
             foreach ($where as $attr => $value) {
                 $acnt->add($collection->whereIn($attr, $value));
             }
