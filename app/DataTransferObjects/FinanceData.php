@@ -131,25 +131,25 @@ class FinanceData
         $rsList = collect();
 
         $current = (new static);
-        $current->setAttribute('year', $arrayAble['thstrm_dt']);
-
         $prev = (new static);
-        $prev->setAttribute('year', $arrayAble['frmtrm_dt']);
+        $preprev = (new static);
 
-        $preprev =  (new static);
-        $preprev->setAttribute('year', $arrayAble['bfefrmtrm_dt']);
+        foreach ($arrayAble as $origin) {
+            foreach ($table as $key => $value) {
+                foreach ($value as $k => $v) {
+                    if ($origin[$key] == $v) {
+                        // 당기
+                        $current->setAttribute($k, $origin['thstrm_amount']);
+                        $current->setAttribute('year', $origin['thstrm_dt']);
 
-        foreach ($table as $key => $value) {
-            foreach ($value as $k => $v) {
-                if ($arrayAble[$key] == $v) {
-                    // 당기
-                    $current->setAttribute($k, $arrayAble['thstrm_amount']);
+                        // 전기
+                        $prev->setAttribute($k, $origin['frmtrm_amount']);
+                        $prev->setAttribute('year', $origin['frmtrm_dt']);
 
-                    // 전기
-                    $prev->setAttribute($k, $arrayAble['frmtrm_amount']);
-
-                    // 전전기
-                    $preprev->setAttribute($k, $arrayAble['bfefrmtrm_amount']);
+                        // 전전기
+                        $preprev->setAttribute($k, $origin['bfefrmtrm_amount']);
+                        $preprev->setAttribute('year', $origin['bfefrmtrm_dt']);
+                    }
                 }
             }
         }
@@ -157,6 +157,7 @@ class FinanceData
         $rsList->add($current);
         $rsList->add($prev);
         $rsList->add($preprev);
+
 
         return $rsList->toArray();
     }
