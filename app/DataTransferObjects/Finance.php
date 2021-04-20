@@ -100,9 +100,9 @@ class Finance extends Dto
     {
         $where = $this->requiredAttributeInAcnt();
 
-        $acnt = collect();
+        $acnt = collect($this->getAcnt()->toArray());
         foreach ($where as $attr => $value) {
-            $acnt = collect($this->getAcnt()->toArray())->whereIn($attr, $value);
+            $acnt = $acnt->whereIn($attr, $value);
         }
 
         // $this->getAcnt()->each(function ($item) use (&$acnt, $where) {
