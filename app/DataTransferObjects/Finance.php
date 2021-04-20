@@ -17,7 +17,12 @@ class Finance extends Dto
      */
     protected $acnt;
 
-    protected $filters = [
+    /**
+     * 재무정보 filter 조건
+     *
+     * @var array
+     */
+    protected static $filters = [
         'account_nm' => [
             '유동자산',
             '유동부채',
@@ -93,9 +98,9 @@ class Finance extends Dto
      *
      * @return void
      */
-    public function setFilterAttributeInAcnt(array $filters)
+    public static function setFilterAttributeInAcnt(array $filters)
     {
-        $this->filters = $filters;
+        self::$filters = $filters;
     }
 
     /**
@@ -105,9 +110,9 @@ class Finance extends Dto
      *
      * @return array
      */
-    protected function getFilterAttributeInAcnt()
+    protected static function getFilterAttributeInAcnt(): array
     {
-        return $this->filters;
+        return self::$filters;
     }
 
     public function toArray(bool $allowNull = true): ?array
