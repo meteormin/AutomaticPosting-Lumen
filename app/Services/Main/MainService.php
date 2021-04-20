@@ -54,7 +54,7 @@ class MainService extends Service
 
         $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020');
 
-        $rsList->filter(function (&$finance) use ($acnts) {
+        $rsList->filter(function ($finance) use ($acnts) {
             if ($finance instanceof Finance) {
                 $code = $finance->getStock()->getCode();
                 $finance->setAcnt($acnts->get($code));

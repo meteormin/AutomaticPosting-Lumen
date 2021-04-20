@@ -115,7 +115,6 @@ class Finance extends Dto
                     }
                 }
             }
-
             return $flag;
         });
 
