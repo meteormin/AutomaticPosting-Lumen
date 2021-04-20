@@ -184,9 +184,13 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        $dtos = $this->acnt->mapList($response['list']);
-
         $rsList = collect();
+
+        if (!isset($response['list'])) {
+            return $rsList;
+        }
+
+        $dtos = $this->acnt->mapList($response['list']);
 
         $dtos->each(function ($acnt) use (&$rsList) {
             if ($acnt instanceof Acnt) {
