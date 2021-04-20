@@ -30,6 +30,18 @@ class MainService extends Service
     {
         $this->koa = $koa;
         $this->openDart = $openDart;
+
+        // 필터 조건 정의
+        Finance::setFilterAttributeInAcnt([
+            'account_nm' => [
+                '유동자산',
+                '유동부채',
+                '당기순이익'
+            ],
+            'fs_div' => [
+                'CFS'
+            ]
+        ]);
     }
 
     public function getRawData()

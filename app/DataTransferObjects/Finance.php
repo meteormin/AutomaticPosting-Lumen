@@ -22,16 +22,7 @@ class Finance extends Dto
      *
      * @var array
      */
-    protected static $filters = [
-        'account_nm' => [
-            '유동자산',
-            '유동부채',
-            '당기순이익'
-        ],
-        'fs_div' => [
-            'CFS'
-        ]
-    ];
+    protected static $filters = [];
 
     /**
      * construct
@@ -94,7 +85,7 @@ class Finance extends Dto
     /**
      * Undocumented function
      *
-     * @param array $filter
+     * @param array $filters
      *
      * @return void
      */
