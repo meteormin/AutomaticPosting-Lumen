@@ -90,30 +90,22 @@ class Finance extends Dto
                 '유동부채',
                 '당기순이익'
             ],
-            'fs_div' => ['CFS']
-
+            'fs_div' => [
+                'CFS'
+            ]
         ];
     }
 
     public function toArray(bool $allowNull = true): ?array
     {
         $where = $this->requiredAttributeInAcnt();
-        $acnt = $this->getAcnt()->filter(function ($item) use ($where) {
-            $flag = false;
-            if ($item instanceof Acnt) {
-                $arr = $item->toArray();
-            }
 
+        $acnt = collect();
+        $this->getAcnt()->each(function ($item) use (&$acnt, $where) {
+            $collection = $item instanceof Acnt ? $item->toArray() : $item;
             foreach ($where as $attr => $value) {
-                if (is_array($value)) {
-                    if (in_array($arr[$attr], $value)) {
-                        $flag = true;
-                    } else {
-                        $flag = false;
-                    }
-                }
+                $acnt->add($collection->whereIn($attr, $value));
             }
-            return $flag;
         });
 
         $rsList = collect($this->getStock()->toArray());
