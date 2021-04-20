@@ -2,6 +2,7 @@
 
 namespace App\Services\Main;
 
+use App\DataTransferObjects\Finance;
 use Exception;
 use App\Services\Service;
 use App\Services\Kiwoom\KoaService;
@@ -50,13 +51,16 @@ class MainService extends Service
             }
         });
 
-        $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020');
+        $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020',);
 
         $stockCodes->each(function ($code) use (&$acnts, &$rsList) {
             $rsList->get($code)->put('acnt', $acnts->get($code));
         });
 
-        return $rsList->values();
+        $finance = new Finance;
+        $finance->mapList($rsList->values());
+
+        return $finance;
     }
 
     public function getRefinedData()
