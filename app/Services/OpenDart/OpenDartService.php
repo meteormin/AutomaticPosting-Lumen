@@ -58,6 +58,13 @@ class OpenDartService extends Service
         return $res;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $stockCode
+     *
+     * @return CorpCode
+     */
     public function findCorpCodeByStockCode(string $stockCode)
     {
         $corpCodes = $this->module->getCorpCode();
@@ -80,9 +87,9 @@ class OpenDartService extends Service
      */
     public function getSingle(string $stockCode, string $year = null)
     {
-        $corpCodes = $this->findCorpCodeByStockCode($stockCode);
+        $corpCode = $this->findCorpCodeByStockCode($stockCode);
 
-        $corpCode = $corpCodes;
+        $corpCode = $corpCode;
         if (is_null($corpCode)) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
         }
@@ -110,7 +117,7 @@ class OpenDartService extends Service
         $corpCodes = collect();
 
         foreach ($stockCodes as $stockCode) {
-            $corpCodes->add($this->findCorpCodeByStockCode($stockCode));
+            $corpCodes->add($this->findCorpCodeByStockCode($stockCode)->getCorpCode());
         }
 
         $res = $this->module->getMultiAcnt($corpCodes->all(), '2020');
