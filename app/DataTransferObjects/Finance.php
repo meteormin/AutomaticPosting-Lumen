@@ -22,7 +22,7 @@ class Finance extends Dto
      *
      * @var array
      */
-    protected static $filters = [];
+    protected static array $filters = [];
 
     /**
      * construct
