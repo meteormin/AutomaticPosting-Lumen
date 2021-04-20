@@ -33,6 +33,8 @@ class MainService extends Service
 
     public function getRawData()
     {
+        set_time_limit(300);
+
         $sector = $this->getSectorPriority();
 
         $stockInfo = $this->koa->showBySector($sector);
