@@ -139,16 +139,16 @@ class FinanceData
                 foreach ($value as $k => $v) {
                     if ($origin[$key] == $v) {
                         // 당기
-                        $current->setAttribute($k, $origin['thstrm_amount']);
-                        $current->setAttribute('year', $origin['thstrm_dt']);
+                        $current->setAttribute($k, $origin['thstrm_amount'] ?? null);
+                        $current->setAttribute('year', $origin['thstrm_dt'] ?? null);
 
                         // 전기
-                        $prev->setAttribute($k, $origin['frmtrm_amount']);
-                        $prev->setAttribute('year', $origin['frmtrm_dt']);
+                        $prev->setAttribute($k, $origin['frmtrm_amount'] ?? null);
+                        $prev->setAttribute('year', $origin['frmtrm_dt'] ?? null);
 
                         // 전전기
-                        $preprev->setAttribute($k, $origin['bfefrmtrm_amount']);
-                        $preprev->setAttribute('year', $origin['bfefrmtrm_dt']);
+                        $preprev->setAttribute($k, $origin['bfefrmtrm_amount'] ?? null);
+                        $preprev->setAttribute('year', $origin['bfefrmtrm_dt'] ?? null);
                     }
                 }
             }
