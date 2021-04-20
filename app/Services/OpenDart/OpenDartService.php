@@ -128,7 +128,10 @@ class OpenDartService extends Service
         }
 
         foreach ($stockCodes as $stockCode) {
-            $corpCodes->add($this->findCorpCodeByStockCode($stockCode)->getCorpCode());
+            $corpCode = $this->findCorpCodeByStockCode($stockCode);
+            if (!is_null($corpCode)) {
+                $corpCodes->add($corpCode->getCorpCode());
+            }
         }
 
         $res = $this->module->getMultiAcnt($corpCodes->all(), '2020');
