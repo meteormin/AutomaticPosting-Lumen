@@ -56,7 +56,7 @@ class MainService extends Service
             $rsList->get($code)->put('acnt', $acnts->get($code));
         });
 
-        return $rsList;
+        return $rsList->values();
     }
 
     public function getRefinedData()
