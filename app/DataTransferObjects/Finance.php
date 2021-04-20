@@ -105,9 +105,10 @@ class Finance extends Dto
             $collection = $item instanceof Acnt ? collect($item->toArray()) : collect($item);
             foreach ($where as $attr => $value) {
                 print_r($collection);
-
-                $acnt->add($collection->whereIn($attr, $value));
+                $collection = $collection->whereIn($attr, $value);
             }
+
+            $acnt->add($collection);
         });
 
         $rsList = collect($this->getStock()->toArray());
