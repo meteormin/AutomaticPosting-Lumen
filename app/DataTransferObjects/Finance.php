@@ -32,11 +32,11 @@ class Finance extends Dto
     /**
      * set stock info
      *
-     * @param StockInfo $stock
+     * @param StockInfo|null $stock
      *
      * @return $this
      */
-    public function setStock(StockInfo $stock)
+    public function setStock(?StockInfo $stock)
     {
         $this->stock = $stock;
         return $this;
@@ -45,7 +45,7 @@ class Finance extends Dto
     /**
      * get stock info
      *
-     * @return StockInfo
+     * @return StockInfo|null
      */
     public function getStock()
     {
@@ -55,13 +55,13 @@ class Finance extends Dto
     /**
      * set acnt list
      *
-     * @param Dtos|Acnt[] $acnt
+     * @param Dtos|Acnt[]|null $acnt
      *
      * @return $this
      */
-    public function setAcnt(Dtos $acnt)
+    public function setAcnt($acnt)
     {
-        $this->acnt = $acnt;
+        $this->acnt = new Dtos($acnt);
         return $this;
     }
 
