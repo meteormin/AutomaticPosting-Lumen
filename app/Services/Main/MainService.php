@@ -37,7 +37,9 @@ class MainService extends Service
         Finance::setFilterAttributeInAcnt([
             'account_nm' => [
                 '유동자산',
+                '자산총계',
                 '유동부채',
+                '부채총계',
                 '당기순이익'
             ],
             'fs_div' => [
