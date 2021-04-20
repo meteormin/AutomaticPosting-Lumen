@@ -37,4 +37,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->post('stocks', 'StockController@storeStock');
 
     $router->get('absolute/raw', 'AbsoluteController@raw');
+
+    $router->get('absolute', 'AbsoluteController@index');
 });
