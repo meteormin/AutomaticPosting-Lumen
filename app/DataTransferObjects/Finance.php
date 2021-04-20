@@ -97,10 +97,8 @@ class Finance extends Dto
 
     public function toArray(bool $allowNull = true): ?array
     {
-        $items = collect(parent::toArray($allowNull));
-
         $where = $this->requiredAttributeInAcnt();
-        $acnt = collect($items->get('acnt'))->filter(function ($item) use ($where) {
+        $acnt = $this->getAcnt()->filter(function ($item) use ($where) {
             $flag = false;
             foreach ($where as $attr => $value) {
                 if (is_array($value)) {
@@ -121,7 +119,7 @@ class Finance extends Dto
             return $flag;
         });
 
-        $rsList = collect($items->get('stock'));
+        $rsList = collect($this->getStock()->toArray());
         $rsList->put('finance_data', $acnt);
 
         return $rsList->toArray();
