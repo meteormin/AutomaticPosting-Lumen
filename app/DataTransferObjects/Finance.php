@@ -122,13 +122,10 @@ class Finance extends Dto
     }
 
     public function refine()
-    {
-        $refinedData = new FinanceData;
+    {;
         $raw = $this->toArray();
 
-        $refinedData->map($raw['finance_data']);
-
-        $raw['finance_data'] = $refinedData;
+        $raw['finance_data'] = FinanceData::map($raw['finance_data']);
 
         return collect($raw);
     }
