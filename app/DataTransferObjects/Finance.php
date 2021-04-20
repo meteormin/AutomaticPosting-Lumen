@@ -49,7 +49,7 @@ class Finance extends Dto
      */
     public function getStock()
     {
-        return $this->stcok;
+        return $this->stock;
     }
 
     /**
