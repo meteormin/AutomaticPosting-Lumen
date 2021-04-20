@@ -112,7 +112,7 @@ class Finance extends Dto
 
         $acnt = collect($this->getAcnt()->toArray());
         foreach ($where as $attr => $value) {
-            $acnt = $acnt->whereIn($attr, $value);
+            $acnt = $acnt->whereIn($attr, $value)->values();
         }
 
         $rsList = collect($this->getStock()->toArray());
