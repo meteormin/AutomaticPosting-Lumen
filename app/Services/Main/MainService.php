@@ -44,7 +44,6 @@ class MainService extends Service
         $stockInfo->each(function ($stock) use (&$stockCodes, &$rsList) {
             if ($stock instanceof StockInfo) {
                 $stockCodes->add($stock->getCode());
-
                 $rsList->put($stock->getCode(), new Dtos());
                 $rsList[$stock->getCode()]->put('stock', $stock);
             }
