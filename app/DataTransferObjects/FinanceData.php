@@ -8,19 +8,27 @@ use Illuminate\Support\Str;
 // 동적으로 속성을 관리
 class FinanceData
 {
-    protected $financeData;
-
+    /**
+     * set 가능한 필드명 정의
+     *
+     * @var array
+     */
     protected $fillable = ['year', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income'];
 
+    /**
+     * 실제 데이터가 들어가는 배열
+     *
+     * @var array
+     */
     protected $attributes = [];
 
     /**
      * 동적 getter, setter
      *
-     * @param string $name
-     * @param array $args
+     * @param string $name getter or setter method name
+     * @param array $args arguments
      *
-     * @return void
+     * @return mixed
      */
     public function __call($name, $args)
     {
@@ -35,9 +43,9 @@ class FinanceData
     }
 
     /**
-     * Undocumented function
+     * 동적 속성 접근
      *
-     * @param string $key
+     * @param string $key 속성 명
      *
      * @return mixed
      */
@@ -47,10 +55,10 @@ class FinanceData
     }
 
     /**
-     * Undocumented function
+     * 동적 속성 값 설정
      *
-     * @param string $key
-     * @param mixed $value
+     * @param string $key 속성 명
+     * @param mixed $value 값
      *
      * @return $this
      */
@@ -91,6 +99,13 @@ class FinanceData
         return $this;
     }
 
+    /**
+     * set attributes
+     *
+     * @param array $input
+     *
+     * @return void
+     */
     public function fill(array $input)
     {
         foreach ($input as $key => $value) {
@@ -100,12 +115,24 @@ class FinanceData
         return $this;
     }
 
+    /**
+     * return attributes array
+     *
+     * @param boolean $allowNull
+     *
+     * @return array|null
+     */
     public function toArray(bool $allowNull = true): ?array
     {
         return $this->attributes;
     }
 
-    protected static function mapTable()
+    /**
+     * mapping account name
+     *
+     * @return array
+     */
+    protected static function mapTable(): array
     {
         return [
             'account_nm' => [
@@ -119,7 +146,7 @@ class FinanceData
     }
 
     /**
-     * map
+     * mapping
      *
      * @return array
      */
