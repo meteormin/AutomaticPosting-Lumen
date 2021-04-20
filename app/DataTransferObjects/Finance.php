@@ -105,7 +105,7 @@ class Finance extends Dto
             $collection = $item instanceof Acnt ? collect($item->toArray()) : collect($item);
             print_r($collection);
             foreach ($where as $attr => $value) {
-                print_r($attr . ': ' . $value);
+                print_r($attr . ': ' . json_encode($value, JSON_UNESCAPED_UNICODE));
                 $collection = $collection->whereIn($attr, $value);
                 print_r($collection);
             }
