@@ -58,26 +58,31 @@ class OpenDartService extends Service
         return $res;
     }
 
+    public function findCorpCodeByStockCode(string $stockCode)
+    {
+        $corpCodes = $this->module->getCorpCode();
+
+        return $corpCodes->filter(function ($item) use ($stockCode) {
+            if ($item instanceof CorpCode) {
+                return $item->getStockCode() == $stockCode;
+            }
+            return false;
+        })->first();
+    }
+
     /**
      * 단일 회사 주요 계정가져오기
      *
-     * @param integer $stockCode
+     * @param string $stockCode
      * @param string|null $year
      *
      * @return Dtos|Acnt[]
      */
     public function getSingle(string $stockCode, string $year = null)
     {
-        $corpCodes = $this->module->getCorpCode();
+        $corpCodes = $this->findCorpCodeByStockCode($stockCode);
 
-        $corpCodes = $corpCodes->filter(function ($item) use ($stockCode) {
-            if ($item instanceof CorpCode) {
-                return $item->getStockCode() == $stockCode;
-            }
-            return false;
-        });
-
-        $corpCode = $corpCodes->first();
+        $corpCode = $corpCodes;
         if (is_null($corpCode)) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
         }
@@ -98,21 +103,21 @@ class OpenDartService extends Service
      *
      * @param array $stockCodes
      *
-     * @return Dtos
+     * @return Collection
      */
     public function getMultiple(array $stockCodes)
     {
-        $dtos = new Dtos;
+        $corpCodes = collect();
 
-        $this->module->getMultiAcnt($stockCodes, '2020');
         foreach ($stockCodes as $stockCode) {
-            $dtos->add($this->getSingle($stockCode));
+            $corpCodes->add($this->findCorpCodeByStockCode($stockCode));
         }
 
-        if ($dtos->isEmpty()) {
+        $res = $this->module->getMultiAcnt($corpCodes->all(), '2020');
+        if ($res->isEmpty()) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found storcks");
         }
 
-        return $dtos;
+        return $res;
     }
 }
