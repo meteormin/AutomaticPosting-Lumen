@@ -112,7 +112,7 @@ class StockController extends DefaultController
         return $this->success($rs, 'POST');
     }
 
-    public function showStock(Request $request, string $code)
+    public function showStock(Request $request, string $code = null)
     {
         $codes = null;
         if ($request->has('stock_code')) {
