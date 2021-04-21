@@ -94,7 +94,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      */
     public function setAttribute(string $key, $value)
     {
-        if (in_array($key, $this->fillable)) {
+        if (in_array($key, self::$fillable)) {
             $this->attributes[$key] = $value;
         }
         return $this;
