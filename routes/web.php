@@ -33,7 +33,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     //  get sotck list
     $router->get('stocks', 'StockController@index');
     //  종목별 기본 주가 정보 가져오기
-    $router->get('stocks/{code}', 'StockController@showStock');
+    $router->get('stocks/code/{code}', 'StockController@showStock');
     //  업종 별 종목정보 저장하기
     $router->post('stocks', 'StockController@storeStock');
     // raw 데이터

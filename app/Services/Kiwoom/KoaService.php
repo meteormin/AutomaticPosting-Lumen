@@ -52,7 +52,7 @@ class KoaService extends Service
      */
     public function showStock(array $codes = null)
     {
-        if (is_null($codes) || empty($codes)) {
+        if (empty($codes)) {
             return $this->module->get();
         }
 
