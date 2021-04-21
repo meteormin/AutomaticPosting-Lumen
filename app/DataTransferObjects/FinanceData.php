@@ -2,6 +2,7 @@
 
 namespace App\DataTransferObjects;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 use App\DataTransferObjects\Abstracts\Dynamic;
 
@@ -57,16 +58,16 @@ class FinanceData extends Dynamic
                 foreach ($value as $k => $v) {
                     if ($origin[$key] == $v) {
                         // 당기
-                        $current->setAttribute($k, $origin['thstrm_amount'] ?? null);
-                        $current->setAttribute('date', $origin['thstrm_dt'] ?? null);
+                        $current->setAttribute($k, preg_replace('/[^0-9]/', '', $origin['thstrm_amount'] ?? null));
+                        $current->setAttribute('date', $origin['thstrm_dt'] ?? '');
 
                         // 전기
-                        $prev->setAttribute($k, $origin['frmtrm_amount'] ?? null);
-                        $prev->setAttribute('date', $origin['frmtrm_dt'] ?? null);
+                        $prev->setAttribute($k, preg_replace('/[^0-9]/', '', $origin['frmtrm_amount'] ?? null));
+                        $prev->setAttribute('date', $origin['frmtrm_dt'] ?? '');
 
                         // 전전기
-                        $preprev->setAttribute($k, $origin['bfefrmtrm_amount'] ?? null);
-                        $preprev->setAttribute('date', $origin['bfefrmtrm_dt'] ?? null);
+                        $preprev->setAttribute($k, preg_replace('/[^0-9]/', '', $origin['bfefrmtrm_amount'] ?? null));
+                        $preprev->setAttribute('date', $origin['bfefrmtrm_dt'] ?? '');
                     }
                 }
 
@@ -95,12 +96,12 @@ class FinanceData extends Dynamic
      */
     protected function setFlowRate()
     {
-        if (is_numeric($this->getAttribute('current_assets')) && is_numeric($this->getAttribute('floating_debt'))) {
-            $flowRate = $this->getAttribute('current_assets') / $this->getAttribute('floating_debt') * 100;
-            return $this->setAttribute('flow_rate', $flowRate);
+        $currentAssets = preg_replace('/[^0-9]/', '', $this->getAttribute('current_assets'));
+        $floatingDebt = preg_replace('/[^0-9]/', '', $this->getAttribute('floating_debt'));
+        if (is_numeric($currentAssets) && is_numeric($floatingDebt)) {
+            $flowRate = $currentAssets / $floatingDebt * 100;
         }
-
-        return $this;
+        return $this->setAttribute('flow_rate', $flowRate ?? '');
     }
 
     /**
@@ -110,11 +111,12 @@ class FinanceData extends Dynamic
      */
     protected function setDebtRate()
     {
-        if (is_numeric($this->getAttribute('total_dept')) && is_numeric($this->getAttribute('total_assets'))) {
-            $debtRate = $this->getAttribute('total_dept') / $this->getAttribute('total_assets') * 100;
-            return $this->setAttribute('debt_rate', $debtRate);
+        $totalDebt = preg_replace('/[^0-9]/', '', $this->getAttribute('total_debt'));
+        $totalAssets = preg_replace('/[^0-9]/', '', $this->getAttribute('total_assets'));
+        if (is_numeric($totalDebt) && is_numeric($totalAssets)) {
+            $debtRate = $totalDebt / $totalAssets * 100;
         }
 
-        return $this;
+        return $this->setAttribute('debt_rate', $debtRate ?? '');
     }
 }
