@@ -80,8 +80,9 @@ class StockController extends DefaultController
             }
         });
 
+        $dtos = collect();
         foreach ($sectors->keys() as $key) {
-            $dtos = $this->koa->showBySector($key);
+            $dtos->put($key, $this->koa->showBySector($key));
         }
 
         return $this->response($dtos, 200);
