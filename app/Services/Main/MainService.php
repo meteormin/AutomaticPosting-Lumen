@@ -4,11 +4,9 @@ namespace App\Services\Main;
 
 use App\DataTransferObjects\Finance;
 use App\DataTransferObjects\FinanceData;
-use Exception;
 use App\Services\Service;
 use App\Services\Kiwoom\KoaService;
 use App\DataTransferObjects\StockInfo;
-use App\DataTransferObjects\Utils\Dtos;
 use App\Services\OpenDart\OpenDartService;
 
 class MainService extends Service
@@ -61,7 +59,7 @@ class MainService extends Service
     }
 
     /**
-     * Undocumented function
+     * get raw data
      *
      * @param string|null $sector
      *
