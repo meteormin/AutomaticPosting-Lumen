@@ -14,7 +14,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @var array
      */
-    protected $fillable = ['date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income'];
+    protected array $fillable = [];
 
     /**
      * 실제 데이터가 들어가는 배열
