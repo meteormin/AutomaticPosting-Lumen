@@ -112,8 +112,13 @@ class StockController extends DefaultController
         return $this->success($rs, 'POST');
     }
 
-    public function showStock(Request $request)
+    public function showStock(Request $request, string $code)
     {
-        return $this->response($this->koa->showStock($request->get('stock_code', null)));
+        $codes = null;
+        if ($request->has('stock_code')) {
+            $codes = explode(',', $request->get('stock_code'));
+        }
+
+        return $this->response($this->koa->showStock($codes ?? [$code]));
     }
 }
