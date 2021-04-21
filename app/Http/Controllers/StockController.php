@@ -48,7 +48,7 @@ class StockController extends DefaultController
     }
 
     /**
-     * 회사 주요계정 가져오기
+     * get stock info
      *
      * @param Request $request
      *
@@ -56,7 +56,33 @@ class StockController extends DefaultController
      */
     public function index(Request $request)
     {
-        $dtos = $this->openDart->getMultiple(['005930']);
+        if ($request->has('sector')) {
+            $dtos = $this->koa->showBySector($request->get('sector'));
+        }
+
+        $markets = collect(config('sectors'));
+
+        $sectors = collect();
+
+        $input = collect();
+
+        if ($request->has('market')) {
+            $input = collect($request->all());
+        }
+
+        $markets->each(function ($market) use (&$sectors, $input) {
+            if ($input->has('market')) {
+                if ($input->get('market') == $market) {
+                    $sectors->add($market['sector_raw']);
+                }
+            } else {
+                $sectors->add($market['sector_raw']);
+            }
+        });
+
+        foreach ($sectors->keys() as $key) {
+            $dtos = $this->koa->showBySector($key);
+        }
 
         return $this->response($dtos, 200);
     }

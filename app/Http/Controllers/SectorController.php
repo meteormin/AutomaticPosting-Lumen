@@ -41,10 +41,10 @@ class SectorController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, string $market)
+    public function show(Request $request, string $market, string $sector = '')
     {
         if ($this->sectors->has($market)) {
-            return $this->response($this->sectors->get($market));
+            return $this->response($this->sectors->get($market . '.' . $sector));
         }
 
         return $this->error(ErrorCode::NOT_FOUND, "{$market} is not found");

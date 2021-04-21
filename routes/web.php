@@ -29,11 +29,11 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     // 섹터 리스트 가져오기
     $router->get('sectors', 'SectorController@index');
     //  시장 별 섹터 리스트 가져오기
-    $router->get('sectors/{market}', 'SectorController@show');
-    //  Open dart 재무 정보 가져오기
+    $router->get('sectors/{market}/{sector}', 'SectorController@show');
+    //  get sotck list
     $router->get('stocks', 'StockController@index');
     //  종목별 기본 주가 정보 가져오기
-    $router->get('stock', 'StockController@showStock');
+    $router->get('stocks/{code}', 'StockController@showStock');
     //  업종 별 종목정보 저장하기
     $router->post('stocks', 'StockController@storeStock');
     // raw 데이터
