@@ -76,7 +76,7 @@ class StockController extends DefaultController
                     $sectors->add($market['sectors_raw']);
                 }
             } else {
-                $sectors->add($market['sector_raw']);
+                $sectors->add($market['sectors_raw']);
             }
         });
 
