@@ -126,7 +126,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
 
     /**
      * clear
-     * @deprecated php version 8.x
+     * @deprecated  deprecated since php version 7.4  this method can't use property type
      *
      * @return $this
      */
