@@ -44,7 +44,11 @@ class SectorController extends DefaultController
     public function show(Request $request, string $market, string $sector = '')
     {
         if ($this->sectors->has($market)) {
-            return $this->response($this->sectors->get($market . '.' . $sector));
+            $res = $this->sectors->get($market);
+            if (!empty($sector)) {
+                $res = $res[$sector];
+            }
+            return $this->response($res);
         }
 
         return $this->error(ErrorCode::NOT_FOUND, "{$market} is not found");
