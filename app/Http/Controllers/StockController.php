@@ -8,6 +8,7 @@ use App\Services\Kiwoom\KoaService;
 use App\Http\Requests\PostStockRequest;
 use App\Services\OpenDart\OpenDartService;
 use App\Http\Controllers\DefaultController;
+use App\Response\ErrorCode;
 
 class StockController extends DefaultController
 {
@@ -69,6 +70,8 @@ class StockController extends DefaultController
 
         if ($request->has('market')) {
             $input = collect($request->all());
+        } else {
+            $this->error(ErrorCode::VALIDATION_FAIL, 'market 파라미터는 필수입니다.');
         }
 
         $markets->each(function ($market) use (&$sectors, $input) {
