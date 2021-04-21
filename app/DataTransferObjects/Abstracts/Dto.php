@@ -156,7 +156,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
         if ($clean) {
             try {
                 $self = $this->clear();
-            } catch (\TypeError $e) {
+            } catch (\Throwable $e) {
                 return $this->newInstance()->map($arrayAble);
             }
         } else {
