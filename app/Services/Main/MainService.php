@@ -3,6 +3,7 @@
 namespace App\Services\Main;
 
 use App\DataTransferObjects\Finance;
+use App\DataTransferObjects\FinanceData;
 use Exception;
 use App\Services\Service;
 use App\Services\Kiwoom\KoaService;
@@ -45,6 +46,17 @@ class MainService extends Service
             'fs_div' => [
                 'CFS'
             ]
+        ]);
+
+        // map table 정의
+        FinanceData::setMapTable([
+            'account_nm' => [
+                'current_assets' => '유동자산',
+                'total_assets' => '자산총계',
+                'floating_debt' => '유동부채',
+                'total_debt' => '부채총계',
+                'net_income' => '당기순이익'
+            ],
         ]);
     }
 
@@ -112,26 +124,6 @@ class MainService extends Service
 
     protected function getSectorPriority()
     {
-        // $sectors = config('sectors');
-        // $sectors = $sectors['kospi'];
-        // $sectors = collect($sectors['sectors']);
-        // $stocks = null;
-        // $sectors->each(function ($sector) use (&$stocks) {
-        //     $stocks = $this->koa->showBySector($sector);
-        // });
-        // $this->stocks = $stocks;
-
-        // if (!is_null($stocks)) {
-        //     $acnts = collect();
-        //     $stocks->each(function ($stock) use (&$acnts) {
-        //         $acnts->add($this->openDart->getSingle($stock->getCode()));
-        //     });
-        //     $this->acnts = $acnts;
-        // }
-
-        // 분석하기
-
-        // 임시, 일단 전자기기로 고정
         return '013';
     }
 }

@@ -83,7 +83,8 @@ class Finance extends Dto
     }
 
     /**
-     * Undocumented function
+     * 필터 조건:
+     * 1차원 요소 AND 조건, 2차원 요소 OR 조건
      *
      * @param array $filters
      *
