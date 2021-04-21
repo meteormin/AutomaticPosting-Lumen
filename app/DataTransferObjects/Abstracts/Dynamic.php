@@ -1,5 +1,7 @@
 <?php
 
+namespace App\DataTransferObjects\Abstracts;
+
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Str;

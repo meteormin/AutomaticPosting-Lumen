@@ -2,8 +2,8 @@
 
 namespace App\DataTransferObjects;
 
-use Dynamic;
 use Illuminate\Contracts\Support\Arrayable;
+use App\DataTransferObjects\Abstracts\Dynamic;
 
 // 동적으로 속성을 관리
 class FinanceData extends Dynamic
