@@ -95,7 +95,11 @@ class FinanceData extends Dynamic
      */
     protected function setFlowRate()
     {
-        $flowRate = $this->getAttribute('total_assets') / $this->getAttribute('floating_debt') * 100;
+        if (is_null($this->getAttribute('total_assets')) || is_null($this->getAttribute('floating_debt'))) {
+            return $this;
+        }
+
+        $flowRate = $this->getAttribute('current_assets') / $this->getAttribute('floating_debt') * 100;
         return $this->setAttribute('flow_rate', $flowRate);
     }
 
@@ -106,7 +110,11 @@ class FinanceData extends Dynamic
      */
     protected function setDebtRate()
     {
-        $debtRate = ($this->getAttribute('total_dept') / $this->getAttribute('total_assets')) * 100;
+        if (is_null($this->getAttribute('total_dept')) || is_null($this->getAttribute('total_assets'))) {
+            return $this;
+        }
+
+        $debtRate = $this->getAttribute('total_dept') / $this->getAttribute('total_assets') * 100;
         return $this->setAttribute('debt_rate', $debtRate);
     }
 }
