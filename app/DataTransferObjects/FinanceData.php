@@ -58,16 +58,22 @@ class FinanceData extends Dynamic
                 foreach ($value as $k => $v) {
                     if ($origin[$key] == $v) {
                         // 당기
-                        $current->setAttribute($k, (int)preg_replace('/[^0-9]/', '', $origin['thstrm_amount'] ?? ''));
-                        $current->setAttribute('date', $origin['thstrm_dt'] ?? '');
+                        $currentPrice = preg_replace('/[^0-9]/', '', $origin['thstrm_amount'] ?? null);
+
+                        $current->setAttribute($k, $currentPrice ? (int)$currentPrice : null);
+                        $current->setAttribute('date', $origin['thstrm_dt'] ?? null);
 
                         // 전기
-                        $prev->setAttribute($k, (int)preg_replace('/[^0-9]/', '', $origin['frmtrm_amount'] ?? ''));
-                        $prev->setAttribute('date', $origin['frmtrm_dt'] ?? '');
+                        $prevPrice = preg_replace('/[^0-9]/', '', $origin['frmtrm_amount'] ?? null);
+
+                        $prev->setAttribute($k, $prevPrice ? (int)$prevPrice : null);
+                        $prev->setAttribute('date', $origin['frmtrm_dt'] ?? null);
 
                         // 전전기
-                        $preprev->setAttribute($k, (int)preg_replace('/[^0-9]/', '', $origin['bfefrmtrm_amount'] ?? ''));
-                        $preprev->setAttribute('date', $origin['bfefrmtrm_dt'] ?? '');
+                        $preprevPrice = preg_replace('/[^0-9]/', '', $origin['bfefrmtrm_amount'] ?? null);
+
+                        $preprev->setAttribute($k, $preprevPrice ? (int)$preprevPrice : null);
+                        $preprev->setAttribute('date', $origin['bfefrmtrm_dt'] ?? null);
                     }
                 }
 
