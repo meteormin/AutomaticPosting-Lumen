@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Services\Kiwoom\KoaService;
 use App\Http\Requests\PostStockRequest;
@@ -82,7 +83,11 @@ class StockController extends DefaultController
 
         $dtos = collect();
         foreach ($sectors->keys() as $key) {
-            $dtos->put($key, $this->koa->showBySector($key));
+            try {
+                $dtos->put($key, $this->koa->showBySector($key));
+            } catch (Exception $e) {
+                $dtos->put($key, null);
+            }
         }
 
         return $this->response($dtos, 200);
