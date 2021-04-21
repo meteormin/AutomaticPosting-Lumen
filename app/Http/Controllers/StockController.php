@@ -74,9 +74,9 @@ class StockController extends DefaultController
             $this->error(ErrorCode::VALIDATION_FAIL, 'market 파라미터는 필수입니다.');
         }
 
-        $markets->each(function ($market) use (&$sectors, $input) {
+        $markets->each(function ($market, $name) use (&$sectors, $input) {
             if ($input->has('market')) {
-                if ($input->get('market') == $market) {
+                if ($input->get('market') == $name) {
                     $sectors = collect($market['sectors_raw']);
                 }
             } else {
