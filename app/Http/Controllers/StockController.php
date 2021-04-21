@@ -112,6 +112,14 @@ class StockController extends DefaultController
         return $this->success($rs, 'POST');
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param string|null $code
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function showStock(Request $request, string $code = null)
     {
         $codes = null;

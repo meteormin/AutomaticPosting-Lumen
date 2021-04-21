@@ -107,9 +107,9 @@ class Stocks
                 return $this->stockInfo->mapList($stock);
             } else {
                 $stock = $stock->where('code', $code);
+                print_r($stock->toArray());
                 if (!$stock->isEmpty()) {
-                    $res->add($this->stockInfo->map($stock->first()));
-                    break;
+                    $res->add($this->stockInfo->map($stock->first(), true));
                 }
             }
         }
