@@ -73,7 +73,7 @@ class StockController extends DefaultController
         $markets->each(function ($market) use (&$sectors, $input) {
             if ($input->has('market')) {
                 if ($input->get('market') == $market) {
-                    $sectors->add($market['sector_raw']);
+                    $sectors->add($market['sectors_raw']);
                 }
             } else {
                 $sectors->add($market['sector_raw']);
