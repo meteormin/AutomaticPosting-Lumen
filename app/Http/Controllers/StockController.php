@@ -59,7 +59,7 @@ class StockController extends DefaultController
     public function index(Request $request)
     {
         if ($request->has('sector')) {
-            $this->response($this->koa->showBySector($request->get('sector')));
+            return $this->response($this->koa->showBySector($request->get('sector')));
         }
 
         $markets = collect(config('sectors'));
