@@ -126,6 +126,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
 
     /**
      * clear
+     * @deprecated php version 8.x
      *
      * @return $this
      */
@@ -153,7 +154,11 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
     public function map($arrayAble, bool $clean = false)
     {
         if ($clean) {
-            $self = $this->clear();
+            try {
+                $self = $this->clear();
+            } catch (\Exception $e) {
+                $self = $this->newInstance();
+            }
         } else {
             $self = $this;
         }
