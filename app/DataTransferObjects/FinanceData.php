@@ -58,15 +58,15 @@ class FinanceData extends Dynamic
                 foreach ($value as $k => $v) {
                     if ($origin[$key] == $v) {
                         // 당기
-                        $current->setAttribute($k, preg_replace('/[^0-9]/', '', $origin['thstrm_amount'] ?? null));
+                        $current->setAttribute($k, (int)preg_replace('/[^0-9]/', '', $origin['thstrm_amount'] ?? ''));
                         $current->setAttribute('date', $origin['thstrm_dt'] ?? '');
 
                         // 전기
-                        $prev->setAttribute($k, preg_replace('/[^0-9]/', '', $origin['frmtrm_amount'] ?? null));
+                        $prev->setAttribute($k, (int)preg_replace('/[^0-9]/', '', $origin['frmtrm_amount'] ?? ''));
                         $prev->setAttribute('date', $origin['frmtrm_dt'] ?? '');
 
                         // 전전기
-                        $preprev->setAttribute($k, preg_replace('/[^0-9]/', '', $origin['bfefrmtrm_amount'] ?? null));
+                        $preprev->setAttribute($k, (int)preg_replace('/[^0-9]/', '', $origin['bfefrmtrm_amount'] ?? ''));
                         $preprev->setAttribute('date', $origin['bfefrmtrm_dt'] ?? '');
                     }
                 }
@@ -96,12 +96,12 @@ class FinanceData extends Dynamic
      */
     protected function setFlowRate()
     {
-        $currentAssets = preg_replace('/[^0-9]/', '', $this->getAttribute('current_assets'));
-        $floatingDebt = preg_replace('/[^0-9]/', '', $this->getAttribute('floating_debt'));
+        $currentAssets = $this->getAttribute('current_assets');
+        $floatingDebt = $this->getAttribute('floating_debt');
         if (is_numeric($currentAssets) && is_numeric($floatingDebt)) {
             $flowRate = $currentAssets / $floatingDebt * 100;
         }
-        return $this->setAttribute('flow_rate', $flowRate ?? '');
+        return $this->setAttribute('flow_rate', (int)$flowRate ?? '');
     }
 
     /**
@@ -111,12 +111,12 @@ class FinanceData extends Dynamic
      */
     protected function setDebtRate()
     {
-        $totalDebt = preg_replace('/[^0-9]/', '', $this->getAttribute('total_debt'));
-        $totalAssets = preg_replace('/[^0-9]/', '', $this->getAttribute('total_assets'));
+        $totalDebt = $this->getAttribute('total_debt');
+        $totalAssets = $this->getAttribute('total_assets');
         if (is_numeric($totalDebt) && is_numeric($totalAssets)) {
             $debtRate = $totalDebt / $totalAssets * 100;
         }
 
-        return $this->setAttribute('debt_rate', $debtRate ?? '');
+        return $this->setAttribute('debt_rate', (int)$debtRate ?? '');
     }
 }
