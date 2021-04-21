@@ -45,7 +45,6 @@ class FinanceData extends Dynamic
         }
 
         $table = self::$mapTable;
-        $rsList = collect();
 
         $current = (new static);
         $prev = (new static);
@@ -88,9 +87,19 @@ class FinanceData extends Dynamic
             }
         }
 
-        $rsList->add($current->toArray());
-        $rsList->add($prev->toArray());
-        $rsList->add($preprev->toArray());
+        $rsList = collect();
+
+        if (!empty($current->toArray())) {
+            $rsList->add($current->toArray());
+        }
+
+        if (!empty($prev->toArray())) {
+            $rsList->add($prev->toArray());
+        }
+
+        if (!empty($preprev->toArray())) {
+            $rsList->add($preprev->toArray());
+        }
 
         return $rsList->toArray();
     }
