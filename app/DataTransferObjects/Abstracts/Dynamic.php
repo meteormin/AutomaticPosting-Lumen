@@ -14,7 +14,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @var array
      */
-    protected array $fillable = [];
+    protected static array $fillable = [];
 
     /**
      * 실제 데이터가 들어가는 배열
@@ -100,6 +100,17 @@ abstract class Dynamic implements Arrayable, Jsonable
         return $this;
     }
 
+    public static function setFillable(array $fillable)
+    {
+        self::$fillable = $fillable;
+    }
+
+
+    public static function getFillable(array $fillable)
+    {
+        return self::$fillable;
+    }
+
     /**
      * set attributes
      *
@@ -139,4 +150,6 @@ abstract class Dynamic implements Arrayable, Jsonable
     {
         return json_encode($this->attributes);
     }
+
+    abstract public static function map($input);
 }

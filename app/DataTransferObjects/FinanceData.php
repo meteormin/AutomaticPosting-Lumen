@@ -13,7 +13,7 @@ class FinanceData extends Dynamic
      *
      * @var array
      */
-    protected array $fillable = ['date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income'];
+    protected static array $fillable = ['date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income', 'flow_rate', 'debt_rate'];
 
     /**
      * @var array
@@ -69,6 +69,15 @@ class FinanceData extends Dynamic
                         $preprev->setAttribute('date', $origin['bfefrmtrm_dt'] ?? null);
                     }
                 }
+
+                $current->setFlowRate();
+                $current->setDebtRate();
+
+                $prev->setFlowRate();
+                $prev->setDebtRate();
+
+                $preprev->setFlowRate();
+                $preprev->setDebtRate();
             }
         }
 
@@ -77,5 +86,27 @@ class FinanceData extends Dynamic
         $rsList->add($preprev->toArray());
 
         return $rsList->toArray();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return $this
+     */
+    protected function setFlowRate()
+    {
+        $flowRate = $this->getAttribute('total_assets') / $this->getAttribute('floating_debt') * 100;
+        return $this->setAttribute('flow_rate', $flowRate);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return $this
+     */
+    protected function setDebtRate()
+    {
+        $debtRate = ($this->getAttribute('total_dept') / $this->getAttribute('total_assets')) * 100;
+        return $this->setAttribute('debt_rate', $debtRate);
     }
 }
