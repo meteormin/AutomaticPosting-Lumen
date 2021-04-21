@@ -99,9 +99,9 @@ class FinanceData extends Dynamic
         $currentAssets = $this->getAttribute('current_assets');
         $floatingDebt = $this->getAttribute('floating_debt');
         if (is_numeric($currentAssets) && is_numeric($floatingDebt)) {
-            $flowRate = $currentAssets / $floatingDebt * 100;
+            $flowRate = (int)($currentAssets / $floatingDebt * 100);
         }
-        return $this->setAttribute('flow_rate', (int)$flowRate ?? '');
+        return $this->setAttribute('flow_rate', $flowRate ?? '');
     }
 
     /**
@@ -114,9 +114,9 @@ class FinanceData extends Dynamic
         $totalDebt = $this->getAttribute('total_debt');
         $totalAssets = $this->getAttribute('total_assets');
         if (is_numeric($totalDebt) && is_numeric($totalAssets)) {
-            $debtRate = $totalDebt / $totalAssets * 100;
+            $debtRate = (int)($totalDebt / $totalAssets * 100);
         }
 
-        return $this->setAttribute('debt_rate', (int)$debtRate ?? '');
+        return $this->setAttribute('debt_rate', $debtRate ?? '');
     }
 }
