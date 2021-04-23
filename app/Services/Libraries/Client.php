@@ -47,7 +47,7 @@ class Client
      * @param   string  $method      메서드 이름
      * @param   string  $ep          api의 end-point
      * @param   array   $parameters  요청 파라미터
-     * @return  mixed               [return description]
+     * @return  string|array              [return description]
      */
     private function makeRequest(string $method = null, string $ep = '', array $parameters = null)
     {
@@ -218,22 +218,13 @@ class Client
         $this->response = $response;
 
         if ($response->successful()) {
-            if (is_null($this->response->json())) {
-                return $this->response->body();
-            }
-            return $this->response->json();
+            return $this->response->json() ?? $this->response->body();
         } else if ($response->clientError()) {
             $this->error = $response->json();
 
             return $this->error;
         } else {
-            $this->error = $response->json();
-
-            if (is_null($this->error)) {
-                $this->error = $response->body();
-            }
-
-            return $this->error;
+            return $this->response->json() ?? $this->response->body();
         }
     }
 
