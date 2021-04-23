@@ -115,6 +115,8 @@ class TistoryClient
             'redirect_uri' => config('tistory.redirect_uri', route('tistory.callback'))
         ]);
 
+        return $this->client->getResponse();
+
         if (isset($response['access_token'])) {
             return empty($response['access_token']) ? $this->clinet->getResponse()->body() : $response['access_token'];
         } else if (is_null($response)) {
