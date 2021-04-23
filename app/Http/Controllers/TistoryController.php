@@ -26,6 +26,6 @@ class TistoryController extends DefaultController
 
     public function callback(Request $request)
     {
-        return response($this->client->callback($request->get('code')));
+        return $this->response($this->client->callback($request->get('code')));
     }
 }
