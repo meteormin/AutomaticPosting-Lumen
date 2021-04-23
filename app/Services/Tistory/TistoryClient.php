@@ -118,9 +118,9 @@ class TistoryClient
         ]);
 
         if (is_null($response)) {
-            return $this->client->getResponse()->body();
+            return $this->client->getResponse()->body() ?? $this->client->getError();
         }
 
-        return $this->client->getError();
+        return $response;
     }
 }
