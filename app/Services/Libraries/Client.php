@@ -14,6 +14,7 @@ class Client
 {
     private $host;
     private $headers;
+    private $options;
     private $token;
     private $token_type;
     private $attachment;
@@ -51,9 +52,18 @@ class Client
     private function makeRequest(string $method = null, string $ep = '', array $parameters = null)
     {
         $client = null;
+        $withOptions = $this->getOptions();
         $withToken = $this->getToken();
         $attach = $this->getAttach();
         $withHeaders = $this->getHeaders();
+
+        if (!is_null($withOptions)) {
+            if (is_null($client)) {
+                $client = Http::withOptions($withOptions);
+            } else {
+                $client = $client->withOptions($withOptions);
+            }
+        }
 
         if (!is_null($withHeaders)) {
             if (is_null($client)) {
@@ -254,6 +264,26 @@ class Client
     public function setHost(string $host)
     {
         $this->host = $host;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of options
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the value of options
+     *
+     * @return self
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
 
         return $this;
     }
