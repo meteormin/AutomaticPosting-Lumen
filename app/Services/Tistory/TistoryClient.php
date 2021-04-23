@@ -111,11 +111,11 @@ class TistoryClient
             'allow_redirects' => false,
             'verify' => false
         ])->get(config('tistory.method.accessToken.url'), [
-            'grant_type' => 'authorization_code',
             'client_id' => $this->clientId,
             'client_secret' => config('tistory.client_secret'),
+            'redirect_uri' => config('tistory.redirect_uri', route('tistory.callback')),
             'code' => $code,
-            'redirect_uri' => config('tistory.redirect_uri', route('tistory.callback'))
+            'grant_type' => 'authorization_code'
         ]);
 
         return $this->client->getResponse();
