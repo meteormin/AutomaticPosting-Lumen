@@ -119,7 +119,7 @@ class TistoryClient
             return $response['access_token'];
         } else if (is_null($response)) {
             $response = $this->client->getResponse()->body();
-            return explode('=', $response)[1];
+            return $response;
         }
 
         return $this->client->getError();
