@@ -20,6 +20,12 @@ $router->get('/', function () use ($router) {
     return $res;
 });
 
+
+$router->get('tistory/callback', [
+    'as' => 'tistory.callback',
+    'uses' => 'TistoryController@callback'
+]);
+
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
 
     // Open Dart 기업 코드 저장
@@ -42,9 +48,4 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->get('absolute/raw', 'AbsoluteController@raw');
     // 정리된 데이터
     $router->get('absolute', 'AbsoluteController@index');
-
-    $router->get('tistory/callback', [
-        'as' => 'tistory.callback',
-        'uses' => 'TistoryController@callback'
-    ]);
 });
