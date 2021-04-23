@@ -218,12 +218,12 @@ class Client
         $this->response = $response;
 
         if ($response->successful()) {
-            return $this->response->json() ?? $this->response->body();
+            return $response->json() ?? $response->body();
         } else if ($response->clientError()) {
             $this->error = $response->json() ?? $this->response->body();
             return $this->error;
         } else {
-            return $this->response->json() ?? $this->response->body();
+            return $response->json() ?? $response->body();
         }
     }
 
