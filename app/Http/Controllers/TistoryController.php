@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Tistory\TistoryClient;
 use Illuminate\Http\Request;
 
-class TistoryControlelr extends DefaultController
+class TistoryController extends DefaultController
 {
     /**
      * Undocumented variable
@@ -16,7 +16,7 @@ class TistoryControlelr extends DefaultController
 
     public function __construct(TistoryClient $client)
     {
-        $this->clinet;
+        $this->clinet = $client;
     }
 
     public function auth(Request $request)
