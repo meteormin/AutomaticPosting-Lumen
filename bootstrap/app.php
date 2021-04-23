@@ -70,6 +70,7 @@ $app->configure('opendart');
 $app->configure('sectors');
 $app->configure('view');
 $app->configure('error');
+$app->configure('tistory');
 
 /*
 |--------------------------------------------------------------------------
