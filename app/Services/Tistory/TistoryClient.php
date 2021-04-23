@@ -2,6 +2,7 @@
 
 namespace App\Services\Tistory;
 
+use Illuminate\Support\Arr;
 use App\Services\Libraries\Client;
 use App\Exceptions\ApiErrorException;
 use Illuminate\Support\Facades\Storage;
@@ -49,18 +50,27 @@ class TistoryClient
      */
     public function authorize()
     {
-        $response = $this->client->get(config('tistory.method.authorize.url'), [
+        $url = $this->client->getHost() . config('tistory.method.authorize.url');
+
+        $query = Arr::query([
             'client_id' => $this->clientId,
             'redirect_uri' => config('tistory.redirect_uri', route('tistory.callback')),
             'response_type' => config('tistory.response_type'),
             'state' => config('tistory.state')
         ]);
 
-        if (is_null($response)) {
-            return $this->client->getError();
-        }
+        // $response = $this->client->get(config('tistory.method.authorize.url'), [
+        //     'client_id' => $this->clientId,
+        //     'redirect_uri' => config('tistory.redirect_uri', route('tistory.callback')),
+        //     'response_type' => config('tistory.response_type'),
+        //     'state' => config('tistory.state')
+        // ]);
 
-        return $response;
+        // if (is_null($response)) {
+        //     return $this->client->getError();
+        // }
+
+        return "{$url}?{$query}";
     }
 
     /**

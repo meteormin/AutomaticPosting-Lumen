@@ -21,7 +21,7 @@ class TistoryController extends DefaultController
 
     public function auth(Request $request)
     {
-        return response($this->client->authorize());
+        return response()->redirect($this->client->authorize());
     }
 
     public function callback(Request $request)
