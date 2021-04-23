@@ -4,7 +4,7 @@ return [
     'host' => 'https://www.tistory.com',
     'client_id' => env('TISTORY_APP_ID'),
     'client_secret' => env('TISTORY_API_KEY'),
-    'redirect_uri' => null,
+    'redirect_uri' => 'http://34.72.111.228/tistory/callback',
     'response_type' => 'code',
     'state' => '',
     'method' => [
