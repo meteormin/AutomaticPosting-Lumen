@@ -118,10 +118,8 @@ class TistoryClient
             'grant_type' => 'authorization_code'
         ]);
 
-        return $this->client->getResponse();
-
         if (isset($response['access_token'])) {
-            return $response['access_token'] ?? $this->clinet->getResponse()->body();
+            return $response['access_token'] ?? $this->client->getResponse()->body();
         } else if (is_null($response)) {
             $response = $this->client->getResponse()->body();
             return $response;
