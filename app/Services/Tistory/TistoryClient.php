@@ -107,12 +107,12 @@ class TistoryClient
      */
     public function accessToken(string $code)
     {
-        $response = $this->client->get(config('tistory.method.authorize.url'), [
+        $response = $this->client->get(config('tistory.method.accessToken.url'), [
             'grant_type' => 'authorization_code',
             'client_id' => $this->clientId,
             'client_secret' => config('tistory.client_secret'),
             'code' => $code,
-            'redirect_uri' => config('tistory.redirect_uri')
+            'redirect_uri' => config('tistory.redirect_uri', route('tistory.callback'))
         ]);
 
         if (isset($response['access_token'])) {
