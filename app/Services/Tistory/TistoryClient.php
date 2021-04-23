@@ -91,7 +91,7 @@ class TistoryClient
 
         if (!is_null($code)) {
             $accessToken = $this->accessToken($code);
-            Storage::disk('local')->put('tistory/token.json', json_encode(['token' => $accessToken]));
+            Storage::disk('local')->put('tistory/token.json', json_encode($accessToken));
             return $accessToken;
         }
 
@@ -118,9 +118,18 @@ class TistoryClient
         ]);
 
         if (is_null($response)) {
-            return $this->client->getResponse()->body() ?? $this->client->getError();
+            $response = $this->client->getResponse()->body();
+            if (is_null($response)) {
+                return $this->client->getError();
+            }
+
+            [$name, $value] = explode('=', $response);
+
+            return [$name => $value];
         }
 
-        return $response;
+        [$name, $value] = explode('=', $response);
+
+        return [$name => $value];
     }
 }
