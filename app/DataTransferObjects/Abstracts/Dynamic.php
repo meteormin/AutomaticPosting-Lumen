@@ -24,6 +24,18 @@ abstract class Dynamic implements Arrayable, Jsonable
     protected $attributes = [];
 
     /**
+     * 새 객체 생성시, 픽스해둔 $fillable의 필드들이
+     * snake_case가 아닌 경우, 에러가 발생할 수 있어서
+     * 생성자에서 setFillable메서드를 실행시켜 강제로 snake_case로 변환한다.
+     */
+    public function __construct()
+    {
+        if (!empty(self::$fillable)) {
+            $this->setFillable(self::$fillable);
+        }
+    }
+
+    /**
      * 동적 getter, setter
      *
      * @param string $name getter or setter method name
@@ -78,8 +90,8 @@ abstract class Dynamic implements Arrayable, Jsonable
      */
     public function getAttribute(string $key)
     {
-        if (isset($this->attributes[$key])) {
-            return $this->attributes[$key];
+        if (isset($this->attributes[Str::snake($key)])) {
+            return $this->attributes[Str::snake($key)];
         }
         return null;
     }
@@ -94,19 +106,23 @@ abstract class Dynamic implements Arrayable, Jsonable
      */
     public function setAttribute(string $key, $value)
     {
-        if (in_array($key, self::$fillable)) {
-            $this->attributes[$key] = $value;
+        if (in_array(Str::snake($key), self::$fillable)) {
+            $this->attributes[Str::snake($key)] = $value;
         }
         return $this;
     }
 
     public static function setFillable(array $fillable)
     {
-        self::$fillable = $fillable;
+        $fillable = collect($fillable)->map(function ($item) {
+            return Str::snake($item);
+        });
+
+        self::$fillable = $fillable->all();
     }
 
 
-    public static function getFillable(array $fillable)
+    public static function getFillable()
     {
         return self::$fillable;
     }

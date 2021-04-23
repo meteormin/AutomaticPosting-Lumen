@@ -42,4 +42,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->get('absolute/raw', 'AbsoluteController@raw');
     // 정리된 데이터
     $router->get('absolute', 'AbsoluteController@index');
+
+    $router->get('tistory/callback', [
+        'as' => 'tistory.callback',
+        'uses' => 'TistoryController@callback'
+    ]);
 });

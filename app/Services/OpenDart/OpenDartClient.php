@@ -37,14 +37,14 @@ class OpenDartClient
     protected $path;
 
     /**
-     * acnt entity
+     * acnt object
      *
      * @var Acnt
      */
     protected $acnt;
 
     /**
-     * corpCode entity
+     * corpCode object
      *
      * @var CorpCode $corpCode
      */
@@ -145,14 +145,12 @@ class OpenDartClient
      */
     public function getSinglAcnt(string $corpCode, string $year, string $reprtCdoe = '11011')
     {
-        $query = Arr::query([
+        $response = $this->client->get(config('opendart.method.SinglAcnt.url'), [
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $corpCode,
             'bsns_year' => $year,
             'reprt_code' => $reprtCdoe
         ]);
-
-        $response = $this->client->get(config('opendart.method.SinglAcnt.url') . '?' . $query);
 
         if (is_null($response)) {
             return $this->client->getError();

@@ -3,6 +3,7 @@
 return [
     'host' => 'https://opendart.fss.or.kr',
     'api_key' => env('OPEN_DART_API_KEY'),
+    'report_code' => [],
     'method' => [
         'corpCode' => [
             'url' => '/api/corpCode.xml',
@@ -19,6 +20,5 @@ return [
             'method' => 'get',
             'type' => 'json'
         ]
-    ],
-    'report_code' => []
+    ]
 ];
