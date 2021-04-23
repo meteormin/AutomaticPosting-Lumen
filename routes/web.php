@@ -21,13 +21,14 @@ $router->get('/', function () use ($router) {
 });
 
 
+
 $router->get('tistory/callback', [
     'as' => 'tistory.callback',
     'uses' => 'TistoryController@callback'
 ]);
 
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
-
+    $router->get('tistory/auth', 'TistoryController@auth');
     // Open Dart 기업 코드 저장
     $router->post('corp-codes', 'StockController@storeCorpCodes');
     // Open Dart 기업 코드 가져오기
