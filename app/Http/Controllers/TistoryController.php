@@ -16,7 +16,7 @@ class TistoryController extends DefaultController
 
     public function __construct(TistoryClient $client)
     {
-        $this->clinet = $client;
+        $this->client = $client;
     }
 
     public function auth(Request $request)
