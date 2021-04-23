@@ -108,7 +108,6 @@ class TistoryClient
     public function accessToken(string $code)
     {
         $response = $this->client->setOptions([
-            'allow_redirects' => false,
             'verify' => false
         ])->get(config('tistory.method.accessToken.url'), [
             'client_id' => $this->clientId,
