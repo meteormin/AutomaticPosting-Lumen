@@ -116,7 +116,7 @@ class TistoryClient
         ]);
 
         if (isset($response['access_token'])) {
-            return $response['access_token'];
+            return empty($response['access_token']) ? $this->clinet->getResponse()->body() : $response['access_token'];
         } else if (is_null($response)) {
             $response = $this->client->getResponse()->body();
             return $response;
