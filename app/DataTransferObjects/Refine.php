@@ -38,10 +38,10 @@ class Refine extends StockInfo
 
     /**
      * Set the value of financeData
-     * @param array|null
+     * @param Collection|null
      * @return $this
      */
-    public function setFinanceData(?array $financeData)
+    public function setFinanceData(?Collection $financeData)
     {
         if (is_null($financeData)) {
             $financeData = collect();
