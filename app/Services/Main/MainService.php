@@ -82,7 +82,7 @@ class MainService extends Service
      *
      * @param string $sector
      *
-     * @return Dtos
+     * @return Collection
      */
     public function getRefinedData(string $sector = null)
     {
@@ -92,7 +92,7 @@ class MainService extends Service
 
         $rawData = $this->getRawData($sector);
 
-        $refinedData = new Dtos();
+        $refinedData = collect();
 
         $rawData->each(function ($raw) use (&$refinedData) {
             if ($raw instanceof Finance) {

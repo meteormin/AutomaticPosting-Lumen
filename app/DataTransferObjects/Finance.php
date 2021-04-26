@@ -169,7 +169,6 @@ class Finance extends Dto
 
             $refineData->put('flow_rate_avg', (float)($flowRateAvg / $dataCnt));
             $refineData->put('debt_rate_avg', (float)($debtRateAvg / $dataCnt));
-            dd($refineData);
         });
 
         return $refineData;
