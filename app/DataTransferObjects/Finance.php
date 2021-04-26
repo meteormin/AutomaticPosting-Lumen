@@ -158,6 +158,8 @@ class Finance extends Dto
 
             $refineData->put('deficit_count', $deficitCnt);
 
+            dd($data->getFLowRate());
+
             if (!is_null($data->getFlowRate())) {
                 $flowRateAvg += $data->getFlowRate();
             }
