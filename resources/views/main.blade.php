@@ -22,16 +22,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         @foreach($data as $item)
-                                        <tr>
-                                            <td>{{ $item->get('code') }}</td>
-                                            <td>{{ $item->get('name') }}</td>
-                                            <td>{{ $item->get('current_price') }}</td>
-                                            <td>{{ $item->get('deficit_count') }}</td>
-                                            <td>{{ $item->get('flow_rate_avg') }}</td>
-                                            <td>{{ $item->get('debt_rate_avg') }}</td>
-                                        </tr>
+                                            @if($item instanceof \App\DataTransferObjects\Refine)
+                                                <tr>
+                                                    <td>{{ $item->getCode() }}</td>
+                                                    <td>{{ $item->getNae() }}</td>
+                                                    <td>{{ $item->getCurrentPrice() }}</td>
+                                                    <td>{{ $item->getDeficitCount() }}</td>
+                                                    <td>{{ $item->getFlowRateAvg() }}</td>
+                                                    <td>{{ $item->getDebtRateAvg() }}</td>
+                                                </tr>
+                                            @endif
                                         @endforeach
 
                                     </tbody>

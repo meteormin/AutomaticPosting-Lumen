@@ -149,7 +149,7 @@ class Finance extends Dto
         $flowRateSum = 0;
         $debtRateSum = 0;
 
-        $refineData->getFinanceData()->each(function ($item) use ($dataCnt, $deficitCnt, $flowRateSum, $debtRateSum) {
+        $refineData->getFinanceData()->each(function ($item) use (&$dataCnt, &$deficitCnt, &$flowRateSum, &$debtRateSum) {
             if ($item instanceof FinanceData) {
                 $data = $item;
             } else {
