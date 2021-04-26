@@ -98,9 +98,10 @@ class MainService extends Service
             if ($raw instanceof Finance) {
                 $refine = $raw->refine();
                 $refinedData->add($refine);
-                // if (!$refine->get('finance_data')->empty()) {
-                //     $refinedData->add($refine);
-                // }
+                print_r($refine->get('finance_data')->empty());
+                if ($refine->get('finance_data')->empty()) {
+                    return false;
+                }
             }
         });
 
