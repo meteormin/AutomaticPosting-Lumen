@@ -131,9 +131,8 @@ class Finance extends Dto
         $refineData = collect($raw);
 
         $refineData->get('finance_data')->each(function ($item, $key) use (&$refineData) {
-            $data = $item;
             $dataCnt = 0;
-            $data->filter(function ($value) use (&$item, &$dataCnt) {
+            foreach ($item as $value) {
                 if ($value instanceof FinanceData) {
                     $deficitCnt = 0;
                     $flowRateAvg = 0;
@@ -155,7 +154,7 @@ class Finance extends Dto
 
                     $item->put('flow_rate_avg', $flowRateAvg);
                 }
-            });
+            }
 
             $item->put('flow_rate_avg', (float)($item->get('flow_rate_avg') / $dataCnt));
             $item->put('debt_rate_avg', (float)($item->get('debt_rate_avg') / $dataCnt));
