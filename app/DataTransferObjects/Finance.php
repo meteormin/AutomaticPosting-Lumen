@@ -143,6 +143,7 @@ class Finance extends Dto
         $refineData = collect($raw);
 
         $refineData->get('finance_data')->each(function ($item) use (&$refineData) {
+
             $dataCnt = 0;
 
             $data = new FinanceData($item);
@@ -168,6 +169,7 @@ class Finance extends Dto
 
             $refineData->put('flow_rate_avg', (float)($flowRateAvg / $dataCnt));
             $refineData->put('debt_rate_avg', (float)($debtRateAvg / $dataCnt));
+            dd($refineData);
         });
 
         return $refineData;
