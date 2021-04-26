@@ -43,7 +43,13 @@ class FinanceData extends Dynamic
      */
     public function setMapTable(array $mapTable)
     {
-        self::$mapTable = $mapTable;
+        $this->mapTable = $mapTable;
+        return $this;
+    }
+
+    public function getMapTable()
+    {
+        return $this->mapTable;
     }
 
     /**
@@ -57,9 +63,8 @@ class FinanceData extends Dynamic
             $arrayAble = $arrayAble->toArray();
         }
 
-        $table = self::$mapTable;
-
         $current = (new static);
+        $table = $current->getMapTable();
         $prev = (new static);
         $preprev = (new static);
 
