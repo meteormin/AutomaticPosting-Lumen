@@ -28,6 +28,7 @@
                                             <td>{{ $item->get('code') }}</td>
                                             <td>{{ $item->get('name') }}</td>
                                             <td>{{ $item->get('current_price') }}</td>
+                                            <td>{{ $item->get('deficit_count') }}</td>
                                             <td>{{ $item->get('flow_rate_avg') }}</td>
                                             <td>{{ $item->get('debt_rate_avg') }}</td>
                                         </tr>
