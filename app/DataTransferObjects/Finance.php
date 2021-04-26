@@ -142,12 +142,12 @@ class Finance extends Dto
     public function refine()
     {
         $raw = collect($this->toArray());
-
         $raw->put('finance_data', FinanceData::map($raw['finance_data']));
 
         $refineData = new Refine;
-        $refineData->map($raw);
-        // $refineData->setFinanceData($raw->get('finance_data'));
+        $refineData->map($raw->except('finance_data'));
+
+        $refineData->setFinanceData($raw->get('finance_data'));
 
         if ($refineData->getFinanceData()->isEmpty()) {
             return null;
