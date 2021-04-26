@@ -131,7 +131,7 @@ class Finance extends Dto
         $refineData = collect($raw);
 
         $refineData->get('finance_data')->each(function ($item, $key) use (&$refineData) {
-            $data = $item->get('finanace_data');
+            $data = $item;
             $dataCnt = 0;
             $data->filter(function ($value) use (&$item, &$dataCnt) {
                 if ($value instanceof FinanceData) {
