@@ -7,8 +7,6 @@ use App\Response\ErrorCode;
 use Illuminate\Support\Carbon;
 use Illuminate\Pagination\Paginator;
 use App\DataTransferObjects\CorpCode;
-use App\DataTransferObjects\AcntEntity;
-use App\DataTransferObjects\Utils\Dtos;
 
 class OpenDartService extends Service
 {
@@ -41,7 +39,7 @@ class OpenDartService extends Service
      *
      * @param string $code
      *
-     * @return Dtos|Collection|Paginator
+     * @return Collection|Paginator
      */
     public function getCorpCode(string $code = null)
     {
@@ -50,7 +48,7 @@ class OpenDartService extends Service
         }
 
         $codes = explode(',', $code);
-        $res = new Dtos;
+        $res = collect();
         foreach ($codes as $code) {
             $res->add($this->module->getCorpCode($code)->first());
         }
@@ -84,7 +82,7 @@ class OpenDartService extends Service
      * @param string|null $year
      * @param string $reprtCode
      *
-     * @return Dtos|Acnt[]
+     * @return Collection|Acnt[]
      */
     public function getSingle(string $stockCode, string $year = null, string $reprtCode = '11011')
     {
@@ -113,7 +111,7 @@ class OpenDartService extends Service
      * @param string $year
      * @param string $reprtCoe
      *
-     * @return Dtos
+     * @return Collection
      */
     public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011')
     {

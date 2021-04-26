@@ -5,7 +5,6 @@ namespace App\Services\Kiwoom;
 use Storage;
 use Illuminate\Support\Collection;
 use App\DataTransferObjects\StockInfo;
-use App\DataTransferObjects\Utils\Dtos;
 
 class Stocks
 {
@@ -74,7 +73,7 @@ class Stocks
      *
      * @param string $sector
      *
-     * @return Dtos|null
+     * @return Collection|null
      */
     public function getBySector(string $sector)
     {
@@ -91,11 +90,11 @@ class Stocks
      *
      * @param string $code
      *
-     * @return Dtos
+     * @return Collection
      */
     public function get(string $code = null)
     {
-        $res = new Dtos;
+        $res = collect();
 
         $files = $this->disk->files($this->path);
 

@@ -4,7 +4,6 @@ namespace App\DataTransferObjects\Abstracts;
 
 use JsonMapper;
 use App\Exceptions\DtoErrorException;
-use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Contracts\Support\Jsonable;
 use App\DataTransferObjects\Utils\Property;
 use Illuminate\Contracts\Support\Arrayable;
@@ -183,13 +182,13 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
     /**
      * map List
      *
-     * @param array|object $data
+     * @param array|Arrayable $data
      *
-     * @return Dtos
+     * @return Collection
      */
     public function mapList($data)
     {
-        if (!$data instanceof ArrayAble  && !is_array($data)) {
+        if (!$data instanceof Arrayable  && !is_array($data)) {
             throw new DtoErrorException(get_class($data) . '은 현재 Dto에서 매핑할 수 없습니다.');
         }
 
@@ -200,7 +199,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
             $rsList->add($entity->map($value));
         }
 
-        return new Dtos($rsList);
+        return collect($rsList);
     }
 
     /**

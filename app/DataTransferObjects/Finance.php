@@ -2,7 +2,7 @@
 
 namespace App\DataTransferObjects;
 
-use App\DataTransferObjects\Utils\Dtos;
+use Illuminate\Support\Collection;
 use App\DataTransferObjects\Abstracts\Dto;
 
 class Finance extends Dto
@@ -13,7 +13,7 @@ class Finance extends Dto
     protected $stock;
 
     /**
-     * @var Dtos|null $acnt
+     * @var Collection|null $acnt
      */
     protected $acnt;
 
@@ -39,9 +39,9 @@ class Finance extends Dto
      * construct
      *
      * @param StockInfo|null $stock
-     * @param Dtos|null $acnt
+     * @param Collection|null $acnt
      */
-    public function __construct(?StockInfo $stock = null, ?Dtos $acnt = null)
+    public function __construct(?StockInfo $stock = null, ?Collection $acnt = null)
     {
         $this->stock = $stock;
         $this->acnt = $acnt;
@@ -73,20 +73,20 @@ class Finance extends Dto
     /**
      * set acnt list
      *
-     * @param Dtos|Acnt[]|null $acnt
+     * @param Collection|Acnt[]|null $acnt
      *
      * @return $this
      */
     public function setAcnt($acnt)
     {
-        $this->acnt = new Dtos($acnt);
+        $this->acnt = collect($acnt);
         return $this;
     }
 
     /**
      * get acnt list
      *
-     * @return Dtos|Acnt[]
+     * @return Collection|Acnt[]
      */
     public function getAcnt()
     {
@@ -136,40 +136,43 @@ class Finance extends Dto
 
     public function refine()
     {
-        $raw = $this->toArray();
+        $raw = collect($this->toArray());
 
-        $raw['finance_data'] = FinanceData::map($raw['finance_data']);
+        $raw->put('finance_data', FinanceData::map($raw['finance_data']));
 
-        $refineData = collect($raw);
+        $refineData = new Refine;
 
-        $refineData->get('finance_data')->each(function ($item) use (&$refineData) {
+        $refineData->setFinanceData($raw->get('finance_data'));
 
-            $dataCnt = 0;
+        $dataCnt = 0;
+        $deficitCnt = 0;
+        $flowRateSum = 0;
+        $debtRateSum = 0;
 
-            $data = new FinanceData($item);
-
-            $deficitCnt = 0;
-            $flowRateAvg = 0;
-            $debtRateAvg = 0;
-            $dataCnt++;
+        $refineData->getFinanceData()->each(function ($item) use ($dataCnt, $deficitCnt, $flowRateSum, $debtRateSum) {
+            if ($item instanceof FinanceData) {
+                $data = $item;
+            } else {
+                $data = new FinanceData($item);
+            }
 
             if ($data->getNetIncome() <= 0) {
                 $deficitCnt++;
             }
-
-            $refineData->put('deficit_count', $deficitCnt);
-
             if (is_numeric($data->getFlowRate())) {
-                $flowRateAvg += $data->getFlowRate();
+                $flowRateSum += $data->getFlowRate();
             }
 
             if (is_numeric($data->getDebtRate())) {
-                $debtRateAvg += $data->getDebtRate();
+                $debtRateSum += $data->getDebtRate();
             }
 
-            $refineData->put('flow_rate_avg', (float)($flowRateAvg / $dataCnt));
-            $refineData->put('debt_rate_avg', (float)($debtRateAvg / $dataCnt));
+            $dataCnt++;
         });
+
+        $refineData->setDeficitCount($deficitCnt);
+        $refineData->setFlowRateAvg((float)($flowRateSum / $dataCnt));
+        $refineData->setDebtRateAvg((float)($debtRateSum / $dataCnt));
 
         return $refineData;
     }

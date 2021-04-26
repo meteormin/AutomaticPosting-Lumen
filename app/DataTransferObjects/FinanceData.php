@@ -109,15 +109,15 @@ class FinanceData extends Dynamic
         $rsList = collect();
 
         if (!empty($current->toArray())) {
-            $rsList->add($current->toArray());
+            $rsList->add($current);
         }
 
         if (!empty($prev->toArray())) {
-            $rsList->add($prev->toArray());
+            $rsList->add($prev);
         }
 
         if (!empty($preprev->toArray())) {
-            $rsList->add($preprev->toArray());
+            $rsList->add($preprev);
         }
 
         return $rsList;

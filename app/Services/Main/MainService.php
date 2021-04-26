@@ -3,11 +3,10 @@
 namespace App\Services\Main;
 
 use App\Services\Service;
+use Illuminate\Support\Collection;
 use App\Services\Kiwoom\KoaService;
 use App\DataTransferObjects\Finance;
 use App\DataTransferObjects\StockInfo;
-use App\DataTransferObjects\Utils\Dtos;
-use App\DataTransferObjects\FinanceData;
 use App\Services\OpenDart\OpenDartService;
 
 class MainService extends Service
@@ -39,7 +38,7 @@ class MainService extends Service
      *
      * @param string|null $sector
      *
-     * @return Dtos
+     * @return Collection
      */
     public function getRawData(string $sector = null)
     {
@@ -49,9 +48,9 @@ class MainService extends Service
 
         $stockInfo = $this->koa->showBySector($sector);
 
-        $acnts = new Dtos();
-        $rsList = new Dtos();
-        $stockCodes = new Dtos();
+        $acnts = collect();
+        $rsList = collect();
+        $stockCodes = collect();
 
         $stockInfo->each(function ($stock) use (&$stockCodes, &$rsList) {
             if ($stock instanceof StockInfo) {
@@ -97,7 +96,7 @@ class MainService extends Service
         $rawData->each(function ($raw) use (&$refinedData) {
             if ($raw instanceof Finance) {
                 $refine = $raw->refine();
-                if (!$refine->get('finance_data')->isEmpty()) {
+                if (!$refine->getFinanceData()->isEmpty()) {
                     $refinedData->add($refine);
                 }
             }

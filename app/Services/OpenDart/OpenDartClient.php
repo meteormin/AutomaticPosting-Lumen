@@ -3,12 +3,10 @@
 namespace App\Services\OpenDart;
 
 use ZipArchive;
-use Illuminate\Support\Arr;
 use App\DataTransferObjects\Acnt;
 use App\Services\Libraries\Client;
 use Illuminate\Support\Collection;
 use App\DataTransferObjects\CorpCode;
-use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Support\Facades\Storage;
 use App\DataTransferObjects\Paginator as SimplePaginator;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -89,7 +87,7 @@ class OpenDartClient
     /**
      * 회사 고유 코드 가져오기
      * @param string|null $code
-     * @return Dtos|Paginator
+     * @return Collection|Paginator
      */
     public function getCorpCode(string $code = null)
     {
@@ -141,7 +139,7 @@ class OpenDartClient
      * @param string $corpCode
      * @param string $year
      * @param string $reprtCode
-     * @return Dtos|Acnt[]
+     * @return Collection|Acnt[]
      */
     public function getSinglAcnt(string $corpCode, string $year, string $reprtCdoe = '11011')
     {
@@ -165,7 +163,7 @@ class OpenDartClient
      * @param string[] $corpCode
      * @param string $year
      * @param string $reprtCode
-     * @return Dtos
+     * @return Collection
      */
     public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011')
     {
@@ -182,7 +180,7 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        $rsList = new Dtos();
+        $rsList = collect();
 
         if (!isset($response['list'])) {
             return $rsList;
@@ -193,7 +191,7 @@ class OpenDartClient
         $dtos->each(function ($acnt) use (&$rsList) {
             if ($acnt instanceof Acnt) {
                 if (!$rsList->has($acnt->getStockCode())) {
-                    $rsList->put($acnt->getStockCode(), new Dtos());
+                    $rsList->put($acnt->getStockCode(), collect());
                 }
 
                 $rsList->get($acnt->getStockCode())->add($acnt);

@@ -44,9 +44,9 @@ interface DtoInterface
     /**
      * Undocumented function
      *
-     * @param Collection $data
+     * @param array|Arrayable $data
      *
-     * @return Dtos
+     * @return Collection
      */
     public function mapList($data);
 

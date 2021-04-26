@@ -4,7 +4,6 @@ namespace App\Services\Kiwoom;
 
 use App\Services\Service;
 use App\Response\ErrorCode;
-use App\DataTransferObjects\Utils\Dtos;
 use Illuminate\Support\Collection;
 
 class KoaService extends Service
@@ -48,7 +47,7 @@ class KoaService extends Service
      *
      * @param array $codes
      *
-     * @return Dtos
+     * @return Collection
      */
     public function showStock(array $codes = null)
     {
@@ -56,7 +55,7 @@ class KoaService extends Service
             return $this->module->get();
         }
 
-        $rs = new Dtos;
+        $rs = collect();
         foreach ($codes as $code) {
             $rs->add($this->module->get($code)->first());
         }
@@ -69,7 +68,7 @@ class KoaService extends Service
      *
      * @param string $sector
      *
-     * @return Dtos
+     * @return collection
      */
     public function showBySector(string $sector)
     {
