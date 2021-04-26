@@ -130,7 +130,7 @@ class Finance extends Dto
 
         $refineData = collect($raw);
 
-        $refineData->each(function ($item, $key) use (&$refineData) {
+        $refineData->get('finance_data')->each(function ($item, $key) use (&$refineData) {
             $data = $item->get('finanace_data');
             $dataCnt = 0;
             $data->filter(function ($value) use (&$item, &$dataCnt) {
