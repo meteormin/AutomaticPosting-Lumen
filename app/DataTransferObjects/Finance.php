@@ -142,7 +142,7 @@ class Finance extends Dto
                         $deficitCnt++;
                     }
 
-                    $item->put('deficit_count', $deficitCnt);
+                    $item['deficit_count'] = $deficitCnt;
 
                     if (!is_null($value->getFlowRate())) {
                         $flowRateAvg += $value->getFlowRate();
@@ -152,12 +152,12 @@ class Finance extends Dto
                         $debtRateAvg += $value->getDebtRate();
                     }
 
-                    $item->put('flow_rate_avg', $flowRateAvg);
+                    $item['flow_rate_avg'] = $flowRateAvg;
                 }
             }
 
-            $item->put('flow_rate_avg', (float)($item->get('flow_rate_avg') / $dataCnt));
-            $item->put('debt_rate_avg', (float)($item->get('debt_rate_avg') / $dataCnt));
+            $item['flow_rate_avg'] = (float)($item->get('flow_rate_avg') / $dataCnt);
+            $item['debt_rate_avg'] = (float)($item->get('debt_rate_avg') / $dataCnt);
 
             $refineData->put($key, $item);
         });
