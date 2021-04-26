@@ -31,10 +31,6 @@ abstract class Dynamic implements Arrayable, Jsonable
      */
     public function __construct(array $fill = null)
     {
-        if (!empty(self::$fillable)) {
-            $this->setFillable(self::$fillable);
-        }
-
         if (!is_null($fill)) {
             $this->fill($fill);
         }
@@ -111,7 +107,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      */
     public function setAttribute(string $key, $value)
     {
-        if (in_array(Str::snake($key), self::$fillable)) {
+        if (in_array(Str::snake($key), $this->fillable)) {
             $this->attributes[Str::snake($key)] = $value;
         } else {
             throw new TypeError('존재하지 않는 속성입니다. ' . Str::snake($key));
