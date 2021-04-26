@@ -26,7 +26,7 @@
                                             @if($item instanceof \App\DataTransferObjects\Refine)
                                                 <tr>
                                                     <td>{{ $item->getCode() }}</td>
-                                                    <td>{{ $item->getNae() }}</td>
+                                                    <td>{{ $item->getName() }}</td>
                                                     <td>{{ $item->getCurrentPrice() }}</td>
                                                     <td>{{ $item->getDeficitCount() }}</td>
                                                     <td>{{ $item->getFlowRateAvg() }}</td>
