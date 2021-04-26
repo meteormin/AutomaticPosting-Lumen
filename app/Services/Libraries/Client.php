@@ -111,7 +111,7 @@ class Client
         [Http Client Connect]\n
         request: " . Str::upper($method) . " {$this->host}{$ep}\n
         input:" . json_encode($parameters, JSON_UNESCAPED_UNICODE) . "\n
-        response:" . json_encode($response->json() ?? $response->body(), JSON_UNESCAPED_UNICODE) . "
+        response:" . $response->status() . "
         ");
 
         return $this->response($response);
