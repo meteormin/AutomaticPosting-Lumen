@@ -6,9 +6,24 @@ use Illuminate\Support\Collection;
 
 class Refine extends StockInfo
 {
+    /**
+     * @var Collection
+     */
     protected Collection $financeData;
+
+    /**
+     * @var int
+     */
     protected int $deficitCount;
+
+    /**
+     * @var float
+     */
     protected int $flowRateAvg;
+
+    /**
+     * @var float
+     */
     protected int $debtRateAvg;
 
     /**

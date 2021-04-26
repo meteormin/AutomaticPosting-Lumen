@@ -147,8 +147,6 @@ class Finance extends Dto
         $refineData = new Refine;
         $refineData->map($raw);
 
-        $refineData->setFinanceData($raw->get('finance_data'));
-
         if ($refineData->getFinanceData()->isEmpty()) {
             return null;
         }
