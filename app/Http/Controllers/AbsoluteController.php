@@ -41,4 +41,9 @@ class AbsoluteController extends DefaultController
     {
         return $this->response($this->mainService->getRawData());
     }
+
+    public function html()
+    {
+        return view('main', ['data' => $this->mainService->getRefinedData()]);
+    }
 }

@@ -49,4 +49,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->get('absolute/raw', 'AbsoluteController@raw');
     // 정리된 데이터
     $router->get('absolute', 'AbsoluteController@index');
+    // table html
+    $router->get('absolute/html', 'AbsoluteController@html');
 });
