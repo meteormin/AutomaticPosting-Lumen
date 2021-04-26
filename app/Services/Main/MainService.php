@@ -95,8 +95,7 @@ class MainService extends Service
 
         $rawData->each(function ($raw) use (&$refinedData) {
             if ($raw instanceof Finance) {
-                $refine = $raw->refine();
-                if (!$refine->getFinanceData()->isEmpty()) {
+                if (!is_null($refine = $raw->refine())) {
                     $refinedData->add($refine);
                 }
             }

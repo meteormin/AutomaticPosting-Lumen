@@ -134,6 +134,11 @@ class Finance extends Dto
         return $rsList->toArray();
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return Refine|null
+     */
     public function refine()
     {
         $raw = collect($this->toArray());
@@ -143,6 +148,10 @@ class Finance extends Dto
         $refineData = new Refine;
 
         $refineData->setFinanceData($raw->get('finance_data'));
+
+        if ($refineData->getFinanceData()->isEmpty()) {
+            return null;
+        }
 
         $dataCnt = 0;
         $deficitCnt = 0;
@@ -169,7 +178,7 @@ class Finance extends Dto
 
             $dataCnt++;
         });
-        print_r($dataCnt);
+
         $refineData->setDeficitCount($deficitCnt);
         $refineData->setFlowRateAvg((float)($flowRateSum / $dataCnt));
         $refineData->setDebtRateAvg((float)($debtRateSum / $dataCnt));
