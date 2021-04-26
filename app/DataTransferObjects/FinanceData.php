@@ -2,6 +2,7 @@
 
 namespace App\DataTransferObjects;
 
+use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 use App\DataTransferObjects\Abstracts\Dynamic;
 

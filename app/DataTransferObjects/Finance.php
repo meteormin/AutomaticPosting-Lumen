@@ -141,13 +141,17 @@ class Finance extends Dto
      */
     public function refine()
     {
-        $raw = collect($this->toArray());
-        $raw->put('finance_data', FinanceData::map($raw['finance_data']));
+        $where = $this->getFilterAttributeInAcnt();
 
         $refineData = new Refine;
         $refineData->map($this->getStock());
 
-        $refineData->setFinanceData($raw->get('finance_data'));
+        $acnt = collect($this->getAcnt()->toArray());
+        foreach ($where as $attr => $value) {
+            $acnt = $acnt->whereIn($attr, $value)->values();
+        }
+
+        $refineData->setFinanceData(FinanceData::map($acnt));
         if ($refineData->getFinanceData()->isEmpty()) {
             return null;
         }
