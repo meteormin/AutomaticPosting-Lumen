@@ -134,7 +134,7 @@ class Finance extends Dto
             $dataCnt = 0;
 
             $data = new FinanceData($item);
-
+            print_r($data);
             $deficitCnt = 0;
             $flowRateAvg = 0;
             $debtRateAvg = 0;
