@@ -139,6 +139,7 @@ class Finance extends Dto
             $flowRateAvg = 0;
             $debtRateAvg = 0;
             $dataCnt++;
+
             if ($data->getNetIncome() <= 0) {
                 $deficitCnt++;
             }
