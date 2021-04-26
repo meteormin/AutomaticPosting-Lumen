@@ -125,21 +125,23 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
 
     /**
      * clear
-     * @deprecated  deprecated since php version 7.4  this method can't use property type
-     *
+     * 제거 예정, 에러 발생 시 newInstance() 메서드로 대체
+     * @deprecated PHP 7.4이상에서 속성 type 정의 시, nullable이 아닐 경우 에러 발생
      * @return $this
      */
     public function clear()
     {
-        $property = new Property($this);
+        try {
+            $property = new Property($this);
 
-        foreach ($property->toArrayKeys() as $key) {
-            $this->$key = null;
+            foreach ($property->toArrayKeys() as $key) {
+                $this->$key = null;
+            }
+
+            return $this;
+        } catch (\Throwable $e) {
+            return $this->newInstance();
         }
-
-        $this->hidden = [];
-
-        return $this;
     }
 
 
@@ -155,8 +157,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
         if ($clean) {
             $self = $this->clear();
         } else {
-            $self = $this->newInstance()->map($arrayAble);
-            return $self;
+            $self = $this;
         }
 
         $jsonMapper = new JsonMapper;
