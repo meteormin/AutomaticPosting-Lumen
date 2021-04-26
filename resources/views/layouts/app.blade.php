@@ -38,7 +38,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @auth('web')
+                        {{-- @auth('web') --}}
                             {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::guard('web')->user()->name }} <span class="caret"></span>
@@ -71,7 +71,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('web.dev.login') }}">{{ __('Login') }}</a>
                             </li> --}}
-                        @endauth
+                        {{-- @endauth --}}
                     </ul>
                 </div>
             </div>
