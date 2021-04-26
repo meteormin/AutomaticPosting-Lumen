@@ -156,8 +156,8 @@ class Finance extends Dto
                 }
             }
 
-            $item['flow_rate_avg'] = (float)($item->get('flow_rate_avg') / $dataCnt);
-            $item['debt_rate_avg'] = (float)($item->get('debt_rate_avg') / $dataCnt);
+            $item['flow_rate_avg'] = (float)($item['flow_rate_avg'] / $dataCnt);
+            $item['debt_rate_avg'] = (float)($item['debt_rate_avg'] / $dataCnt);
 
             $refineData->put($key, $item);
         });
