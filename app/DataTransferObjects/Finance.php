@@ -133,6 +133,8 @@ class Finance extends Dto
         $refineData->get('finance_data')->each(function ($item, $key) use (&$refineData) {
             $dataCnt = 0;
             foreach ($item as $value) {
+                print_r($value instanceof FinanceData);
+
                 if ($value instanceof FinanceData) {
                     $deficitCnt = 0;
                     $flowRateAvg = 0;
