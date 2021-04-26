@@ -155,7 +155,7 @@ class Finance extends Dto
             } else {
                 $data = new FinanceData($item);
             }
-            dd($item);
+
             if ($data->getNetIncome() <= 0) {
                 $deficitCnt++;
             }
@@ -169,7 +169,7 @@ class Finance extends Dto
 
             $dataCnt++;
         });
-
+        print_r($dataCnt);
         $refineData->setDeficitCount($deficitCnt);
         $refineData->setFlowRateAvg((float)($flowRateSum / $dataCnt));
         $refineData->setDebtRateAvg((float)($debtRateSum / $dataCnt));
