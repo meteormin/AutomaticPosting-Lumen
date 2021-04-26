@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Example</div>
                 <div class="card-body">
-                    <h3>섹터: 전기전자</h3>
+                    <h3>섹터: 전기전자(2017 ~ 2020)</h3>
                         @if(isset($data))
                             <div class="table-responsive">
                                 <table class="table">
