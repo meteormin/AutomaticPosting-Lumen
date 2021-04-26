@@ -153,33 +153,43 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
     public function map($arrayAble, bool $clean = false)
     {
         if ($clean) {
-            try {
-                $self = $this->clear();
-            } catch (\Throwable $e) {
-                return $this->newInstance()->map($arrayAble);
-            }
+            $self = $this->clear();
         } else {
             $self = $this;
         }
 
         $jsonMapper = new JsonMapper;
-        if ($arrayAble instanceof Arrayable) {
 
-            $jsonMapper->map(json_decode(json_encode($arrayAble->toArray())), $self);
-            return $this;
+        if ($arrayAble instanceof Jsonable) {
+            $json = json_decode($arrayAble->toJson());
+            if (is_object($json)) {
+                $jsonMapper->map($json, $self);
+            }
+            return $self;
+        }
+
+        if ($arrayAble instanceof Arrayable) {
+            $json = json_decode(json_encode($arrayAble->toArray()));
+            if (is_object($json)) {
+                $jsonMapper->map($json, $self);
+            }
+            return $self;
         }
 
         if (empty($arrayAble)) {
-            return $this;
+            return $self;
         }
 
         if (!is_object($arrayAble) && !is_array($arrayAble)) {
-            return $this;
+            return $self;
         }
 
-        $jsonMapper->map(json_decode(json_encode($arrayAble)), $self);
+        $json = json_decode(json_encode($arrayAble));
+        if (is_object($json)) {
+            $jsonMapper->map($json, $self);
+        }
 
-        return $this;
+        return $self;
     }
 
 
