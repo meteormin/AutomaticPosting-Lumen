@@ -22,7 +22,18 @@ class Finance extends Dto
      *
      * @var array
      */
-    protected static array $filters = [];
+    protected array $filters = [
+        'account_nm' => [
+            '유동자산',
+            '자산총계',
+            '유동부채',
+            '부채총계',
+            '당기순이익'
+        ],
+        'fs_div' => [
+            'CFS'
+        ]
+    ];
 
     /**
      * construct
@@ -90,9 +101,10 @@ class Finance extends Dto
      *
      * @return void
      */
-    public static function setFilterAttributeInAcnt(array $filters)
+    public function setFilterAttributeInAcnt(array $filters)
     {
-        self::$filters = $filters;
+        $this->filters = $filters;
+        return $this;
     }
 
     /**
@@ -102,9 +114,9 @@ class Finance extends Dto
      *
      * @return array
      */
-    protected static function getFilterAttributeInAcnt(): array
+    protected function getFilterAttributeInAcnt(): array
     {
-        return self::$filters;
+        return $this->filters;
     }
 
     public function toArray(bool $allowNull = true): ?array

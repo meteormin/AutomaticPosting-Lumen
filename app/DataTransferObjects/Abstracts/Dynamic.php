@@ -5,6 +5,7 @@ namespace App\DataTransferObjects\Abstracts;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Str;
+use TypeError;
 
 // 동적으로 속성을 관리
 abstract class Dynamic implements Arrayable, Jsonable
@@ -14,7 +15,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @var array
      */
-    protected static array $fillable = [];
+    protected array $fillable = [];
 
     /**
      * 실제 데이터가 들어가는 배열
@@ -112,23 +113,24 @@ abstract class Dynamic implements Arrayable, Jsonable
     {
         if (in_array(Str::snake($key), self::$fillable)) {
             $this->attributes[Str::snake($key)] = $value;
+        } else {
+            throw new TypeError('존재하지 않는 속성입니다. ' . Str::snake($key));
         }
         return $this;
     }
 
-    public static function setFillable(array $fillable)
+    public function setFillable(array $fillable)
     {
         $fillable = collect($fillable)->map(function ($item) {
             return Str::snake($item);
         });
 
-        self::$fillable = $fillable->all();
+        $this->fillable = $fillable->all();
     }
 
-
-    public static function getFillable()
+    public function getFillable()
     {
-        return self::$fillable;
+        return $this->fillable;
     }
 
     /**
