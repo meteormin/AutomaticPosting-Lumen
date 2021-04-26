@@ -133,35 +133,34 @@ class Finance extends Dto
         $refineData->get('finance_data')->each(function ($item, $key) use (&$refineData) {
             $dataCnt = 0;
             foreach ($item as $value) {
-                print_r($value instanceof FinanceData);
+                $data = new FinanceData($value);
 
-                if ($value instanceof FinanceData) {
+                if ($data instanceof FinanceData) {
+
                     $deficitCnt = 0;
                     $flowRateAvg = 0;
                     $debtRateAvg = 0;
                     $dataCnt++;
-                    if ($value->getNetIncome() <= 0) {
+                    if ($data->getNetIncome() <= 0) {
                         $deficitCnt++;
                     }
 
-                    $item['deficit_count'] = $deficitCnt;
+                    $refineData->put('deficit_count', $deficitCnt);
 
-                    if (!is_null($value->getFlowRate())) {
-                        $flowRateAvg += $value->getFlowRate();
+                    if (!is_null($data->getFlowRate())) {
+                        $flowRateAvg += $data->getFlowRate();
                     }
 
                     if (!is_null($value->getDebtRate())) {
-                        $debtRateAvg += $value->getDebtRate();
+                        $debtRateAvg += $data->getDebtRate();
                     }
 
-                    $item['flow_rate_avg'] = $flowRateAvg;
+                    $refineData->put('flow_rate_avg', $flowRateAvg);
                 }
             }
 
-            $item['flow_rate_avg'] = (float)($item['flow_rate_avg'] / $dataCnt);
-            $item['debt_rate_avg'] = (float)($item['debt_rate_avg'] / $dataCnt);
-
-            $refineData->put($key, $item);
+            $refineData->put('flow_rate_avg', (float)($refineData->get('flow_rate_avg') / $dataCnt));
+            $refineData->put('debt_rate_avg', (float)($refineData->get('debt_rate_avg') / $dataCnt));
         });
 
         return $refineData;

@@ -28,11 +28,13 @@ abstract class Dynamic implements Arrayable, Jsonable
      * snake_case가 아닌 경우, 에러가 발생할 수 있어서
      * 생성자에서 setFillable메서드를 실행시켜 강제로 snake_case로 변환한다.
      */
-    public function __construct()
+    public function __construct(array $fill = null)
     {
         if (!empty(self::$fillable)) {
             $this->setFillable(self::$fillable);
         }
+
+        $this->fill($fill);
     }
 
     /**
