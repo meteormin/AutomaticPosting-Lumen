@@ -145,7 +145,7 @@ class Finance extends Dto
         $raw->put('finance_data', FinanceData::map($raw['finance_data']));
 
         $refineData = new Refine;
-        $refineData->map($raw->except('finance_data'));
+        $refineData->map($raw);
 
         $refineData->setFinanceData($raw->get('finance_data'));
 
