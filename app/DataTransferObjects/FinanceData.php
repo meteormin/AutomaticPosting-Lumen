@@ -65,6 +65,7 @@ class FinanceData extends Dynamic
 
         $current = (new static);
         $table = $current->getMapTable();
+
         $prev = (new static);
         $preprev = (new static);
 
