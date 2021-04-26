@@ -34,7 +34,9 @@ abstract class Dynamic implements Arrayable, Jsonable
             $this->setFillable(self::$fillable);
         }
 
-        $this->fill($fill);
+        if (!is_null($fill)) {
+            $this->fill($fill);
+        }
     }
 
     /**
