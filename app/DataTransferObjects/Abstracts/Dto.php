@@ -169,7 +169,11 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
             return $this;
         }
 
-        if (is_null($arrayAble) && !is_object($arrayAble) && !is_array($arrayAble)) {
+        if (empty($arrayAble)) {
+            return $this;
+        }
+
+        if (!is_object($arrayAble) && !is_array($arrayAble)) {
             return $this;
         }
 
