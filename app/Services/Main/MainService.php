@@ -2,11 +2,12 @@
 
 namespace App\Services\Main;
 
-use App\DataTransferObjects\Finance;
-use App\DataTransferObjects\FinanceData;
 use App\Services\Service;
 use App\Services\Kiwoom\KoaService;
+use App\DataTransferObjects\Finance;
 use App\DataTransferObjects\StockInfo;
+use App\DataTransferObjects\Utils\Dtos;
+use App\DataTransferObjects\FinanceData;
 use App\Services\OpenDart\OpenDartService;
 
 class MainService extends Service
@@ -32,12 +33,6 @@ class MainService extends Service
         $this->koa = $koa;
         $this->openDart = $openDart;
 
-        // FinanceData has Dynamic Property and Dynamic setter, getter
-        // 속성 설정, 정의한 속성만 채워 넣을 수 있다.
-        FinanceData::setFillable([
-            'date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income', 'flow_rate', 'debt_rate'
-        ]);
-
         /**
          * 필터 조건 정의
          * 1차원 배열 -> and 조건
@@ -57,6 +52,12 @@ class MainService extends Service
             'fs_div' => [
                 'CFS'
             ]
+        ]);
+
+        // FinanceData has Dynamic Property and Dynamic setter, getter
+        // 속성 설정, 정의한 속성만 채워 넣을 수 있다.
+        FinanceData::setFillable([
+            'date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income', 'flow_rate', 'debt_rate'
         ]);
 
         /**
@@ -80,7 +81,7 @@ class MainService extends Service
      *
      * @param string|null $sector
      *
-     * @return Collection
+     * @return Dtos
      */
     public function getRawData(string $sector = null)
     {
@@ -90,9 +91,9 @@ class MainService extends Service
 
         $stockInfo = $this->koa->showBySector($sector);
 
-        $acnts = collect();
-        $rsList = collect();
-        $stockCodes = collect();
+        $acnts = new Dtos();
+        $rsList = new Dtos();
+        $stockCodes = new Dtos();
 
         $stockInfo->each(function ($stock) use (&$stockCodes, &$rsList) {
             if ($stock instanceof StockInfo) {
@@ -118,6 +119,13 @@ class MainService extends Service
         return $rsList;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param string $sector
+     *
+     * @return Dtos
+     */
     public function getRefinedData(string $sector = null)
     {
         if (is_null($sector)) {
@@ -126,7 +134,7 @@ class MainService extends Service
 
         $rawData = $this->getRawData($sector);
 
-        $refinedData = collect();
+        $refinedData = new Dtos();
 
         $rawData->each(function ($raw) use (&$refinedData) {
             if ($raw instanceof Finance) {
@@ -137,6 +145,11 @@ class MainService extends Service
         return $refinedData;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
     protected function getSectorPriority()
     {
         return '013';

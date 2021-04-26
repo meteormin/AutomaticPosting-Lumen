@@ -113,7 +113,7 @@ class OpenDartService extends Service
      * @param string $year
      * @param string $reprtCoe
      *
-     * @return Collection
+     * @return Dtos
      */
     public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011')
     {

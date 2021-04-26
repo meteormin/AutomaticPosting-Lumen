@@ -2,7 +2,6 @@
 
 namespace App\DataTransferObjects;
 
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 use App\DataTransferObjects\Abstracts\Dynamic;
 
@@ -14,7 +13,9 @@ class FinanceData extends Dynamic
      *
      * @var array
      */
-    protected static array $fillable = ['date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income', 'flow_rate', 'debt_rate'];
+    protected static array $fillable = [
+        'date', 'current_assets', 'total_assets', 'floating_debt', 'total_debt', 'net_income', 'flow_rate', 'debt_rate'
+    ];
 
     /**
      * @var array
@@ -36,7 +37,7 @@ class FinanceData extends Dynamic
     /**
      * mapping
      *
-     * @return array
+     * @return Collection
      */
     public static function map($arrayAble)
     {
@@ -101,7 +102,7 @@ class FinanceData extends Dynamic
             $rsList->add($preprev->toArray());
         }
 
-        return $rsList->toArray();
+        return $rsList;
     }
 
     /**

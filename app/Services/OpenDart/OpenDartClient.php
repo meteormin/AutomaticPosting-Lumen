@@ -89,7 +89,7 @@ class OpenDartClient
     /**
      * 회사 고유 코드 가져오기
      * @param string|null $code
-     * @return Collection|Paginator
+     * @return Dtos|Paginator
      */
     public function getCorpCode(string $code = null)
     {
@@ -165,7 +165,7 @@ class OpenDartClient
      * @param string[] $corpCode
      * @param string $year
      * @param string $reprtCode
-     * @return Collection
+     * @return Dtos
      */
     public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011')
     {
@@ -182,7 +182,7 @@ class OpenDartClient
             return $this->client->getError();
         }
 
-        $rsList = collect();
+        $rsList = new Dtos();
 
         if (!isset($response['list'])) {
             return $rsList;

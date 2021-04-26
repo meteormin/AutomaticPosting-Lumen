@@ -123,11 +123,46 @@ class Finance extends Dto
     }
 
     public function refine()
-    {;
+    {
         $raw = $this->toArray();
 
         $raw['finance_data'] = FinanceData::map($raw['finance_data']);
 
-        return collect($raw);
+        $refineData = collect($raw);
+
+        $refineData->each(function ($item, $key) use (&$refineData) {
+            $data = $item->get('finanace_data');
+            $dataCnt = 0;
+            $data->filter(function ($value) use (&$item, &$dataCnt) {
+                if ($value instanceof FinanceData) {
+                    $deficitCnt = 0;
+                    $flowRateAvg = 0;
+                    $debtRateAvg = 0;
+                    $dataCnt++;
+                    if ($value->getNetIncome() <= 0) {
+                        $deficitCnt++;
+                    }
+
+                    $item->put('deficit_count', $deficitCnt);
+
+                    if (!is_null($value->getFlowRate())) {
+                        $flowRateAvg += $value->getFlowRate();
+                    }
+
+                    if (!is_null($value->getDebtRate())) {
+                        $debtRateAvg += $value->getDebtRate();
+                    }
+
+                    $item->put('flow_rate_avg', $flowRateAvg);
+                }
+            });
+
+            $item->put('flow_rate_avg', (float)($item->get('flow_rate_avg') / $dataCnt));
+            $item->put('debt_rate_avg', (float)($item->get('debt_rate_avg') / $dataCnt));
+
+            $refineData->put($key, $item);
+        });
+
+        return $refineData;
     }
 }

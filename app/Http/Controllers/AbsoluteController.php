@@ -22,11 +22,21 @@ class AbsoluteController extends DefaultController
         $this->mainService = $mainService;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         return $this->response($this->mainService->getRefinedData());
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function raw()
     {
         return $this->response($this->mainService->getRawData());
