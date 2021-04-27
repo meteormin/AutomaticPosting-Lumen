@@ -77,9 +77,9 @@ class Stocks
      */
     public function getBySector(string $sector)
     {
-        $file = $this->path . '/sector' . '/sector_' . $sector . '.json';
+        $file = $this->path . '/sector/sector_' . $sector . '.json';
         if ($this->disk->exists($file)) {
-            $file = json_decode($file, true);
+            $file = json_decode($this->disk->get($file), true);
             return $this->stockInfo->mapList(collect($file['stock_data']));
         } else {
             return null;
@@ -89,9 +89,9 @@ class Stocks
 
     public function getByTheme(string $theme)
     {
-        $file = $this->path . '/theme' . '/theme_' . $theme . '.json';
+        $file = $this->path . '/theme/theme_' . $theme . '.json';
         if ($this->disk->exists($file)) {
-            $file = json_decode($file, true);
+            $file = json_decode($this->disk->get($file), true);
             return $this->stockInfo->mapList(collect($file['stock_data']));
         } else {
             return null;
