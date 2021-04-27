@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Response\ErrorCode;
 use App\Services\Tistory\TistoryClient;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,10 @@ class TistoryController extends DefaultController
 
     public function callback(Request $request)
     {
-        // return $this->response('test');
+        if (!$request->has('code')) {
+            return $this->error(ErrorCode::VALIDATION_FAIL, 'has not param: code');
+        }
+
         return $this->response($this->client->callback($request->get('code')));
     }
 }
