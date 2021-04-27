@@ -22,17 +22,17 @@ class KoaService extends Service
 
     /**
      * Undocumented function
-     *
+     * @param string $name
      * @param Collection $stocks
      *
      * @return Collection
      */
-    public function storeStock(Collection $stocks)
+    public function storeStock(string $name, Collection $stocks)
     {
         $rs = collect();
 
-        $stocks->each(function ($item) use (&$rs) {
-            $rs->add($this->module->put($item));
+        $stocks->each(function ($item) use ($name, &$rs) {
+            $rs->add($this->module->put($name, $item));
         });
 
         if (count($rs) == 0) {
@@ -44,20 +44,20 @@ class KoaService extends Service
 
     /**
      *
-     *
+     * @param string $name
      * @param array $codes
      *
      * @return Collection
      */
-    public function showStock(array $codes = null)
+    public function showStock(string $name, array $codes = null)
     {
         if (empty($codes)) {
-            return $this->module->get();
+            return $this->module->get($name);
         }
 
         $rs = collect();
         foreach ($codes as $code) {
-            $rs->add($this->module->get($code)->first());
+            $rs->add($this->module->get($name, $code)->first());
         }
 
         return $rs;
@@ -75,6 +75,23 @@ class KoaService extends Service
         $rs = $this->module->getBySector($sector);
         if (is_null($rs)) {
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, 'not found sector: ' . $sector);
+        }
+
+        return $rs;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $theme
+     *
+     * @return collection
+     */
+    public function showByTheme(string $theme)
+    {
+        $rs = $this->module->getByTheme($theme);
+        if (is_null($rs)) {
+            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, 'not found theme: ' . $theme);
         }
 
         return $rs;

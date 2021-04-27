@@ -56,44 +56,29 @@ class StockController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function sectors(Request $request)
     {
         if ($request->has('sector')) {
             return $this->response($this->koa->showBySector($request->get('sector')));
         }
 
-        $markets = collect(config('sectors'));
+        return $this->response($this->koa->showStock('sector'));
+    }
 
-        $sectors = collect();
-
-        $input = collect();
-
-        if ($request->has('market')) {
-            $input = collect($request->all());
-        } else {
-            $this->error(ErrorCode::VALIDATION_FAIL, 'market 파라미터는 필수입니다.');
+    /**
+     * get stock info
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function themes(Request $request)
+    {
+        if ($request->has('theme')) {
+            return $this->response($this->koa->showByTheme($request->get('theme')));
         }
 
-        $markets->each(function ($market, $name) use (&$sectors, $input) {
-            if ($input->has('market')) {
-                if ($input->get('market') == $name) {
-                    $sectors = collect($market['sectors_raw']);
-                }
-            } else {
-                $sectors = collect($market['sectors_raw']);
-            }
-        });
-
-        $dtos = collect();
-        foreach ($sectors->keys() as $key) {
-            try {
-                $dtos->put($key, $this->koa->showBySector($key));
-            } catch (Exception $e) {
-                $dtos->put($key, null);
-            }
-        }
-
-        return $this->response($dtos, 200);
+        return $this->response($this->koa->showStock('theme'));
     }
 
     /**
@@ -104,10 +89,10 @@ class StockController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeStock(Request $request)
+    public function storeStock(Request $request, string $method)
     {
-        $stocks = PostStockRequest::parse($request);
-        $rs = $this->koa->storeStock($stocks);
+        $stocks = PostStockRequest::parse($method, $request);
+        $rs = $this->koa->storeStock($method, $stocks);
 
         return $this->success($rs, 'POST');
     }
@@ -120,13 +105,31 @@ class StockController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function showStock(Request $request, string $code = null)
+    public function showStockBySector(Request $request, string $code = null)
     {
         $codes = null;
         if ($request->has('stock_code')) {
             $codes = explode(',', $request->get('stock_code'));
         }
 
-        return $this->response($this->koa->showStock($codes ?? [$code]));
+        return $this->response($this->koa->showStock('sector', $codes ?? [$code]));
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param string|null $code
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function showStockByTheme(Request $request, string $code = null)
+    {
+        $codes = null;
+        if ($request->has('stock_code')) {
+            $codes = explode(',', $request->get('stock_code'));
+        }
+
+        return $this->response($this->koa->showStock('theme', $codes ?? [$code]));
     }
 }

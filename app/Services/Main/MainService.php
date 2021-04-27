@@ -34,19 +34,42 @@ class MainService extends Service
     }
 
     /**
-     * get raw data
+     * Undocumented function
      *
-     * @param string|null $sector
+     * @param string $name
+     * @param string|null $where
      *
      * @return Collection
      */
-    public function getRawData(string $sector = null)
+    protected function getStockInfo(string $name, string $where = null)
     {
-        if (is_null($sector)) {
-            $sector = $this->getSectorPriority();
+        if ($name == 'sector') {
+            if (is_null($where)) {
+                $where = $this->getSectorPriority($name);
+            }
+            $stockInfo = $this->koa->showBySector($where);
         }
 
-        $stockInfo = $this->koa->showBySector($sector);
+        if ($name == 'theme') {
+            if (is_null($where)) {
+                $where = $this->getSectorPriority($name);
+            }
+            $stockInfo = $this->koa->showByTheme($where);
+        }
+
+        return $stockInfo;
+    }
+
+    /**
+     * get raw data
+     * @param string $name
+     * @param string|null $where
+     *
+     * @return Collection
+     */
+    public function getRawData(string $name, string $where = null)
+    {
+        $stockInfo = $this->getStockInfo($name, $where);
 
         $acnts = collect();
         $rsList = collect();
@@ -78,18 +101,16 @@ class MainService extends Service
 
     /**
      * Undocumented function
-     *
-     * @param string $sector
+     * @param string $name
+     * @param string|null $where
      *
      * @return Collection
      */
-    public function getRefinedData(string $sector = null)
+    public function getRefinedData(string $name, string $where = null)
     {
-        if (is_null($sector)) {
-            $sector = $this->getSectorPriority();
-        }
+        $stockInfo = $this->getStockInfo($name, $where);
 
-        $rawData = $this->getRawData($sector);
+        $rawData = $this->getRawData($where);
 
         $refinedData = collect();
 
@@ -106,11 +127,17 @@ class MainService extends Service
 
     /**
      * Undocumented function
-     *
+     * @param string $name
      * @return string
      */
-    protected function getSectorPriority()
+    protected function getSectorPriority(string $name)
     {
-        return '013';
+        if ($name == 'sector') {
+            return '013';
+        }
+
+        if ($name == 'theme') {
+            return '457';
+        }
     }
 }

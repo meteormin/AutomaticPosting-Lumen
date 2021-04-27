@@ -27,9 +27,9 @@ class AbsoluteController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request, string $name)
     {
-        return $this->response($this->mainService->getRefinedData());
+        return $this->response($this->mainService->getRefinedData($name));
     }
 
     /**
@@ -37,13 +37,13 @@ class AbsoluteController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function raw()
+    public function raw(Request $request, string $name)
     {
-        return $this->response($this->mainService->getRawData());
+        return $this->response($this->mainService->getRawData($name));
     }
 
-    public function html()
+    public function refine(Request $request, string $name)
     {
-        return view('main', ['data' => $this->mainService->getRefinedData()]);
+        return view('main', ['data' => $this->mainService->getRefinedData($name)]);
     }
 }

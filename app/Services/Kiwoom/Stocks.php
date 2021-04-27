@@ -44,13 +44,13 @@ class Stocks
         $this->path = 'kiwoom';
     }
 
-    public function put(Collection $stock)
+    public function put($name, Collection $stock)
     {
         $rs[] = [
-            'sector_code' => $stock->get('sector_code'),
-            'sector_name' => $stock->get('sector_name'),
+            "{$name}_code" => $stock->get("{$name}_code"),
+            "{$name}_name" => $stock->get("{$name}_name"),
             'result' => $this->disk->put(
-                "{$this->path}/{$stock->get('file_name')}.json",
+                "{$this->path}/{$name}/{$stock->get('file_name')}.json",
                 $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
             )
         ];
@@ -77,8 +77,21 @@ class Stocks
      */
     public function getBySector(string $sector)
     {
-        if ($this->disk->exists($this->path . '/sector_' . $sector . '.json')) {
-            $file = json_decode($this->disk->get($this->path . '/sector_' . $sector . '.json'), true);
+        $file = $this->path . '/sector' . '/sector_' . $sector . '.json';
+        if ($this->disk->exists($file)) {
+            $file = json_decode($file, true);
+            return $this->stockInfo->mapList(collect($file['stock_data']));
+        } else {
+            return null;
+        }
+    }
+
+
+    public function getByTheme(string $theme)
+    {
+        $file = $this->path . '/theme' . '/theme_' . $theme . '.json';
+        if ($this->disk->exists($file)) {
+            $file = json_decode($file, true);
             return $this->stockInfo->mapList(collect($file['stock_data']));
         } else {
             return null;
@@ -92,11 +105,11 @@ class Stocks
      *
      * @return Collection
      */
-    public function get(string $code = null)
+    public function get(string $name, string $code = null)
     {
         $res = collect();
 
-        $files = $this->disk->files($this->path);
+        $files = $this->disk->files($this->path . '/' . $name);
 
         foreach ($files as $file) {
             $contents = json_decode($this->disk->get($file), true);

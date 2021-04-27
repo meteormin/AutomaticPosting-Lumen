@@ -37,18 +37,26 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->get('sectors', 'SectorController@index');
     //  시장 별 섹터 리스트 가져오기
     $router->get('sectors/{market}/{sector}', 'SectorController@show');
+
     //  get sotck list
-    $router->get('stocks', 'StockController@index');
+    $router->get('stocks/sectors', 'StockController@sectors');
+
     //  단일 종목별 기본 주가 정보 가져오기
-    $router->get('stocks/code/{code}', 'StockController@showStock');
-    //  다중 종목별 기본 주가 정보 가져오기
-    $router->get('stocks/code', 'StockController@showStock');
+    $router->get('stocks/sectors/{code}', 'StockController@showStockBySector');
+
+    $router->get('stocks/themes', 'StockController@themes');
+
+    $router->get('stocks/theme/{code}', 'StockController@showStockByTheme');
+
     //  업종 별 종목정보 저장하기
-    $router->post('stocks', 'StockController@storeStock');
+    $router->post('stocks/{method}', 'StockController@storeStock');
+
     // raw 데이터
-    $router->get('absolute/raw', 'AbsoluteController@raw');
+    $router->get('absolute/raw/{name}', 'AbsoluteController@raw');
+
     // 정리된 데이터
-    $router->get('absolute', 'AbsoluteController@index');
+    $router->get('absolute/{name}', 'AbsoluteController@index');
+
     // table html
-    $router->get('absolute/html', 'AbsoluteController@html');
+    $router->get('absolute/refine/{name}', 'AbsoluteController@refine');
 });

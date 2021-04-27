@@ -20,16 +20,16 @@ class PostStockRequest
      * parse
      *
      * @param Request $request
-     *
+     * @param string $method
      * @return Collection
      */
-    public static function parse(Request $request)
+    public static function parse(string $method, Request $request)
     {
         $jsonArray = collect();
 
         try {
             if ($request->has('code') && $request->has('name') && $request->has('data')) {
-                $jsonArray->add(self::convert($request->all()));
+                $jsonArray->add(self::convert($method, $request->all()));
             } else {
                 self::failedValidation("Failed Parse Request: 필수 항목 누락");
             }
@@ -46,19 +46,19 @@ class PostStockRequest
 
     /**
      * convert
-     *
+     * @param string $method
      * @param array $req
      *
      * @return Collection
      */
-    protected static function convert(array $req)
+    protected static function convert(string $method, array $req)
     {
         $req = collect($req);
         $stockInfo = new StockInfo;
         return collect([
-            'file_name' => "sector_{$req->get('code')}",
-            'sector_code' => $req->get('code'),
-            'sector_name' => $req->get('name'),
+            'file_name' => "{$method}_{$req->get('code')}",
+            "{$method}_code" => $req->get('code'),
+            "{$method}_name" => $req->get('name'),
             'updated_at' => Carbon::now()->format('Y-m-d'),
             'stock_data' => $stockInfo->mapList(collect($req->get('data')))
         ]);
