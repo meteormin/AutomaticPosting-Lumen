@@ -108,9 +108,7 @@ class MainService extends Service
      */
     public function getRefinedData(string $name, string $where = null)
     {
-        $stockInfo = $this->getStockInfo($name, $where);
-
-        $rawData = $this->getRawData($where);
+        $rawData = $this->getRawData($name, $where);
 
         $refinedData = collect();
 
