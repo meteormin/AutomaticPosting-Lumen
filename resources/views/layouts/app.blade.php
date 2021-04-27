@@ -25,7 +25,7 @@
 </head>
 <body>
     @include('layouts.nav')
-    @yield('content',View::make('layout.main'))
+    @yield('content')
     @include('layouts.footer')
 
     <!-- Bootstrap core JS-->

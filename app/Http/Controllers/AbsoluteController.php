@@ -27,7 +27,12 @@ class AbsoluteController extends DefaultController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, string $name)
+    public function index(Request $request, string $name = 'sector')
+    {
+        return view('post', ['data' => $this->mainService->getRefinedData($name)]);
+    }
+
+    public function json(Request $request, string $name)
     {
         return $this->response($this->mainService->getRefinedData($name));
     }

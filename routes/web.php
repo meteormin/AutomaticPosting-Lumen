@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-$router->get('/', function () use ($router) {
-    $res = $router->app->version();
-    return $res;
-});
+// $router->get('/', function () use ($router) {
+//     $res = $router->app->version();
+//     return $res;
+// });
 
 
 
@@ -26,6 +26,13 @@ $router->get('tistory/callback', [
     'as' => 'tistory.callback',
     'uses' => 'TistoryController@callback'
 ]);
+
+$router->get('/', function () {
+    $list = [1, 2, 3, 4, 5];
+    return view('list', ['list' => $list]);
+});
+
+$router->get('post/013', 'AbsoluteController@index');
 
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
     $router->get('tistory/auth', 'TistoryController@auth');
