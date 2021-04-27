@@ -13,7 +13,7 @@
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">업종</th>
+                                            <th scope="col">종목코드</th>
                                             <th scope="col">이름</th>
                                             <th scope="col">현재가</th>
                                             <th scope="col">적자횟수</th>
