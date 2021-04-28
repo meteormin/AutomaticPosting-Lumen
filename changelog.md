@@ -1,5 +1,23 @@
 # Change Log
 
+## 2021.04.28
+
+> Version: 0.3.0
+
+-   Bootstrap Clean Blog 템플릿 추가
+    -   화면 추가
+        -   Layouts: footer,list-header,main,nav,post-header
+        -   Components: post-preview
+        -   view: list, post
+-   Route추가
+    -   post
+    -   post/{id}
+-   일반적인 블로그 리스트, 조회 기능
+
+> 추가 예정 개발 중
+
+-   포스팅과 업데이트 및 삭제는 백그라운드에서 자동화
+
 ## 2021.04.27
 
 > Version: 0.2.1
