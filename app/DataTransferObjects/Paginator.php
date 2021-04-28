@@ -2,11 +2,11 @@
 
 namespace App\DataTransferObjects;
 
-use App\Entities\Utils\Entities;
+use Illuminate\Support\Collection;
 use App\DataTransferObjects\Abstracts\Dto;
-use App\DataTransferObjects\Abstracts\DtoInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\DataTransferObjects\Abstracts\DtoInterface;
 
 class Paginator extends Dto
 {
@@ -20,14 +20,14 @@ class Paginator extends Dto
     protected $data;
     protected $hidden = [];
 
-    public function __construct(LengthAwarePaginator $paginate, string $data = 'data', DtoInterface $entity)
+    public function __construct(LengthAwarePaginator $paginate, string $data = 'data', DtoInterface $dto)
     {
         $this->setCurrentPage($paginate->currentPage());
         $this->setLastPageUrl($paginate->lastPage());
         $this->setPrevPageUrl($paginate->previousPageUrl());
         $this->setNextPageUrl($paginate->nextPageUrl());
         $this->setTotal($paginate->total());
-        $this->setData($data, $entity->mapList($paginate->items()) ?? []);
+        $this->setData($data, $dto->mapList($paginate->items()) ?? []);
     }
 
     /**
@@ -42,7 +42,7 @@ class Paginator extends Dto
      *
      *
      * @param string $property
-     * @param array|Arrayable|Entities $data
+     * @param array|Arrayable|Collection $data
      *
      * @return $this
      */

@@ -68,6 +68,7 @@ $app->configure('database');
 $app->configure('logging');
 $app->configure('opendart');
 $app->configure('sectors');
+$app->configure('themes');
 $app->configure('view');
 $app->configure('error');
 $app->configure('tistory');
@@ -109,6 +110,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
+$app->register(\Laracademy\Generators\GeneratorsServiceProvider::class);
 
 if ($app->environment() !== 'production') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

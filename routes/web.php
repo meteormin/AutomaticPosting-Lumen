@@ -2,8 +2,6 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-use App\Response\ApiResponse;
-use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -20,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return $res;
 // });
 
-
-
 $router->get('tistory/callback', [
     'as' => 'tistory.callback',
     'uses' => 'TistoryController@callback'
@@ -32,7 +28,7 @@ $router->get('/', function () {
     return view('list', ['list' => $list]);
 });
 
-$router->get('post/013', 'AbsoluteController@index');
+$router->get('posts/{id}', 'AbsoluteController@index');
 
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
     $router->get('tistory/auth', 'TistoryController@auth');
@@ -62,8 +58,5 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->get('absolute/raw/{name}', 'AbsoluteController@raw');
 
     // 정리된 데이터
-    $router->get('absolute/refine/json/{name}', 'AbsoluteController@index');
-
-    // table html
-    $router->get('absolute/refine/html/{name}', 'AbsoluteController@refine');
+    $router->get('absolute/refine/{name}', 'AbsoluteController@refine');
 });

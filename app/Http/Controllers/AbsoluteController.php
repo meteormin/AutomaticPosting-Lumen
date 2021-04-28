@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\DefaultController;
-use App\Services\Kiwoom\KoaService;
 use App\Services\Main\MainService;
-use App\Services\OpenDart\OpenDartService;
 use Illuminate\Http\Request;
 
 class AbsoluteController extends DefaultController
@@ -32,11 +30,6 @@ class AbsoluteController extends DefaultController
         return view('post', ['data' => $this->mainService->getRefinedData($name)]);
     }
 
-    public function json(Request $request, string $name)
-    {
-        return $this->response($this->mainService->getRefinedData($name));
-    }
-
     /**
      * Undocumented function
      *
@@ -49,6 +42,6 @@ class AbsoluteController extends DefaultController
 
     public function refine(Request $request, string $name)
     {
-        return view('main', ['data' => $this->mainService->getRefinedData($name)]);
+        return $this->response($this->mainService->getRefinedData($name));
     }
 }
