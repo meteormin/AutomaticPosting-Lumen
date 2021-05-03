@@ -6,7 +6,7 @@ use App\Services\OpenDart\OpenDartService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
-class OpenDart extends Command
+class Kiwoom extends Command
 {
     /**
      * The name and signature of the console command.

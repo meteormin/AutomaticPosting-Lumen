@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use App\Services\Kiwoom\KoaService;
 use App\Http\Requests\PostStockRequest;
 use App\Services\OpenDart\OpenDartService;
 use App\Http\Controllers\DefaultController;
-use App\Response\ErrorCode;
 
 class StockController extends DefaultController
 {
@@ -95,6 +93,17 @@ class StockController extends DefaultController
         $rs = $this->koa->storeStock($method, $stocks);
 
         return $this->success($rs, 'POST');
+    }
+
+    public function storeThemes(Request $request)
+    {
+        $data = null;
+        if ($request->has('data')) {
+            $data = $request->get('data');
+        }
+
+        $rs = $this->koa->storeThemes($data);
+        return $this->success($rs);
     }
 
     /**
