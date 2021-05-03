@@ -107,18 +107,18 @@ class KoaService extends Service
 
         $file = 'config/themes.php';
 
-        $contents = "<?php\nreturn [";
+        $contents = "<?php\nreturn [\n";
 
         foreach ($data as $key => $value) {
-            $contents .= "[";
+            $contents .= "\t[";
             foreach ($value as $k => $v) {
-                $contents .= "{$k}=>{$v},";
+                $contents .= "'{$k}' => '{$v}', ";
             }
             $contents .= "],\n";
         }
 
         $contents .= "];";
 
-        return file_put_contents(base_path('config/themes.php'), $data);
+        return file_put_contents(base_path('config/themes.php'), $contents);
     }
 }
