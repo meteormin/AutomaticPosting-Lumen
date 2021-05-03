@@ -8,6 +8,7 @@ use App\Services\Kiwoom\KoaService;
 use App\DataTransferObjects\Finance;
 use App\DataTransferObjects\StockInfo;
 use App\Services\OpenDart\OpenDartService;
+use Illuminate\Support\Carbon;
 
 class MainService extends Service
 {
@@ -45,14 +46,14 @@ class MainService extends Service
     {
         if ($name == 'sector') {
             if (is_null($where)) {
-                $where = $this->getSectorPriority($name);
+                $where = $this->getPriority($name);
             }
             $stockInfo = $this->koa->showBySector($where);
         }
 
         if ($name == 'theme') {
             if (is_null($where)) {
-                $where = $this->getSectorPriority($name);
+                $where = $this->getPriority($name);
             }
             $stockInfo = $this->koa->showByTheme($where);
         }
@@ -84,7 +85,7 @@ class MainService extends Service
             }
         });
 
-        $acnts = $this->openDart->getMultiple($stockCodes->all(), '2020');
+        $acnts = $this->openDart->getMultiple($stockCodes->all(), Carbon::now()->format('Y'));
 
         $rsList->filter(function ($finance) use ($acnts) {
             if ($finance instanceof Finance) {
@@ -120,7 +121,12 @@ class MainService extends Service
             }
         });
 
-        return $refinedData;
+        return collect([
+            'title' => $name,
+            'code' => $where ?? $this->getPriority($name),
+            'date' => Carbon::now()->subYears(3)->format('Y') . ' ~ ' . Carbon::now()->subYear()->format('Y'),
+            'data' => $refinedData
+        ]);
     }
 
     /**
@@ -128,14 +134,14 @@ class MainService extends Service
      * @param string $name
      * @return string
      */
-    protected function getSectorPriority(string $name)
+    protected function getPriority(string $name)
     {
         if ($name == 'sector') {
             return '013';
         }
 
         if ($name == 'theme') {
-            return '457';
+            return '550';
         }
     }
 }

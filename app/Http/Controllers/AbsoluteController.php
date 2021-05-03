@@ -27,7 +27,7 @@ class AbsoluteController extends DefaultController
      */
     public function index(Request $request, string $name = 'sector')
     {
-        return view('post', ['data' => $this->mainService->getRefinedData($name)]);
+        return view('post', $this->mainService->getRefinedData($name));
     }
 
     /**

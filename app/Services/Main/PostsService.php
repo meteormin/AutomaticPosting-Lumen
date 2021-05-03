@@ -5,9 +5,11 @@ namespace App\Services\Main;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Response\ErrorCode;
+use Illuminate\Support\Carbon;
 use App\Services\Main\MainService;
 use App\DataTransferObjects\Paginator;
 use App\DataTransferObjects\Posts as PostsDto;
+use App\Services\Libraries\Generate\TableGenerator;
 
 /**
  * Posts Service
@@ -93,6 +95,30 @@ class PostsService extends Service
         });
 
         return $this->dto->mapList($this->model->where($where)->get());
+    }
+
+    public function autoPost($name, int $userId = 1, string $createdBy = 'YooSeongMin')
+    {
+        $refine = $this->service->getRefinedData($name)->toArray();
+
+        if ($refine['title'] == 'theme') {
+            $code = $refine['code'];
+            $name = collect(config('themes'))->filter(function ($value) use ($code) {
+                return $value['code'] == $code;
+            })->first();
+        }
+
+        if ($refine['title'] == 'sector') {
+            $name = config('sectors.kospi.sectors_raw.' . $refine['code']);
+        }
+
+        $generator = new TableGenerator($refine['title'], $name, $refine['date'], $refine['data']);
+
+        $data = $generator->generate();
+
+        $this->dto->setContents($data);
+
+        return $this->create($this->dto, $userId, $createdBy);
     }
 
     /**

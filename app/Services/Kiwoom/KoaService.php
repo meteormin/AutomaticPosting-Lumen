@@ -5,7 +5,6 @@ namespace App\Services\Kiwoom;
 use App\Services\Service;
 use App\Response\ErrorCode;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 
 class KoaService extends Service
 {
@@ -100,7 +99,6 @@ class KoaService extends Service
 
     public function storeThemes(?array $data)
     {
-        // Storage::disk('local')->put('kiwoom/themes.json', json_encode($data, JSON_UNESCAPED_UNICODE));
         if (is_null($data)) {
             $this->throw(ErrorCode::VALIDATION_FAIL, ['data' => ['data는 필수항목입니다.']]);
         }
@@ -119,6 +117,6 @@ class KoaService extends Service
 
         $contents .= "];";
 
-        return file_put_contents(base_path('config/themes.php'), $contents);
+        return file_put_contents(base_path($file), $contents);
     }
 }

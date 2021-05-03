@@ -71,6 +71,21 @@ class Maker
     }
 
     /**
+     * 파일 저장 하지 않고 stub파일 내용만 생성
+     *
+     * @param string $class
+     * @param array $parameters
+     *
+     * @return string
+     */
+    public function run(string $class, array $parameters)
+    {
+        $class = "{$this->stubPath}/{$class}.stub";
+        $this->validation($class, $parameters);
+        return $this->write($class, $parameters);
+    }
+
+    /**
      * 파일 생성
      *
      * @param string $name
@@ -79,7 +94,7 @@ class Maker
      *
      * @return int|false
      */
-    public function putFile(string $name, string $class, array $parameters)
+    protected function putFile(string $name, string $class, array $parameters)
     {
         $name = "{$this->path}/{$name}.{$this->ext}";
         $class = "{$this->stubPath}/{$class}.stub";
@@ -95,9 +110,9 @@ class Maker
      * @param string $filename
      * @param array $parameters
      *
-     * @return void
+     * @return string
      */
-    public function write(string $filename, array $parameters)
+    protected function write(string $filename, array $parameters)
     {
         $contents = file_get_contents($filename);
 

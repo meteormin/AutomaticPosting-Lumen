@@ -91,7 +91,7 @@ class Stocks
      *
      * @param string $theme
      *
-     * @return void
+     * @return Collection|null
      */
     public function getByTheme(string $theme)
     {
