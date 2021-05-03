@@ -86,7 +86,13 @@ class Stocks
         }
     }
 
-
+    /**
+     * Undocumented function
+     *
+     * @param string $theme
+     *
+     * @return void
+     */
     public function getByTheme(string $theme)
     {
         $file = $this->path . '/theme/theme_' . $theme . '.json';
