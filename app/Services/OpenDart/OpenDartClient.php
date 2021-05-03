@@ -120,7 +120,7 @@ class OpenDartClient
             $page = request()->get('page');
             $perPage = 15;
 
-            $paginator = new Paginator($list->forPage($page, $perPage), count($dtos), $perPage, $page, [
+            $paginator = new Paginator($list->forPage($page, $perPage), $dtos->count(), $perPage, $page, [
                 'path' => Paginator::resolveCurrentPath(),
                 'query' => request()->query()
             ]);

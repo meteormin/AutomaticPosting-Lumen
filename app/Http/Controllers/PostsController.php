@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\PostsService;
+use App\Services\Main\PostsService;
 use App\Services\Main\MainService;
 use App\Services\Kiwoom\KoaService;
 use App\Services\OpenDart\OpenDartService;

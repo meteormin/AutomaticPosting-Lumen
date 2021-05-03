@@ -7,6 +7,7 @@ use App\Response\ErrorCode;
 use Illuminate\Support\Carbon;
 use Illuminate\Pagination\Paginator;
 use App\DataTransferObjects\CorpCode;
+use App\Exceptions\ApiErrorException;
 
 class OpenDartService extends Service
 {
@@ -23,7 +24,8 @@ class OpenDartService extends Service
     /**
      * 회사 고유코드 저장
      *
-     * @return Acnt
+     * @return bool
+     * @throws ApiErrorException
      */
     public function saveCorpCodes()
     {

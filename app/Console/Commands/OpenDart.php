@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\OpenDart\OpenDartService;
 use Illuminate\Console\Command;
 
 class OpenDart extends Command
@@ -11,14 +12,14 @@ class OpenDart extends Command
      *
      * @var string
      */
-    protected $signature = 'open-dart';
+    protected $signature = 'opendart:corp-codes';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'get open dart';
+    protected $description = 'store open-dart corpCodes';
 
     /**
      * Create a new command instance.
@@ -35,8 +36,11 @@ class OpenDart extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(OpenDartService $opendart)
     {
-        $this->info('hello world.');
+        $this->info('get corp-codes...');
+        $opendart->saveCorpCodes();
+
+        $this->info('success save corp-codes!');
     }
 }

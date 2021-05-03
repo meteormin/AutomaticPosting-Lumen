@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Main;
 
 use App\Models\Posts;
+use App\Services\Service;
 use App\Response\ErrorCode;
 use App\Services\Main\MainService;
 use App\DataTransferObjects\Paginator;
