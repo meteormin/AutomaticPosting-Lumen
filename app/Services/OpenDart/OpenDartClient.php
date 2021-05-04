@@ -167,6 +167,10 @@ class OpenDartClient
      */
     public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011')
     {
+        if (count($corpCode) == 0) {
+            return collect();
+        }
+
         $codeStr = implode(',', $corpCode);
 
         $response = $this->client->get(config('opendart.method.MultiAcnt.url'), [
