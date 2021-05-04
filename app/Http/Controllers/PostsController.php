@@ -43,7 +43,7 @@ class PostsController extends DefaultController
 
     public function show(Request $request, int $id)
     {
-        return view('post', ['data' => $this->postsService->find($id)]);
+        return view('post', ['post' => $this->postsService->find($id)]);
     }
 
     public function refine(Request $request, string $name)

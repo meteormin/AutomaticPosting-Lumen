@@ -1,12 +1,20 @@
 @extends('layouts.app')
-@include('layouts.post-header')
+@include('layouts.post-header',[
+    'title'=>$post->getTitle(),
+    'subtitle'=>$post->getSubTitle(),
+    'created_by'=>$post->getCreatedBy(),
+    'created_at'=>$post->getCreatedAt()
+])
 @section('content')
 <!-- Post Content-->
 <article>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <h3>{{ $title }}: {{ $name }}({{ $date }})</h3>
+                @isset($post)
+                    {!! html_entity_decode($post->getContents()) !!}
+                @endisset
+                {{-- <h3>{{ $title }}: {{ $name }}({{ $date }})</h3>
                         @if(isset($data))
                             <div class="table-responsive">
                                 <table class="table">
@@ -39,7 +47,7 @@
                             </div>
                         @else
                             데이터가 없습니다.
-                        @endif
+                        @endif --}}
             </div>
         </div>
     </div>

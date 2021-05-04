@@ -120,7 +120,7 @@ class Posts extends Dto
      */
     public function getContents(): string
     {
-        return $this->contents;
+        return preg_replace('/\r|\n/', '', $this->contents);
     }
 
     /**
