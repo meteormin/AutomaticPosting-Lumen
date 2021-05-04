@@ -20,7 +20,7 @@ class AutoPost extends Command
      *
      * @var string
      */
-    protected $description = 'store open-dart corpCodes';
+    protected $description = 'auto store post';
 
     /**
      * Create a new command instance.
