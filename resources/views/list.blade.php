@@ -12,11 +12,11 @@
                 @else
                     @foreach($posts as $post)
                         @include('components.post-preview',[
-                            'url'=>url("/post/{$post->getId()}"),
-                            'title'=>$post->getTitle(),
-                            'subtitle'=>$post->getSubTitle(),
-                            'created_by'=>$post->getCreatedBy(),
-                            'created_at'=>$post->getCreatedAt()
+                            'url'=>url("/post/{$post['id']}"),
+                            'title'=>$post['title'],
+                            'subtitle'=>$post['sub_title'],
+                            'created_by'=>$post['created_by'],
+                            'created_at'=>$post['created_at']
                             ])
                     @endforeach
                 @endif
