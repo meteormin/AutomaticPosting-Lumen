@@ -123,7 +123,7 @@ class PostsService extends Service
             $name = config('sectors.kospi.sectors_raw.' . $refine->get('code'));
         }
 
-        $generator = new TableGenerator($refine['title'], $name, $refine['date'], $refine['data']);
+        $generator = new TableGenerator($refine->get('title'), $name, $refine->get('date'), $refine->get('data')->toArray());
 
         $data = $generator->generate();
 
