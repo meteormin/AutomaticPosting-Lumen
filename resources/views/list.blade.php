@@ -13,7 +13,7 @@
                     @foreach($posts->getData() as $post)
                         @include('components.post-preview',[
                             'url'=>url("/posts/{$post->getId()}"),
-                            'title'=>$pos->getTitle(),
+                            'title'=>$post->getTitle(),
                             'subtitle'=>$post->getSubTitle(),
                             'created_by'=>$post->getCreatedBy(),
                             'created_at'=>$post->getCreatedAt()
