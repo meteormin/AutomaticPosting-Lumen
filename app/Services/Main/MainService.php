@@ -71,7 +71,6 @@ class MainService extends Service
     public function getRawData(string $name, string $where = null)
     {
         $stockInfo = $this->getStockInfo($name, $where);
-
         $acnts = collect();
         $rsList = collect();
         $stockCodes = collect();
