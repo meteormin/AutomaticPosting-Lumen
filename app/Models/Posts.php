@@ -81,13 +81,6 @@ class Posts extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = true;
-
     // Scopes...
 
     // Functions ...
