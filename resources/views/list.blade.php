@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             @isset($posts)
-                @if(is_null($posts))
+                @if(count($posts->getData()) == 0)
                     @include('components.post-preview-404')
                 @else
                     @foreach($posts->getData() as $post)
