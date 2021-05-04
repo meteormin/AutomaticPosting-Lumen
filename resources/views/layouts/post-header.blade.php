@@ -1,5 +1,6 @@
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('{{ url('/assets/img/post-bg.jpg') }}')">
+{{-- <header class="masthead" style="background-image: url('{{ url('/assets/img/post-bg.jpg') }}')"> --}}
+<header class="masthead">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
