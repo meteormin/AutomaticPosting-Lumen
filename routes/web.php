@@ -45,7 +45,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     //  섹터 별 종목리스트
     $router->get('stocks/sectors/{code}', 'StockController@showStockBySector');
 
-    // get themes list
+    // get sotck list
     $router->get('stocks/themes', 'StockController@themes');
 
     // 테마별 종목리스트
