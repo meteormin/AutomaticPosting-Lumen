@@ -25,10 +25,15 @@ namespace App\Models{
  * @property string     $updated_by
  * @property string     $deleted_by
  * @property int $id
+ * @property string $type
+ * @property string $code
+ * @method static \Illuminate\Support\Collection|static[] all($columns = ['*'])
+ * @method static \Illuminate\Support\Collection|static[] get($columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Builder|Posts newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Posts newQuery()
  * @method static \Illuminate\Database\Query\Builder|Posts onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Posts query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereContents($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereCreatedBy($value)
@@ -37,6 +42,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereSubTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Posts whereUserId($value)
@@ -44,6 +50,27 @@ namespace App\Models{
  * @method static \Illuminate\Database\Query\Builder|Posts withoutTrashed()
  */
 	class Posts extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PostsStatus
+ *
+ * @property string     $type
+ * @property string     $code
+ * @property int $type_count
+ * @property int $code_count
+ * @method static \Illuminate\Support\Collection|static[] all($columns = ['*'])
+ * @method static \Illuminate\Support\Collection|static[] get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereCodeCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereTypeCount($value)
+ */
+	class PostsStatus extends \Eloquent {}
 }
 
 namespace App\Models{

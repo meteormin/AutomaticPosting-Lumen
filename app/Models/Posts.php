@@ -5,6 +5,7 @@ namespace App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\DataTransferObjects\Posts as Dto;
 
 /**
  * @property int $user_id
@@ -21,6 +22,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Posts extends Model
 {
     use SoftDeletes;
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param  array  $models
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function newCollection(array $models = [])
+    {
+        return (new Dto)->mapList($models);
+    }
 
     /**
      * Prepare a date for array / JSON serialization.
@@ -53,7 +65,7 @@ class Posts extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'sub_title', 'contents', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by'
+        'user_id', 'title', 'sub_title', 'type', 'code', 'contents', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by'
     ];
 
     /**

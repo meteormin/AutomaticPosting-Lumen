@@ -56,7 +56,7 @@ class PostsService extends Service
     {
         $model = $this->model->orderByDesc('created_at')->paginate($count);
 
-        return new Paginator($model, 'posts', $this->dto);
+        return new Paginator($model, 'posts');
     }
 
     /**
@@ -66,7 +66,7 @@ class PostsService extends Service
      */
     public function all()
     {
-        return $this->dto->mapList($this->model->all());
+        return $this->model->all();
     }
 
     /**
@@ -76,13 +76,13 @@ class PostsService extends Service
      */
     public function find(int $id)
     {
-        return $this->dto->map($this->model->findOrFail($id));
+        return $this->model->findOrFail($id);
     }
 
     /**
      * Undocumented function
      *
-     * @return PostsDto[]
+     * @return Collection|PostsDto[]
      */
     public function findByAttribute(array $input, string $op = '=')
     {
@@ -94,7 +94,7 @@ class PostsService extends Service
             $where[] = [$key, $op, $value];
         });
 
-        return $this->dto->mapList($this->model->where($where)->get());
+        return $this->model->where($where)->get();
     }
 
     /**

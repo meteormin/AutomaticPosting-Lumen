@@ -6,7 +6,9 @@ use App\Services\Service;
 use Illuminate\Support\Collection;
 use App\Services\Kiwoom\KoaService;
 use App\DataTransferObjects\Finance;
+use App\DataTransferObjects\PostsStatus as PostsStatusDto;
 use App\DataTransferObjects\StockInfo;
+use App\Models\PostsStatus;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Carbon;
 
@@ -136,11 +138,23 @@ class MainService extends Service
     protected function getPriority(string $name)
     {
         if ($name == 'sector') {
-            return '013';
+            $config = collect(config('sectors.kospi.sectors'));
         }
 
         if ($name == 'theme') {
-            return '550';
+            $config = collect(config('themes'));
         }
+
+        $already = PostsStatus::where('type', $name);
+
+        $config->filter(function ($item) use ($already) {
+            $f = false;
+            $already->each(function ($post) use ($item, &$f) {
+                if ($post instanceof PostsStatusDto) {
+                    if ($post->getCode() == $item['code']) {
+                    }
+                }
+            });
+        });
     }
 }

@@ -20,14 +20,14 @@ class Paginator extends Dto
     protected $data;
     protected $hidden = [];
 
-    public function __construct(LengthAwarePaginator $paginate, string $data = 'data', DtoInterface $dto)
+    public function __construct(LengthAwarePaginator $paginate, string $data = 'data')
     {
         $this->setCurrentPage($paginate->currentPage());
         $this->setLastPageUrl($paginate->lastPage());
         $this->setPrevPageUrl($paginate->previousPageUrl());
         $this->setNextPageUrl($paginate->nextPageUrl());
         $this->setTotal($paginate->total());
-        $this->setData($data, $dto->mapList($paginate->items()) ?? collect([]));
+        $this->setData($data, $paginate->items());
     }
 
     /**
