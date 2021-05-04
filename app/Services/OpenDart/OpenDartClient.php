@@ -172,7 +172,8 @@ class OpenDartClient
         }
 
         $codeStr = implode(',', $corpCode);
-
+        print_r($codeStr);
+        exit;
         $response = $this->client->get(config('opendart.method.MultiAcnt.url'), [
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $codeStr,
