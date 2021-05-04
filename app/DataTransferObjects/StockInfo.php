@@ -119,7 +119,7 @@ class StockInfo extends Dto
      *
      * @return int
      */
-    public function getCapital()
+    public function getCapital(): int
     {
         return $this->capital;
     }

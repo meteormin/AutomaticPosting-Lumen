@@ -125,11 +125,11 @@ class PostsService extends Service
 
         $data = $refine->get('data')->map(function ($value) {
             $arr = $value->toArray();
-            $arr['current_price'] = number_format($arr['current_price']);
+            $arr['current_price'] = (string)number_format($arr['current_price']);
             return $arr;
         });
 
-        $generator = new TableGenerator($refine->get('title'), $name, $refine->get('date'), $data);
+        $generator = new TableGenerator($refine->get('title'), $name, $refine->get('date'), $data->toArray());
 
         $data = $generator->generate();
 
