@@ -136,7 +136,7 @@ class OpenDartService extends Service
 
         $res = $this->module->getMultiAcnt($corpCodes->all(), $year);
         if ($res->isEmpty()) {
-            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found storcks");
+            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found stocks");
         }
 
         return $res;
