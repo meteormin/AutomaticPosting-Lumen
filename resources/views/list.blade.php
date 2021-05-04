@@ -24,7 +24,7 @@
                 @include('components.post-preview-404')
             @endisset
             <!-- Pager-->
-            <div class="clearfix"><a class="btn btn-primary float-right" href="{{ $posts->getNextUrl() ?? '#' }}">Older Posts →</a></div>
+            <div class="clearfix"><a class="btn btn-primary float-right" href="{{ $posts->getNextPageUrl() ?? '#' }}">Older Posts →</a></div>
         </div>
     </div>
 </div>
