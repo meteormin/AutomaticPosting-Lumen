@@ -9,8 +9,10 @@
                     <h2 class="subheading">{{ $subtitle }}</h2>
                     <span class="meta">
                         Posted by
-                        <a href="#!">{{ $created_by }}</a>
-                        $created_at
+                        <a href="#!">{{ $created_by }}</a><br>
+                        <br>
+                        Posted at
+                        {{ $created_at }}
                     </span>
                 </div>
             </div>

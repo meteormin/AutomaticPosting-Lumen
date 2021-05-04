@@ -69,7 +69,7 @@ class Posts extends Model
      * @var array
      */
     protected $casts = [
-        'user_id' => 'int', 'title' => 'string', 'sub_title' => 'string', 'contents' => 'string', 'created_at' => 'timestamp', 'updated_at' => 'timestamp', 'deleted_at' => 'timestamp', 'created_by' => 'string', 'updated_by' => 'string', 'deleted_by' => 'string'
+        'user_id' => 'int', 'title' => 'string', 'sub_title' => 'string', 'contents' => 'string', 'created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d', 'deleted_at' => 'date:Y-m-d', 'created_by' => 'string', 'updated_by' => 'string', 'deleted_by' => 'string'
     ];
 
     /**

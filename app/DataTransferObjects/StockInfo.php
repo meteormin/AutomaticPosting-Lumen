@@ -96,8 +96,8 @@ class StockInfo extends Dto
      */
     public function getCurrentPrice(): int
     {
-        return $this->currentPrice < 0 ?
-            $this->currentPrice * (-1) : $this->currentPrice;
+        return number_format($this->currentPrice < 0 ?
+            $this->currentPrice * (-1) : $this->currentPrice);
     }
 
     /**
