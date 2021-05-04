@@ -81,5 +81,6 @@ class Kiwoom extends Command
         exec($ssh . $python, $output);
 
         $this->info($output);
+        return 0;
     }
 }

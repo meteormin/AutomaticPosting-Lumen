@@ -97,7 +97,16 @@ class PostsService extends Service
         return $this->dto->mapList($this->model->where($where)->get());
     }
 
-    public function autoPost($name, int $userId, string $createdBy)
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @param integer $userId
+     * @param string $createdBy
+     *
+     * @return int
+     */
+    public function autoPost(string $name, int $userId, string $createdBy)
     {
         $refine = $this->service->getRefinedData($name);
 

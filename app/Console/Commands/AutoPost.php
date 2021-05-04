@@ -2,17 +2,18 @@
 
 namespace App\Console\Commands;
 
-use App\Services\OpenDart\OpenDartService;
+use App\Models\User;
 use Illuminate\Console\Command;
+use App\Services\Main\PostsService;
 
-class OpenDart extends Command
+class AutoPost extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'opendart:corp-codes';
+    protected $signature = 'autopost:{name}';
 
     /**
      * The console command description.
@@ -36,12 +37,19 @@ class OpenDart extends Command
      *
      * @return mixed
      */
-    public function handle(OpenDartService $opendart)
+    public function handle(PostsService $posts)
     {
-        $this->info('get corp-codes...');
-        $opendart->saveCorpCodes();
+        if (is_null($this->argument('name'))) {
+            $this->error('name parameter is requried');
+            return 1;
+        }
 
-        $this->info('success save corp-codes!');
+        $this->info('auto post: ' . $this->argument('name'));
+        $user = User::find(1);
+        $postId = $posts->autoPost($this->argument('name'), $user->id, $user->email);
+
+        $this->info('success post...');
+        $this->info('post id: ' . $postId);
         return 0;
     }
 }
