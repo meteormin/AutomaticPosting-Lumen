@@ -51,7 +51,7 @@ class PostStockRequest
      *
      * @return Collection
      */
-    protected static function convert(string $method, array $req)
+    public static function convert(string $method, array $req)
     {
         $req = collect($req);
         $stockInfo = new StockInfo;
