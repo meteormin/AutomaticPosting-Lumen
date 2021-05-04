@@ -1,10 +1,13 @@
 @extends('layouts.app')
-@include('layouts.post-header',[
-    'title'=>$post->getTitle(),
-    'subtitle'=>$post->getSubTitle(),
-    'created_by'=>$post->getCreatedBy(),
-    'created_at'=>$post->getCreatedAt()
-])
+@section('header')
+    @include('layouts.post-header',[
+        'title'=>$post->getTitle(),
+        'subtitle'=>$post->getSubTitle(),
+        'created_by'=>$post->getCreatedBy(),
+        'created_at'=>$post->getCreatedAt()
+    ])
+@endsection
+
 @section('content')
 <!-- Post Content-->
 <article>
@@ -53,4 +56,8 @@
     </div>
 </article>
 <hr />
+@endsection
+
+@section('footer')
+    @include('layouts.footer')
 @endsection
