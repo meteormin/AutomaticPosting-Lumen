@@ -12,7 +12,7 @@
                 @else
                     @foreach($posts as $post)
                         @include('components.post-preview',[
-                            'url'=>url("/post/{$post['id']}"),
+                            'url'=>url("/posts/{$post['id']}"),
                             'title'=>$post['title'],
                             'subtitle'=>$post['sub_title'],
                             'created_by'=>$post['created_by'],
