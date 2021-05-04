@@ -5,28 +5,31 @@ namespace App\Services\Libraries\Generate;
 abstract class Generator
 {
 
-    protected $name;
+    /**
+     * @var string
+     */
+    protected string $name;
 
     /**
      * json
      *
      * @var string|null
      */
-    protected $json;
+    protected ?string $json = null;
 
     /**
      * template
      *
      * @var Template
      */
-    protected $template;
+    protected Template $template;
 
     /**
      *
      *
      * @var MakeClass
      */
-    protected $maker;
+    protected MakeClass $maker;
 
     public function __construct(string $name, string $json)
     {
