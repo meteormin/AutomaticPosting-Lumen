@@ -13,7 +13,7 @@ class Kiwoom extends Command
      *
      * @var string
      */
-    protected $signature = 'kiwoom:get {where: sector or theme} {--theme: theme code} {--sector: sector code} {--market: market name}';
+    protected $signature = 'kiwoom:get {where : sector or theme} {--theme= : theme code} {--sector= : sector code} {--market= : market name}';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class Kiwoom extends Command
 
         if ($where == 'sector') {
             $sector = $this->option('sector');
-            $market = $this->options('market');
+            $market = $this->option('market');
             if (is_null($sector)) {
                 $this->error('options sector is required');
                 return 1;
@@ -70,7 +70,7 @@ class Kiwoom extends Command
 
         $sshConfig = config('winssh');
 
-        $ssh = "ssh -i {$sshConfig['public_key']} ";
+        $ssh = "ssh -i {$sshConfig['public_key']} {$sshConfig['host']} ";
 
         $python = "'{$sshConfig['command']} {$option}'";
 

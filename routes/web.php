@@ -37,7 +37,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     $router->get('sectors', 'SectorController@index');
 
     //  시장 별 섹터 리스트 가져오기
-    $router->get('sectors/{market}/{sector}', 'SectorController@show');
+    $router->get('sectors/{market}', 'SectorController@show');
 
     //  get sotck list
     $router->get('stocks/sectors', 'StockController@sectors');
