@@ -129,7 +129,7 @@ class PostsService extends Service
             return $arr;
         });
 
-        $generator = new TableGenerator($refine->get('title'), $name, $refine->get('date'), $refine->get('data')->toArray());
+        $generator = new TableGenerator($refine->get('title'), $name, $refine->get('date'), $data);
 
         $data = $generator->generate();
 
