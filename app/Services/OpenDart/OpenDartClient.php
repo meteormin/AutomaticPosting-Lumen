@@ -172,8 +172,7 @@ class OpenDartClient
         }
 
         $codeStr = implode(',', $corpCode);
-        print_r($codeStr);
-        exit;
+
         $response = $this->client->get(config('opendart.method.MultiAcnt.url'), [
             'crtfc_key' => config('opendart.api_key'),
             'corp_code' => $codeStr,
@@ -182,13 +181,13 @@ class OpenDartClient
         ]);
 
         if (is_null($response)) {
-            return $this->client->getError();
+            return collect(['error' => $this->client->getError()]);
         }
 
         $rsList = collect();
 
         if (!isset($response['list'])) {
-            return $rsList;
+            return collect(['error' => $response]);
         }
 
         $dtos = $this->acnt->mapList($response['list']);

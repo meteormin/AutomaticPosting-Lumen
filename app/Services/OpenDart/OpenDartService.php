@@ -139,6 +139,10 @@ class OpenDartService extends Service
             $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found stocks");
         }
 
+        if ($res->has('error')) {
+            $this->throw(ErrorCode::CONFLICT, $res);
+        }
+
         return $res;
     }
 }
