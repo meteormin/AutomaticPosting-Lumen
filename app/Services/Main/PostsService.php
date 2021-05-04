@@ -120,7 +120,7 @@ class PostsService extends Service
         }
 
         if ($refine->get('title') == 'sector') {
-            $name = config('sectors.kospi.sectors_raw.' . $refine->get('title'));
+            $name = config('sectors.kospi.sectors_raw.' . $refine->get('code'));
         }
 
         $generator = new TableGenerator($refine['title'], $name, $refine['date'], $refine['data']);
