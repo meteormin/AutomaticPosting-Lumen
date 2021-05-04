@@ -120,7 +120,7 @@ class OpenDartService extends Service
         $corpCodes = collect();
 
         if (is_null($year)) {
-            $year = Carbon::now()->format('Y');
+            $year = Carbon::now()->subYear()->format('Y');
         }
 
         if (!is_numeric($year) || strlen($year) != 4) {
