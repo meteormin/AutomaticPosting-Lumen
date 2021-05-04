@@ -5,7 +5,7 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 _ide_helper.php
-./startbootstrap-clean-blog
+./startbootstrap-clean-blog/*
 /node_modules
 /public/hot
 /public/storage
