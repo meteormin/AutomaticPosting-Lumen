@@ -154,4 +154,9 @@ class FinanceData extends Dynamic
 
         return $this->setAttribute('debt_rate', $debtRate ?? '');
     }
+
+    public function toArray(bool $allowNull = true): ?array
+    {
+        return parent::toArray($allowNull);
+    }
 }

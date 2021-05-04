@@ -38,7 +38,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
      * @param   bool $allowNull 널 허용 여부(true:허용/false:불가)
      * @return  array|null   [return description]
      */
-    public function toArray(bool $allowNull = true): ?array
+    public function toArray(bool $allowNull = false): ?array
     {
         $property = new Property($this);
 

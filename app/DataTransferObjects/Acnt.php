@@ -692,4 +692,9 @@ class Acnt extends Dto
 
         return $this;
     }
+
+    public function toArray(bool $allowNull = true): ?array
+    {
+        return parent::toArray($allowNull);
+    }
 }
