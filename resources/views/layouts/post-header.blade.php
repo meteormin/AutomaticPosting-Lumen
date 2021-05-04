@@ -12,7 +12,6 @@
                         Posted by
                         <a href="#!">{{ $created_by }}</a><br>
                         <br>
-                        Posted at
                         {{ $created_at }}
                     </span>
                 </div>
