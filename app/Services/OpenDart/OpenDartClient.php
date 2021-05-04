@@ -3,6 +3,7 @@
 namespace App\Services\OpenDart;
 
 use ZipArchive;
+use Illuminate\Support\Arr;
 use App\DataTransferObjects\Acnt;
 use App\Services\Libraries\Client;
 use Illuminate\Support\Collection;
@@ -63,13 +64,25 @@ class OpenDartClient
     }
 
     /**
+     * Undocumented function
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    protected function makeQueryString(array $data)
+    {
+        return '?' . Arr::query($data);
+    }
+
+    /**
      * 회사 고유코드 xml -> json 저장
      *
      * @return bool
      */
     public function requestCorpCodes()
     {
-        $response = $this->client->get(config('opendart.method.corpCode.url') . '?crtfc_key=' . config('opendart.api_key'));
+        $response = $this->client->get(config('opendart.method.corpCode.url') . $this->makeQueryString(['crtfc_key' => config('opendart.api_key')]));
         if (is_null($response)) {
             return $this->client->getError();
         }
@@ -143,12 +156,14 @@ class OpenDartClient
      */
     public function getSinglAcnt(string $corpCode, string $year, string $reprtCdoe = '11011')
     {
-        $response = $this->client->get(config('opendart.method.SinglAcnt.url'), [
-            'crtfc_key' => config('opendart.api_key'),
-            'corp_code' => $corpCode,
-            'bsns_year' => $year,
-            'reprt_code' => $reprtCdoe
-        ]);
+        $response = $this->client->get(
+            config('opendart.method.SinglAcnt.url') . $this->makeQueryString([
+                'crtfc_key' => config('opendart.api_key'),
+                'corp_code' => $corpCode,
+                'bsns_year' => $year,
+                'reprt_code' => $reprtCdoe
+            ])
+        );
 
         if (is_null($response)) {
             return $this->client->getError();
@@ -173,12 +188,14 @@ class OpenDartClient
 
         $codeStr = implode(',', $corpCode);
 
-        $response = $this->client->get(config('opendart.method.MultiAcnt.url'), [
-            'crtfc_key' => config('opendart.api_key'),
-            'corp_code' => $codeStr,
-            'bsns_year' => $year,
-            'reprt_code' => $reprtCode
-        ]);
+        $response = $this->client->get(
+            config('opendart.method.MultiAcnt.url') . $this->makeQueryString([
+                'crtfc_key' => config('opendart.api_key'),
+                'corp_code' => $codeStr,
+                'bsns_year' => $year,
+                'reprt_code' => $reprtCode
+            ])
+        );
 
         if (is_null($response)) {
             return collect(['error' => $this->client->getError()]);
