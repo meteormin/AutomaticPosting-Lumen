@@ -7,16 +7,16 @@
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             @isset($posts)
-                @if(count($posts) == 0)
+                @if(is_null($posts))
                     @include('components.post-preview-404')
                 @else
-                    @foreach($posts as $post)
+                    @foreach($posts->getData() as $post)
                         @include('components.post-preview',[
-                            'url'=>url("/posts/{$post['id']}"),
-                            'title'=>$post['title'],
-                            'subtitle'=>$post['sub_title'],
-                            'created_by'=>$post['created_by'],
-                            'created_at'=>$post['created_at']
+                            'url'=>url("/posts/{$post->getId()}"),
+                            'title'=>$pos->getTitle(),
+                            'subtitle'=>$post->getSubTitle(),
+                            'created_by'=>$post->getCreatedBy(),
+                            'created_at'=>$post->getCreatedAt()
                             ])
                     @endforeach
                 @endif
@@ -24,7 +24,7 @@
                 @include('components.post-preview-404')
             @endisset
             <!-- Pager-->
-            <div class="clearfix"><a class="btn btn-primary float-right" href="{{ $next_page_url ?? '#' }}">Older Posts →</a></div>
+            <div class="clearfix"><a class="btn btn-primary float-right" href="{{ $posts->getNextUrl() ?? '#' }}">Older Posts →</a></div>
         </div>
     </div>
 </div>

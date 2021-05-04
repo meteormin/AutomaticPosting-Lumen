@@ -54,7 +54,7 @@ class PostsService extends Service
      */
     public function paginate(int $count = 10)
     {
-        $model = $this->model->paginate($count);
+        $model = $this->model->paginate($count)->reverse()->values();
 
         return new Paginator($model, 'posts', $this->dto);
     }

@@ -38,7 +38,7 @@ class PostsController extends DefaultController
      */
     public function index(Request $request)
     {
-        return view('list', $this->postsService->paginate());
+        return view('list', ['posts' => $this->postsService->paginate()]);
     }
 
     public function show(Request $request, int $id)
