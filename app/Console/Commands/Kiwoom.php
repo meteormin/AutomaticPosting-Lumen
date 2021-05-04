@@ -80,7 +80,7 @@ class Kiwoom extends Command
 
         exec($ssh . $python, $output);
 
-        $this->info($output);
+        $this->info(json_encode($output, JSON_UNESCAPED_UNICODE));
         return 0;
     }
 }
