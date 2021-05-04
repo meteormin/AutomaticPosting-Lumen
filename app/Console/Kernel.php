@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         \App\Console\Commands\OpenDart::class,
-        \App\Console\Commands\Kiwoom::class
+        \App\Console\Commands\Kiwoom::class,
+        \App\Console\Commands\AutoPost::class,
     ];
 
     /**
