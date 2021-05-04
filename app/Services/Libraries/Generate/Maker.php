@@ -76,12 +76,14 @@ class Maker
      * @param string $class
      * @param array $parameters
      *
-     * @return string
+     * @return string|null
      */
     public function run(string $class, array $parameters)
     {
         $class = "{$this->stubPath}/{$class}.stub";
+
         $this->validation($class, $parameters);
+
         return $this->write($class, $parameters);
     }
 
@@ -99,9 +101,7 @@ class Maker
         $name = "{$this->path}/{$name}.{$this->ext}";
         $class = "{$this->stubPath}/{$class}.stub";
 
-        $this->validation($class, $parameters);
-
-        return file_put_contents($name, $this->write($class, $parameters));
+        return file_put_contents($name, $this->run($class, $parameters));
     }
 
     /**

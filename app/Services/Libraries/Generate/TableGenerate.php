@@ -6,21 +6,32 @@ use App\Services\Libraries\Generate\Generator;
 
 class TableGenerator extends Generator
 {
-    protected $title;
-    protected $name;
-    protected $date;
+    /**
+     * @var string
+     */
+    protected string $title;
+
+    /**
+     * @var string
+     */
+    protected string $name;
+
+    /**
+     * @var string
+     */
+    protected string $date;
 
     /**
      * Undocumented variable
      *
      * @var array
      */
-    protected $parameters;
+    protected array $datas;
 
-    public function __construct(string $title, string $name, string $date, array $parameters)
+    public function __construct(string $title, string $name, string $date, array $datas)
     {
         $this->maker = new MakeClass();
-        $this->parameters = $parameters;
+        $this->datas = $datas;
         $this->title = $title;
         $this->name = $name;
         $this->date = $date;
@@ -29,8 +40,8 @@ class TableGenerator extends Generator
     public function generate()
     {
         $body = '';
-        foreach ($this->parameters as $parameter) {
-            $body .= $this->maker->run('tbody', $parameter) . '\\n';
+        foreach ($this->datas as $data) {
+            $body .= $this->maker->run('tbody', $data) . '\\n';
         }
 
         return $this->maker->run('table', ['title' => $this->title, 'name' => $this->name, 'date' => $this->date, 'body' => $body]);

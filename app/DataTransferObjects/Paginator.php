@@ -27,7 +27,7 @@ class Paginator extends Dto
         $this->setPrevPageUrl($paginate->previousPageUrl());
         $this->setNextPageUrl($paginate->nextPageUrl());
         $this->setTotal($paginate->total());
-        $this->setData($data, $dto->mapList($paginate->items()) ?? []);
+        $this->setData($data, $dto->mapList($paginate->items()) ?? collect([]));
     }
 
     /**

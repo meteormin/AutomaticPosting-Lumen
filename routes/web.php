@@ -23,12 +23,9 @@ $router->get('tistory/callback', [
     'uses' => 'TistoryController@callback'
 ]);
 
-$router->get('/', function () {
-    $list = [1, 2, 3, 4, 5];
-    return view('list', ['list' => $list]);
-});
+$router->get('/', 'PostsController@index');
 
-$router->get('posts/{id}', 'AbsoluteController@index');
+$router->get('posts/{id}', 'PostsController@show');
 
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
     $router->get('tistory/auth', 'TistoryController@auth');

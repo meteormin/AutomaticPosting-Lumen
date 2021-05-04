@@ -54,7 +54,7 @@ class PostsService extends Service
      */
     public function paginate(int $count = 10)
     {
-        $model = $this->model->simplePaginate($count);
+        $model = $this->model->paginate($count);
 
         return new Paginator($model, 'posts', $this->dto);
     }
@@ -97,25 +97,31 @@ class PostsService extends Service
         return $this->dto->mapList($this->model->where($where)->get());
     }
 
-    public function autoPost($name, int $userId = 1, string $createdBy = 'YooSeongMin')
+    public function autoPost($name, int $userId, string $createdBy)
     {
-        $refine = $this->service->getRefinedData($name)->toArray();
+        $refine = $this->service->getRefinedData($name);
 
-        if ($refine['title'] == 'theme') {
-            $code = $refine['code'];
-            $name = collect(config('themes'))->filter(function ($value) use ($code) {
+        if ($refine->get('title') == 'theme') {
+            $code = $refine->get('code');
+            $theme = collect(config('themes'))->filter(function ($value) use ($code) {
                 return $value['code'] == $code;
             })->first();
+
+            $name = $theme['name'];
         }
 
-        if ($refine['title'] == 'sector') {
-            $name = config('sectors.kospi.sectors_raw.' . $refine['code']);
+        if ($refine->get('title') == 'sector') {
+            $name = config('sectors.kospi.sectors_raw.' . $refine->get('title'));
         }
 
         $generator = new TableGenerator($refine['title'], $name, $refine['date'], $refine['data']);
 
         $data = $generator->generate();
 
+        $now = Carbon::now()->format('[Y-m-d]');
+
+        $this->dto->setTitle($now . ' ' . $refine['title'] . ': ' . $name);
+        $this->dto->setSubTitle($name . "({$refine['date']})");
         $this->dto->setContents($data);
 
         return $this->create($this->dto, $userId, $createdBy);

@@ -53,7 +53,7 @@ class Kiwoom extends Command
                 $market = 'kospi';
             }
 
-            $command = "python main.py -m {$market} -s {$sector}";
+            $option = "-m {$market} -s {$sector}";
         }
 
         if ($where == 'theme') {
@@ -63,9 +63,23 @@ class Kiwoom extends Command
                 return 1;
             }
 
-            $command = "python main.py -t {$theme}";
+            $option = "-t {$theme}";
         }
 
         $this->info("get {$where}...");
+
+        $sshConfig = config('winssh');
+
+        $ssh = "ssh -i {$sshConfig['public_key']} ";
+
+        $python = "'{$sshConfig['command']} {$option}'";
+
+        $output = null;
+
+        $this->info("python: $python");
+
+        exec($ssh . $python, $output);
+
+        $this->info($output);
     }
 }

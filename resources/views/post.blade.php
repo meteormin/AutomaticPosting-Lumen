@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
-                <h3>섹터: 전기전자(2017 ~ 2020)</h3>
+                <h3>{{ $title }}: {{ $name }}({{ $date }})</h3>
                         @if(isset($data))
                             <div class="table-responsive">
                                 <table class="table">

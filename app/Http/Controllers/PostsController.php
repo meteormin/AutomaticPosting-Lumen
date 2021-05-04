@@ -41,9 +41,9 @@ class PostsController extends DefaultController
         return view('list', $this->postsService->paginate());
     }
 
-    public function show(Request $request, string $name = 'sector')
+    public function show(Request $request, int $id)
     {
-        return view('post', ['data' => $this->mainService->getRefinedData($name)]);
+        return view('post', ['data' => $this->postService->find($id)]);
     }
 
     public function refine(Request $request, string $name)

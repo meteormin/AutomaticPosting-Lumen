@@ -72,6 +72,7 @@ $app->configure('themes');
 $app->configure('view');
 $app->configure('error');
 $app->configure('tistory');
+$app->configure('winssh');
 
 /*
 |--------------------------------------------------------------------------
