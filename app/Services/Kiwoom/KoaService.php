@@ -35,7 +35,7 @@ class KoaService extends Service
             $rs->add($this->module->put($name, $item));
         });
 
-        if (count($rs) == 0) {
+        if ($rs->count() == 0) {
             $this->throw(ErrorCode::CONFLICT, '섹터 별 주가정보 저장 실패, ' . $stocks->get('stock_code'));
         }
 

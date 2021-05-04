@@ -44,18 +44,24 @@ class Stocks
         $this->path = 'kiwoom';
     }
 
-    public function put($name, Collection $stock)
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @param Collection $stock
+     *
+     * @return Collection
+     */
+    public function put(string $name, Collection $stock)
     {
-        $rs[] = [
+        return collect([
             "{$name}_code" => $stock->get("{$name}_code"),
             "{$name}_name" => $stock->get("{$name}_name"),
             'result' => $this->disk->put(
                 "{$this->path}/{$name}/{$stock->get('file_name')}.json",
                 $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
             )
-        ];
-
-        return $rs;
+        ]);
     }
 
     /**
