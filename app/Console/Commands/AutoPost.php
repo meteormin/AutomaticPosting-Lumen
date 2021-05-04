@@ -13,7 +13,7 @@ class AutoPost extends Command
      *
      * @var string
      */
-    protected $signature = 'autopost:{name}';
+    protected $signature = 'autopost {name}';
 
     /**
      * The console command description.
