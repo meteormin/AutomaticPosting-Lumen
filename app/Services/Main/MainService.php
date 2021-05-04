@@ -7,8 +7,11 @@ use Illuminate\Support\Collection;
 use App\Services\Kiwoom\KoaService;
 use App\DataTransferObjects\Finance;
 use App\DataTransferObjects\PostsStatus as PostsStatusDto;
+use App\DataTransferObjects\Posts as PostsDto;
 use App\DataTransferObjects\StockInfo;
+use App\Models\Posts;
 use App\Models\PostsStatus;
+use App\Services\Kiwoom\Windows;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Carbon;
 
@@ -28,12 +31,20 @@ class MainService extends Service
      */
     protected $openDart;
 
-    public function __construct(KoaService $koa, OpenDartService $openDart)
+    /**
+     * Undocumented variable
+     *
+     * @var Windows
+     */
+    protected $win;
+
+    public function __construct(KoaService $koa, OpenDartService $openDart, Windows $win)
     {
         set_time_limit(300);
 
         $this->koa = $koa;
         $this->openDart = $openDart;
+        $this->win = $win;
     }
 
     /**
@@ -50,6 +61,9 @@ class MainService extends Service
             if (is_null($where)) {
                 $where = $this->getPriority($name);
             }
+
+            $this->win->run($name, ['market' => 'kospi', 'sector' => $where]);
+
             $stockInfo = $this->koa->showBySector($where);
         }
 
@@ -57,6 +71,9 @@ class MainService extends Service
             if (is_null($where)) {
                 $where = $this->getPriority($name);
             }
+
+            $this->win->run($name, ['theme' => $where]);
+
             $stockInfo = $this->koa->showByTheme($where);
         }
 
@@ -145,16 +162,14 @@ class MainService extends Service
             $config = collect(config('themes'));
         }
 
-        $already = PostsStatus::where('type', $name);
+        $currentCount = Posts::where('type', $name)->count();
 
-        $config->filter(function ($item) use ($already) {
-            $f = false;
-            $already->each(function ($post) use ($item, &$f) {
-                if ($post instanceof PostsStatusDto) {
-                    if ($post->getCode() == $item['code']) {
-                    }
-                }
-            });
-        });
+        $remainder = $config->count() % $currentCount;
+
+        if ($remainder == 0) {
+            return $config->get($remainder)['code'];
+        }
+
+        return $config->get($config->count() - $remainder)['code'];
     }
 }

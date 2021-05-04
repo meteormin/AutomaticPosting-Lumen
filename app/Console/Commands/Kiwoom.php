@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Services\OpenDart\OpenDartService;
+use App\Services\Kiwoom\Windows;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
 
 class Kiwoom extends Command
 {
@@ -37,50 +36,19 @@ class Kiwoom extends Command
      *
      * @return mixed
      */
-    public function handle(OpenDartService $opendart)
+    public function handle(Windows $runner)
     {
         $where = $this->argument('where');
+        $options = json_encode($this->options(), JSON_UNESCAPED_UNICODE);
 
-        if ($where == 'sector') {
-            $sector = $this->option('sector');
-            $market = $this->option('market');
-            if (is_null($sector)) {
-                $this->error('options sector is required');
-                return 1;
-            }
+        $this->info("get stockinfo by {$where}: {$options}");
 
-            if (is_null($market)) {
-                $market = 'kospi';
-            }
+        $this->info('running...');
 
-            $option = "-m {$market} -s {$sector}";
-        }
-
-        if ($where == 'theme') {
-            $theme = $this->option('theme');
-            if (is_null($theme)) {
-                $this->error('options theme is required');
-                return 1;
-            }
-
-            $option = "-t {$theme}";
-        }
-
-        $this->info("get {$where}...");
-
-        $sshConfig = config('winssh');
-
-        $ssh = "ssh -i {$sshConfig['public_key']} {$sshConfig['host']} ";
-
-        $python = "'{$sshConfig['command']} {$option}'";
-
-        $output = null;
-
-        $this->info("python: $python");
-
-        exec($ssh . $python, $output);
+        $output = $runner->run($this->argument('where'), $this->options());
 
         $this->info(json_encode($output, JSON_UNESCAPED_UNICODE));
+
         return 0;
     }
 }

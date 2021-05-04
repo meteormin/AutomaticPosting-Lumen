@@ -93,7 +93,7 @@ class OpenDartService extends Service
         }
 
         if (!is_numeric($year) || strlen($year) != 4) {
-            $this->throw(ErrorCode::VALIDATION_FAIL, "year parameter must be 'yyyy' format");
+            $this->throw(ErrorCode::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
         }
 
         $corpCode = $this->findCorpCodeByStockCode($stockCode);
@@ -124,7 +124,7 @@ class OpenDartService extends Service
         }
 
         if (!is_numeric($year) || strlen($year) != 4) {
-            $this->throw(ErrorCode::VALIDATION_FAIL, "year parameter must be 'yyyy' format");
+            $this->throw(ErrorCode::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
         }
 
         foreach ($stockCodes as $stockCode) {
