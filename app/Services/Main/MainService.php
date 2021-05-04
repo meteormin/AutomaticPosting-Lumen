@@ -84,7 +84,7 @@ class MainService extends Service
             }
         });
 
-        $acnts = $this->openDart->getMultiple($stockCodes->all(), Carbon::now()->format('Y'));
+        $acnts = $this->openDart->getMultiple($stockCodes->all(), Carbon::now()->subYear()->format('Y'));
 
         $rsList->filter(function ($finance) use ($acnts) {
             if ($finance instanceof Finance) {
