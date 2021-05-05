@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <center>><h3>Not Found Page</h3></center
+            <center><h3>Not Found Page</h3></center>
         </div>
     </div>
 </div>
