@@ -1,7 +1,7 @@
 {
     "name": "FinanceDataBlog",
     "short_name": "FinanceDataBlog",
-    "start_url": ".",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "black",
     "description": "A readable Hacker News app.",
