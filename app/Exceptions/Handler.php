@@ -74,6 +74,10 @@ class Handler extends ExceptionHandler
             return ApiResponse::error(ErrorCode::SERVER_ERROR, $exception->getMessage());
         }
 
+        if ($exception instanceof NotFoundHttpException) {
+            return view('404');
+        }
+
         return parent::render($request, $exception);
     }
 }
