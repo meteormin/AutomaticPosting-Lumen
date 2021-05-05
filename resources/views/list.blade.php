@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('header')
-    @include('layouts.list-header')
+    @include('layouts.header')
 @endsection
 
 @section('content')
