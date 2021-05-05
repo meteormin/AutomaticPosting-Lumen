@@ -23,6 +23,8 @@
         {{-- <link href="{{ url('/css/app.css') }}" rel="stylesheet" /> --}}
         <link href="{{ url('/css/styles.css') }}" rel="stylesheet" />
         <link rel="manifest" href="/assets/manifest.json" />
+        <link rel="apple-touch-icon" href="/assets/favicon.png" />
+        <link rel="shortcut icon" href="/assets/favicon.png" />
         @include('layouts.open-graph')
     </head>
     <body>
