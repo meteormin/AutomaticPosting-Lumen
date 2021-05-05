@@ -23,7 +23,7 @@
         {{-- <link href="{{ url('/css/app.css') }}" rel="stylesheet" /> --}}
         <link href="{{ url('/css/styles.css') }}" rel="stylesheet" />
 
-
+        @include('layouts.open-graph')
     </head>
     <body>
         @include('layouts.nav')
