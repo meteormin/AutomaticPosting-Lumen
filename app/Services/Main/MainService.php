@@ -6,11 +6,8 @@ use App\Services\Service;
 use Illuminate\Support\Collection;
 use App\Services\Kiwoom\KoaService;
 use App\DataTransferObjects\Finance;
-use App\DataTransferObjects\PostsStatus as PostsStatusDto;
-use App\DataTransferObjects\Posts as PostsDto;
 use App\DataTransferObjects\StockInfo;
 use App\Models\Posts;
-use App\Models\PostsStatus;
 use App\Services\Kiwoom\Windows;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Carbon;
@@ -55,14 +52,14 @@ class MainService extends Service
      *
      * @return Collection
      */
-    protected function getStockInfo(string $name, string $where = null)
+    public function getStockInfo(string $name, string $where = null)
     {
         if ($name == 'sector') {
             if (is_null($where)) {
                 $where = $this->getPriority($name);
             }
 
-            $this->win->run($name, ['market' => 'kospi', 'sector' => $where]);
+            // $this->updateStockInfo($name, $where);
 
             $stockInfo = $this->koa->showBySector($where);
         }
@@ -72,7 +69,7 @@ class MainService extends Service
                 $where = $this->getPriority($name);
             }
 
-            $this->win->run($name, ['theme' => $where]);
+            // $this->updateStockInfo($name, $where);
 
             $stockInfo = $this->koa->showByTheme($where);
         }
@@ -152,7 +149,7 @@ class MainService extends Service
      * @param string $name
      * @return string
      */
-    protected function getPriority(string $name)
+    public function getPriority(string $name)
     {
         if ($name == 'sector') {
             $config = collect(config('sectors.kospi.sectors'));
@@ -171,5 +168,27 @@ class MainService extends Service
         }
 
         return $config->get($config->count() - $remainder)['code'];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $name
+     * @param string $code
+     *
+     * @return void
+     */
+    public function updateStockInfo(string $name, string $code)
+    {
+        if ($name == 'sector') {
+            $options['market'] = 'kospi';
+            $options['sector'] = $code;
+        }
+
+        if ($name == 'theme') {
+            $options['theme'] = $code;
+        }
+
+        $this->win->run($name, $options);
     }
 }
