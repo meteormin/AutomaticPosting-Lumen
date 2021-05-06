@@ -107,7 +107,7 @@ class PostsService extends Service implements AutoPostInterface
      *
      * @return int
      */
-    public function autoPost(string $type, int $userId, string $createdBy)
+    public function autoPost(string $type, int $userId = null, string $createdBy = null)
     {
         $refine = $this->service->getRefinedData($type);
 

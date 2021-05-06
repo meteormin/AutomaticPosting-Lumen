@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Response\ErrorCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\DefaultController;
@@ -48,6 +47,6 @@ class SectorController extends DefaultController
             return $this->response($res);
         }
 
-        return $this->error(ErrorCode::NOT_FOUND, "{$market} is not found");
+        return $this->error(self::NOT_FOUND, "{$market} is not found");
     }
 }

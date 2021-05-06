@@ -2,14 +2,12 @@
 
 namespace App\DataTransferObjects\Abstracts;
 
-use JsonMapper;
 use App\Exceptions\DtoErrorException;
 use Illuminate\Contracts\Support\Jsonable;
-use App\DataTransferObjects\Utils\Property;
 use Illuminate\Contracts\Support\Arrayable;
-use App\DataTransferObjects\Utils\ArrController;
+use App\DataTransferObjects\Utils\BaseObject;
 
-abstract class Dto implements DtoInterface, Arrayable, Jsonable
+abstract class Dto extends BaseObject implements DtoInterface, Arrayable, Jsonable
 {
     /**
      * 출력하지 않을 속성들의 배열
@@ -29,6 +27,11 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
         throw new DtoErrorException("{$key}: 유효하지 않는 속성");
     }
 
+    public function __construct($params = null)
+    {
+        return $this->map($params);
+    }
+
     /**
      * Dto속성 값들을 연관배열로 반환(출력용)
      * 속성의 접근제한자를 proteced(+public)로 지정한 속성만 출력 된다.
@@ -40,42 +43,11 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
      */
     public function toArray(bool $allowNull = false): ?array
     {
-        $property = new Property($this);
-
-        $attributes = ArrController::snakeFromArray($property->toArray());
-
-        if (!$allowNull) {
-            $attributes = ArrController::exceptNull($attributes);
-        }
-
-        $attributes = collect($attributes)->map(function ($item, $key) {
-            if ($item instanceof Arrayable) {
-                return $item->toArray();
-            }
-
-            return $item;
-        });
+        $attributes = collect(parent::toArray($allowNull));
 
         $attributes = $attributes->except(array_merge(['hidden'], $this->hidden));
 
         return $attributes->isEmpty() ? null : $attributes->all();
-    }
-
-    /**
-     * toJson
-     *
-     * @param boolean $allowNull
-     * @param int $options
-     * @return string
-     */
-    public function toJson($options = JSON_UNESCAPED_UNICODE, $allowNull = true): string
-    {
-        return json_encode($this->toArray($allowNull), $options);
-    }
-
-    public function __toString(): string
-    {
-        return $this->toJson();
     }
 
     /**
@@ -121,111 +93,6 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
         });
 
         return $this;
-    }
-
-    /**
-     * clear
-     * 제거 예정, 에러 발생 시 newInstance() 메서드로 대체
-     * @deprecated PHP 7.4이상에서 속성 type 정의 시, nullable이 아닐 경우 에러 발생
-     * @return $this
-     */
-    public function clear()
-    {
-        try {
-            $property = new Property($this);
-
-            foreach ($property->toArrayKeys() as $key) {
-                $this->$key = null;
-            }
-
-            return $this;
-        } catch (\Throwable $e) {
-            return $this->newInstance();
-        }
-    }
-
-
-    /**
-     * map array or object
-     * JsonMapper 라이브러리 사용
-     * @param Arrayable|array $data
-     * @param bool $clena
-     * @return $this
-     */
-    public function map($arrayAble, bool $clean = false)
-    {
-        if ($clean) {
-            $self = $this->clear();
-        } else {
-            $self = $this;
-        }
-
-        $jsonMapper = new JsonMapper;
-
-        if ($arrayAble instanceof Jsonable) {
-            $json = json_decode($arrayAble->toJson());
-            if (is_object($json)) {
-                $jsonMapper->map($json, $self);
-            }
-            return $self;
-        }
-
-        if ($arrayAble instanceof Arrayable) {
-            $json = json_decode(json_encode($arrayAble->toArray()));
-            if (is_object($json)) {
-                $jsonMapper->map($json, $self);
-            }
-            return $self;
-        }
-
-        if (empty($arrayAble)) {
-            return $self;
-        }
-
-        if (!is_object($arrayAble) && !is_array($arrayAble)) {
-            return $self;
-        }
-
-        $json = json_decode(json_encode($arrayAble));
-        if (is_object($json)) {
-            $jsonMapper->map($json, $self);
-        }
-
-        return $self;
-    }
-
-
-    /**
-     * map List
-     *
-     * @param array|Arrayable $data
-     *
-     * @return Collection
-     */
-    public function mapList($data)
-    {
-        if (!$data instanceof Arrayable  && !is_array($data)) {
-            throw new DtoErrorException(get_class($data) . '은 현재 Dto에서 매핑할 수 없습니다.');
-        }
-
-        $rsList = collect();
-        foreach ($data as $value) {
-            $entity = $this->newInstance();
-
-            $rsList->add($entity->map($value));
-        }
-
-        return collect($rsList);
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return $this
-     */
-    public function newInstance()
-    {
-        return new $this;
     }
 
     /**

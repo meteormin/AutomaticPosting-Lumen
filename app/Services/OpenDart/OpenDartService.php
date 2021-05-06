@@ -3,7 +3,6 @@
 namespace App\Services\OpenDart;
 
 use App\Services\Service;
-use App\Response\ErrorCode;
 use Illuminate\Support\Carbon;
 use Illuminate\Pagination\Paginator;
 use App\DataTransferObjects\CorpCode;
@@ -33,7 +32,7 @@ class OpenDartService extends Service
             return true;
         }
 
-        $this->throw(ErrorCode::CONFLICT, 'failed store corp codes');
+        $this->throw(self::CONFLICT, 'failed store corp codes');
     }
 
     /**
@@ -93,14 +92,14 @@ class OpenDartService extends Service
         }
 
         if (!is_numeric($year) || strlen($year) != 4) {
-            $this->throw(ErrorCode::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
+            $this->throw(self::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
         }
 
         $corpCode = $this->findCorpCodeByStockCode($stockCode);
 
         $corpCode = $corpCode;
         if (is_null($corpCode)) {
-            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
+            $this->throw(self::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
         }
 
         return $this->module->getSinglAcnt($corpCode->getCorpCode(), $year, $reprtCode);
@@ -124,7 +123,7 @@ class OpenDartService extends Service
         }
 
         if (!is_numeric($year) || strlen($year) != 4) {
-            $this->throw(ErrorCode::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
+            $this->throw(self::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
         }
 
         foreach ($stockCodes as $stockCode) {
@@ -136,11 +135,11 @@ class OpenDartService extends Service
 
         $res = $this->module->getMultiAcnt($corpCodes->all(), $year);
         if ($res->isEmpty()) {
-            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, "can not found stocks");
+            $this->throw(self::RESOURCE_NOT_FOUND, "can not found stocks");
         }
 
         if ($res->has('error')) {
-            $this->throw(ErrorCode::CONFLICT, $res);
+            $this->throw(self::CONFLICT, $res);
         }
 
         return $res;

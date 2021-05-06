@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Response\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Response\ErrorCode;
 
 class DefaultController extends Controller
 {
+    use ErrorCode;
 
     /**
      * 생성 혹은 조회
@@ -38,7 +40,7 @@ class DefaultController extends Controller
      */
     protected function validationFail(\Illuminate\Support\MessageBag $messageBag)
     {
-        return ApiResponse::error(24, $messageBag);
+        return ApiResponse::error(self::VALIDATION_FAIL, $messageBag);
     }
 
 

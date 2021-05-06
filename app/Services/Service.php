@@ -12,6 +12,8 @@ use App\Response\ErrorCode;
  */
 class Service
 {
+    use ErrorCode;
+
     /**
      * @var int $code 에러 코드
      */
@@ -31,7 +33,7 @@ class Service
      *
      * @throws ApiErrorException
      */
-    public function throw(int $code = ErrorCode::SERVER_ERROR, $message = null)
+    public function throw(int $code = self::SERVER_ERROR, $message = null)
     {
         throw new ApiErrorException($code, $message);
     }
@@ -42,7 +44,7 @@ class Service
      *
      * @return null
      */
-    public function setError(int $code = ErrorCode::SERVER_ERROR, $message = null)
+    public function setError(int $code = self::SERVER_ERROR, $message = null)
     {
         $this->code = $code;
         $this->error = $message;

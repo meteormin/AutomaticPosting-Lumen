@@ -3,7 +3,6 @@
 namespace App\Services\Kiwoom;
 
 use App\Services\Service;
-use App\Response\ErrorCode;
 use Illuminate\Support\Collection;
 
 class KoaService extends Service
@@ -36,7 +35,7 @@ class KoaService extends Service
         });
 
         if ($rs->count() == 0) {
-            $this->throw(ErrorCode::CONFLICT, '섹터 별 주가정보 저장 실패, ' . $stocks->get('stock_code'));
+            $this->throw(self::CONFLICT, '섹터 별 주가정보 저장 실패, ' . $stocks->get('stock_code'));
         }
 
         return $rs;
@@ -74,7 +73,7 @@ class KoaService extends Service
     {
         $rs = $this->module->getBySector($sector);
         if (is_null($rs)) {
-            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, 'not found sector: ' . $sector);
+            $this->throw(self::RESOURCE_NOT_FOUND, 'not found sector: ' . $sector);
         }
 
         return $rs;
@@ -91,7 +90,7 @@ class KoaService extends Service
     {
         $rs = $this->module->getByTheme($theme);
         if (is_null($rs)) {
-            $this->throw(ErrorCode::RESOURCE_NOT_FOUND, 'not found theme: ' . $theme);
+            $this->throw(self::RESOURCE_NOT_FOUND, 'not found theme: ' . $theme);
         }
 
         return $rs;
@@ -100,7 +99,7 @@ class KoaService extends Service
     public function storeThemes(?array $data)
     {
         if (is_null($data)) {
-            $this->throw(ErrorCode::VALIDATION_FAIL, ['data' => ['data는 필수항목입니다.']]);
+            $this->throw(self::VALIDATION_FAIL, ['data' => ['data는 필수항목입니다.']]);
         }
 
         $file = 'config/themes.php';

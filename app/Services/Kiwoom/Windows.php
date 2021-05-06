@@ -61,7 +61,7 @@ class Windows extends Service
                 return $this->makeOption($where, $options);
             }
 
-            $this->throw(ErrorCode::VALIDATION_FAIL, ['market' => ['required'], 'sector' => ['required']]);
+            $this->throw(self::VALIDATION_FAIL, ['market' => ['required'], 'sector' => ['required']]);
         }
 
         if ($where == 'theme') {
@@ -69,7 +69,7 @@ class Windows extends Service
                 return $this->makeOption($where, $options);
             }
 
-            $this->throw(ErrorCode::VALIDATION_FAIL, ['theme' => ['required']]);
+            $this->throw(self::VALIDATION_FAIL, ['theme' => ['required']]);
         }
     }
 

@@ -19,19 +19,32 @@ class MediumService extends Service implements AutoPostInterface
     /**
      * Undocumented function
      *
-     * @param string $type
-     * @param integer $userId
-     * @param string $createdBy
-     *
-     * @return string
+     * @return MediumClient
      */
-    public function autoPost(string $type, int $userId, string $createdBy)
+    public function client()
     {
-        $posts = Posts::where('type', $type)
-            ->where('published', false)
-            ->orderByDese('created_at')
-            ->first();
+        return $this->client;
+    }
 
-        $this->client->posts($posts);
+    /**
+     * Undocumented function
+     *
+     * @param string $type
+     * @param integer $postsId
+     *
+     * @return array
+     */
+    public function autoPost(string $type, int $postsId = null)
+    {
+        if (is_null($postsId)) {
+            $posts = Posts::where('type', $type)
+                ->where('published', false)
+                ->orderByDese('created_at')
+                ->first();
+        } else {
+            $posts = Posts::find($postsId);
+        }
+
+        return $this->client->posts($posts);
     }
 }
