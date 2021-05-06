@@ -24,8 +24,8 @@ class MakeClass extends Maker
 
     public function __construct(string $path = null, string $ext = 'php')
     {
-        $this->stubPath = base_path(config('make_class.stub_path', 'app/Stubs'));
-        $this->path = base_path(config('make_class.save_path', 'app'));
+        $this->stubPath = base_path(config('makeclass.stub_path', 'app/Stubs'));
+        $this->path = base_path(config('makeclass.save_path', 'app'));
         $this->ext = $ext;
         if (!is_null($path)) {
             $this->setPath($path);

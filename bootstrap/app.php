@@ -72,8 +72,10 @@ $app->configure('themes');
 $app->configure('view');
 $app->configure('error');
 $app->configure('tistory');
-$app->configure('make_class');
+$app->configure('makeclass');
 $app->configure('winssh');
+$app->configure('medium');
+$app->configure('maketable');
 
 /*
 |--------------------------------------------------------------------------

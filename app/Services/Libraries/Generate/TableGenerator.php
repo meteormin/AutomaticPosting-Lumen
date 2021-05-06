@@ -44,6 +44,29 @@ class TableGenerator extends Generator
             $body .= $this->maker->run('tbody', $data) . '\\n';
         }
 
-        return $this->maker->run('table', ['title' => $this->title, 'name' => $this->name, 'date' => $this->date, 'body' => $body]);
+        $header = $this->makeHeader();
+
+        return $this->maker->run('table', [
+            'title' => $this->title,
+            'name' => $this->name,
+            'date' => $this->date,
+            'thead_class' => implode(' ', config('maketable.thead.class')),
+            'header' => $header,
+            'body' => $body
+        ]);
+    }
+
+    public function makeHeader()
+    {
+        $th = config('maketable.thead.th');
+
+        $class = implode(' ', $th['class']);
+        $text = $th['text'];
+        $header = '';
+        foreach ($text as $txt) {
+            $header .= $this->maker->run('thead', ['class' => $class, 'text' => $txt]) . '\\n';
+        }
+
+        return $header;
     }
 }

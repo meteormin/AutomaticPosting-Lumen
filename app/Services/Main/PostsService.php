@@ -116,14 +116,16 @@ class PostsService extends Service
                 return $value['code'] == $code;
             })->first();
 
-            $name = $theme['name'];
+            $name = str_replace('_', '', $theme['name']);
         }
 
         if ($refine->get('title') == 'sector') {
             $name = config('sectors.kospi.sectors_raw.' . $refine->get('code'));
         }
 
-        $generator = new TableGenerator($refine->get('title'), $name, $refine->get('date'), $refine->get('data')->toArray());
+        $title = __("stock.$name");
+
+        $generator = new TableGenerator($title, $name, $refine->get('date'), $refine->get('data')->toArray());
 
         $data = $generator->generate();
 

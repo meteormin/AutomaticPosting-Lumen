@@ -17,6 +17,16 @@ class Posts extends Dto
     protected int $userId;
 
     /**
+     * @var string $type
+     */
+    protected string $type;
+
+    /**
+     * @var string $code
+     */
+    protected string $code;
+
+    /**
      * @var string $title
      */
     protected string $title;
@@ -56,7 +66,7 @@ class Posts extends Dto
      *
      * @param  int  $id  $id
      *
-     * @return  self
+     * @return  $this
      */
     public function setId(int $id)
     {
@@ -80,7 +90,7 @@ class Posts extends Dto
      *
      * @param  string  $title  $title
      *
-     * @return  self
+     * @return  $this
      */
     public function setTitle(string $title)
     {
@@ -104,7 +114,7 @@ class Posts extends Dto
      *
      * @param  string  $subTitle  $subTitle;
      *
-     * @return  self
+     * @return  $this
      */
     public function setSubTitle(string $subTitle)
     {
@@ -131,7 +141,7 @@ class Posts extends Dto
      *
      * @param  string  $contents  $contents
      *
-     * @return  self
+     * @return  $this
      */
     public function setContents(string $contents)
     {
@@ -155,7 +165,7 @@ class Posts extends Dto
      *
      * @param  string  $createdBy  $createdBy
      *
-     * @return  self
+     * @return  $this
      */
     public function setCreatedBy(string $createdBy)
     {
@@ -179,7 +189,7 @@ class Posts extends Dto
      *
      * @param  string  $createdAt  $createdAt
      *
-     * @return  self
+     * @return  $this
      */
     public function setCreatedAt(string $createdAt)
     {
@@ -203,11 +213,77 @@ class Posts extends Dto
      *
      * @param  int  $userId  $userId
      *
-     * @return  self
+     * @return  $this
      */
     public function setUserId(int $userId)
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get $type
+     * @param string|null $lang en,ko (default is en)
+     * @return  string
+     */
+    public function getType(?string $lang = 'en'): string
+    {
+        if ($lang == 'ko') {
+            return __("stock.{$this->type}");
+        }
+
+        return $this->type;
+    }
+
+    /**
+     * Set $type
+     *
+     * @param  string  $type
+     *
+     * @return  $this
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get $code
+     * @param string $type return data type code or ko (default is code)
+     * @return  string
+     */
+    public function getCode(string $type = 'code')
+    {
+        if ($type == 'ko') {
+            if ($this->type == 'sector') {
+                return config("sectors.kospi.sectors_raw.{$this->code}");
+            }
+
+            if ($this->type == 'theme') {
+                $theme = collect(config('themes'))->filter(function ($item) {
+                    return $item['code'] == $this->code;
+                })->first();
+
+                return str_replace('_', ' ', $theme['name']);
+            }
+        }
+
+        return $this->code;
+    }
+
+    /**
+     * Set $code
+     *
+     * @param  string  $code  $code
+     *
+     * @return  self
+     */
+    public function setCode(string $code)
+    {
+        $this->code = $code;
 
         return $this;
     }
