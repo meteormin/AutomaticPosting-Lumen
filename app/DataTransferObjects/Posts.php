@@ -42,6 +42,11 @@ class Posts extends Dto
     protected string $contents;
 
     /**
+     * @var bool $published
+     */
+    protected bool $published;
+
+    /**
      * @var string $createdBy
      */
     protected string $createdBy;
@@ -284,6 +289,26 @@ class Posts extends Dto
     public function setCode(string $code)
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of published
+     */
+    public function getPublished(): bool
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set the value of published
+     * @param bool $published
+     * @return  $this
+     */
+    public function setPublished(bool $published)
+    {
+        $this->published = $published;
 
         return $this;
     }

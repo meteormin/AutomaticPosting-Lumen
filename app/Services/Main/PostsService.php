@@ -9,12 +9,13 @@ use Illuminate\Support\Carbon;
 use App\Services\Main\MainService;
 use App\DataTransferObjects\Paginator;
 use App\DataTransferObjects\Posts as PostsDto;
+use App\Services\AutoPostInterface;
 use App\Services\Libraries\Generate\TableGenerator;
 
 /**
  * Posts Service
  */
-class PostsService extends Service
+class PostsService extends Service implements AutoPostInterface
 {
     /**
      *

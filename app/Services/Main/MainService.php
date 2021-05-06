@@ -161,13 +161,19 @@ class MainService extends Service
 
         $currentCount = Posts::where('type', $type)->count();
 
-        $remainder = $config->count() % $currentCount;
+        $remainder = 0;
+        $index = 0;
 
-        if ($remainder == 0) {
-            return $config->get($remainder)['code'];
+        if ($currentCount != 0) {
+            $remainder = $config->count() % $currentCount;
+            $index = $config->count() - $remainder;
         }
 
-        return $config->get($config->count() - $remainder)['code'];
+        if ($remainder == 0) {
+            $index = $remainder;
+        }
+
+        return $config->get($index)['code'];
     }
 
     /**

@@ -65,7 +65,7 @@ class Posts extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'title', 'sub_title', 'type', 'code', 'contents', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by'
+        'user_id', 'title', 'sub_title', 'type', 'code', 'contents', 'published', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by'
     ];
 
     /**
@@ -81,7 +81,17 @@ class Posts extends Model
      * @var array
      */
     protected $casts = [
-        'user_id' => 'int', 'title' => 'string', 'sub_title' => 'string', 'contents' => 'string', 'created_at' => 'date:Y-m-d', 'updated_at' => 'date:Y-m-d', 'deleted_at' => 'date:Y-m-d', 'created_by' => 'string', 'updated_by' => 'string', 'deleted_by' => 'string'
+        'user_id' => 'int',
+        'title' => 'string',
+        'sub_title' => 'string',
+        'contents' => 'string',
+        'published' => 'boolean',
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
+        'deleted_at' => 'date:Y-m-d',
+        'created_by' => 'string',
+        'updated_by' => 'string',
+        'deleted_by' => 'string'
     ];
 
     /**
