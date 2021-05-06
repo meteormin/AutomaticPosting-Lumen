@@ -2,7 +2,7 @@
 <br>
 <div class="table-responsive">
     <table class="table">
-        <thead class="{thead_class}">
+        <thead class="{{thead_class}}">
             <tr>
                 {{header}}
             </tr>

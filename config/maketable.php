@@ -3,7 +3,7 @@
 return [
     'thead' => [
         'class' => [
-            'thead-dark'
+            'thead'
         ],
         'th' => [
             // column names
