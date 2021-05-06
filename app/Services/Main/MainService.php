@@ -47,29 +47,29 @@ class MainService extends Service
     /**
      * Undocumented function
      *
-     * @param string $name
+     * @param string $type
      * @param string|null $where
      *
      * @return Collection
      */
-    public function getStockInfo(string $name, string $where = null)
+    public function getStockInfo(string $type, string $where = null)
     {
-        if ($name == 'sector') {
+        if ($type == 'sector') {
             if (is_null($where)) {
-                $where = $this->getPriority($name);
+                $where = $this->getPriority($type);
             }
 
-            // $this->updateStockInfo($name, $where);
+            $this->updateStockInfo($type, $where);
 
             $stockInfo = $this->koa->showBySector($where);
         }
 
-        if ($name == 'theme') {
+        if ($type == 'theme') {
             if (is_null($where)) {
-                $where = $this->getPriority($name);
+                $where = $this->getPriority($type);
             }
 
-            // $this->updateStockInfo($name, $where);
+            $this->updateStockInfo($type, $where);
 
             $stockInfo = $this->koa->showByTheme($where);
         }
@@ -79,14 +79,14 @@ class MainService extends Service
 
     /**
      * get raw data
-     * @param string $name
+     * @param string $type
      * @param string|null $where
      *
      * @return Collection
      */
-    public function getRawData(string $name, string $where = null)
+    public function getRawData(string $type, string $where = null)
     {
-        $stockInfo = $this->getStockInfo($name, $where);
+        $stockInfo = $this->getStockInfo($type, $where);
         $acnts = collect();
         $rsList = collect();
         $stockCodes = collect();
@@ -117,14 +117,14 @@ class MainService extends Service
 
     /**
      * Undocumented function
-     * @param string $name
+     * @param string $type
      * @param string|null $where
      *
      * @return Collection
      */
-    public function getRefinedData(string $name, string $where = null)
+    public function getRefinedData(string $type, string $where = null)
     {
-        $rawData = $this->getRawData($name, $where);
+        $rawData = $this->getRawData($type, $where);
 
         $refinedData = collect();
 
@@ -137,8 +137,8 @@ class MainService extends Service
         });
 
         return collect([
-            'title' => $name,
-            'code' => $where ?? $this->getPriority($name),
+            'title' => $type,
+            'code' => $where ?? $this->getPriority($type),
             'date' => Carbon::now()->subYears(3)->format('Y') . ' ~ ' . Carbon::now()->subYear()->format('Y'),
             'data' => $refinedData
         ]);
@@ -146,20 +146,20 @@ class MainService extends Service
 
     /**
      * Undocumented function
-     * @param string $name
+     * @param string $type
      * @return string
      */
-    public function getPriority(string $name)
+    public function getPriority(string $type)
     {
-        if ($name == 'sector') {
+        if ($type == 'sector') {
             $config = collect(config('sectors.kospi.sectors'));
         }
 
-        if ($name == 'theme') {
+        if ($type == 'theme') {
             $config = collect(config('themes'));
         }
 
-        $currentCount = Posts::where('type', $name)->count();
+        $currentCount = Posts::where('type', $type)->count();
 
         $remainder = $config->count() % $currentCount;
 
@@ -173,22 +173,22 @@ class MainService extends Service
     /**
      * Undocumented function
      *
-     * @param string $name
+     * @param string $type
      * @param string $code
      *
      * @return void
      */
-    public function updateStockInfo(string $name, string $code)
+    public function updateStockInfo(string $type, string $code)
     {
-        if ($name == 'sector') {
+        if ($type == 'sector') {
             $options['market'] = 'kospi';
             $options['sector'] = $code;
         }
 
-        if ($name == 'theme') {
+        if ($type == 'theme') {
             $options['theme'] = $code;
         }
 
-        $this->win->run($name, $options);
+        $this->win->run($type, $options);
     }
 }

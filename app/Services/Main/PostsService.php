@@ -106,9 +106,11 @@ class PostsService extends Service
      *
      * @return int
      */
-    public function autoPost(string $name, int $userId, string $createdBy)
+    public function autoPost(string $type, int $userId, string $createdBy)
     {
-        $refine = $this->service->getRefinedData($name);
+        $refine = $this->service->getRefinedData($type);
+
+        $title = __("stock.$type");
 
         if ($refine->get('title') == 'theme') {
             $code = $refine->get('code');
@@ -117,22 +119,24 @@ class PostsService extends Service
             })->first();
 
             $name = str_replace('_', '', $theme['name']);
+            $date = $refine->get('date');
+            $data = $refine->get('data')->toArray();
         }
 
         if ($refine->get('title') == 'sector') {
             $name = config('sectors.kospi.sectors_raw.' . $refine->get('code'));
+            $date = $refine->get('date');
+            $data = $refine->get('data')->toArray();
         }
 
-        $title = __("stock.$name");
-
-        $generator = new TableGenerator($title, $name, $refine->get('date'), $refine->get('data')->toArray());
+        $generator = new TableGenerator($title, $name, $date, $data);
 
         $data = $generator->generate();
 
         $now = Carbon::now()->format('[Y-m-d]');
 
-        $this->dto->setTitle($now . ' ' . $refine['title'] . ': ' . $name);
-        $this->dto->setSubTitle($name . "({$refine['date']})");
+        $this->dto->setTitle("{$now} {$title}: {$name}");
+        $this->dto->setSubTitle("$name ({$refine['date']})");
         $this->dto->setContents($data);
 
         return $this->create($this->dto, $userId, $createdBy);
