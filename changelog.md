@@ -21,6 +21,10 @@
 
 -   Dto관련 기능 분해 BaseObject를 두고 공통 기능들은 Trait으로 관리
 
+-   Medium API관련 기능 구현
+    -   사용자 정보 조회
+    -   글쓰기
+
 ## 2021.04.28
 
 > Version: 0.3.0
