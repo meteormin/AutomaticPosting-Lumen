@@ -2,7 +2,7 @@
 
 namespace App\Response;
 
-trait ErrorCode
+abstract class ErrorCode
 {
     /**
      * OAuth2.0 관련 에러 코드

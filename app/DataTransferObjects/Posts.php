@@ -268,11 +268,9 @@ class Posts extends Dto
             }
 
             if ($this->type == 'theme') {
-                $theme = collect(config('themes'))->filter(function ($item) {
-                    return $item['code'] == $this->code;
-                })->first();
+                $name = config("themes.kospi.themes_raw.{$this->code}");
 
-                return str_replace('_', ' ', $theme['name']);
+                return str_replace('_', ' ', $name);
             }
         }
 

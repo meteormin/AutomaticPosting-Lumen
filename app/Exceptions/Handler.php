@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use JsonSchema\Exception\ResourceNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -74,7 +75,7 @@ class Handler extends ExceptionHandler
             return ApiResponse::error(ErrorCode::SERVER_ERROR, $exception->getMessage());
         }
 
-        if ($exception instanceof NotFoundHttpException) {
+        if ($exception instanceof NotFoundHttpException || $exception instanceof ResourceNotFoundException) {
             return view('404');
         }
 

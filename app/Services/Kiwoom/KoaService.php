@@ -2,7 +2,9 @@
 
 namespace App\Services\Kiwoom;
 
+use TypeError;
 use App\Services\Service;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 
 class KoaService extends Service
@@ -96,26 +98,55 @@ class KoaService extends Service
         return $rs;
     }
 
-    public function storeThemes(?array $data)
+    public function storeThemes(string $market, ?array $data)
     {
-        if (is_null($data)) {
-            $this->throw(self::VALIDATION_FAIL, ['data' => ['data는 필수항목입니다.']]);
+        return $this->storeConfig('theme', $market, $data);
+    }
+
+    public function storeSectors(string $market, ?array $data)
+    {
+        return $this->storeConfig('sector', $market, $data);
+    }
+
+    public function storeConfig(string $type, string $market, ?array $data)
+    {
+        if (!($type == 'sector' || $type == 'theme')) {
+            throw new TypeError("type parameter is enum('sector','theme')");
         }
 
-        $file = 'config/themes.php';
+        $type = Str::plural($type);
 
-        $contents = "<?php\nreturn [\n";
+        $file = base_path("resources/lang/ko/{$type}.json");
 
-        foreach ($data as $key => $value) {
-            $contents .= "\t[";
-            foreach ($value as $k => $v) {
-                $contents .= "'{$k}' => '{$v}', ";
-            }
-            $contents .= "],\n";
+        $data = collect($data);
+
+        if ($data->isEmpty()) {
+            $this->throw(self::VALIDATION_FAIL, 'data is empty');
         }
 
-        $contents .= "];";
+        $raw = collect();
 
-        return file_put_contents(base_path($file), $contents);
+        $data->each(function ($item) use (&$raw) {
+            $raw->put($item['code'], $item['name']);
+        });
+
+        switch ($market) {
+            case 0:
+                $marketCode = 0;
+                break;
+            default:
+                $marketCode = 0;
+                break;
+        }
+
+        $contents = [
+            $market => [
+                'market_code' => $marketCode,
+                "{$type}" => $data,
+                "{$type}_raw" => $raw
+            ]
+        ];
+
+        return file_put_contents($file, json_encode($contents, JSON_UNESCAPED_UNICODE));
     }
 }

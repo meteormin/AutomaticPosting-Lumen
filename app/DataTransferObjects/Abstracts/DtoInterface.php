@@ -55,5 +55,5 @@ interface DtoInterface
      *
      * @return $this
      */
-    public function newInstance();
+    public static function newInstance($params = null);
 }

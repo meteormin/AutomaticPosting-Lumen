@@ -1,5 +1,26 @@
 # Change Log
 
+## 2021.05.07
+
+> Version: 0.3.1
+
+-   Windows클래스
+    -   ssh를 통해 kiwoom API 실행
+-   404 handle
+    -   API요청이 아닌 경우에, http not found 및 resource not found 예외에 대한 handle
+-   open graph 및 manifest 추가
+
+-   auto post 커맨드 및 기능 추가
+
+-   기존 sectors,themes config파일에서 관리했었는데, api로도 수정할 수 있게
+
+    -   resources/lang/ko 디렉터리 및에 sectors.json, themes.json으로 저장됨
+    -   기존 코드와의 호환성을 위해 config파일에서는 각 해당 json파일의 내용을 가져온다
+    -   themes와 sectors의 구조가 다른 부분을 서로 같게 수정
+    -   기존 API의 POST /api/themes와의 호완성을 위해 KoaService의 storeThemes메서드 수정
+
+-   Dto관련 기능 분해 BaseObject를 두고 공통 기능들은 Trait으로 관리
+
 ## 2021.04.28
 
 > Version: 0.3.0

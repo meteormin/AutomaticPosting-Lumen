@@ -30,14 +30,20 @@ $router->get('posts/{id}', 'PostsController@show');
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
     $router->get('tistory/auth', 'TistoryController@auth');
 
-    // Open Dart 기업 코드 가져오기
-    $router->get('corp-code', 'StockController@showCorpCode');
-
-    // 섹터 리스트 가져오기
+    // 섹터 리스트 조회
     $router->get('sectors', 'SectorController@index');
 
-    //  시장 별 섹터 리스트 가져오기
+    //  시장 별 섹터 리스트 조회
     $router->get('sectors/{market}', 'SectorController@show');
+
+    $router->post('sectors/{market}', 'SectorController@store');
+
+    // 테마 리스트 조회
+    $router->get('themes', 'ThemeController@index');
+
+    // 테마 리스트 저장
+    $router->post('themes', 'ThemeController@store');
+
 
     //  get sotck list
     $router->get('stocks/sectors', 'StockController@sectors');
@@ -57,12 +63,15 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
     // 정리된 데이터
     $router->get('absolute/refine/{name}', 'AbsoluteController@refine');
 
-    //  업종 별 종목정보 저장하기
+    //  종목정보 저장하기 method = sector or theme
     $router->post('stocks/{method}', 'StockController@storeStock');
+
+    /**
+     * open dart
+     */
+    // Open Dart 기업 코드 가져오기
+    $router->get('corp-code', 'StockController@showCorpCode');
 
     // Open Dart 기업 코드 저장
     $router->post('corp-codes', 'StockController@storeCorpCodes');
-
-    // 테마 리스트 저장
-    $router->post('themes', 'StockController@storeThemes');
 });

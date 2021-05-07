@@ -36,8 +36,9 @@ use Illuminate\Contracts\Support\Jsonable;
  * 29: 서버 점검(503)
  * 99: 500에러, 서버오류
  */
-class ErrorResponse implements Arrayable, Jsonable
+class ErrorResponse extends ErrorCode implements Arrayable, Jsonable
 {
+
     /**
      * @var string $status 상태(error 고정)
      */
@@ -124,7 +125,7 @@ class ErrorResponse implements Arrayable, Jsonable
      *
      * @param   string  $responseType  log 저장용 & 에러 출력용
      *
-     * @return  [type]                 [return description]
+     * @return  array                 [return description]
      */
     public function toArray(string $responseType = '')
     {
@@ -138,7 +139,7 @@ class ErrorResponse implements Arrayable, Jsonable
                 'auth' => $this->auth
             ];
         } else {
-            if ($this->code == config('error.VALIDATION_FAIL')) {
+            if ($this->code == self::VALIDATION_FAIL) {
                 return [
                     'status' => self::status,
                     'code' => $this->code,

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Response\ErrorCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\DefaultController;
+use App\Response\ErrorCode;
+use App\Services\Kiwoom\KoaService;
+use Illuminate\Support\Facades\Validator;
 
-class SectorController extends DefaultController
+class ThemeController extends DefaultController
 {
     /**
      * open dart service
@@ -17,9 +18,15 @@ class SectorController extends DefaultController
      */
     protected $config;
 
-    public function __construct()
+    /**
+     * @var KoaService
+     */
+    protected KoaService $service;
+
+    public function __construct(KoaService $service)
     {
-        $this->config = collect(config('sectors'));
+        $this->config = collect(config('themes'));
+        $this->service = $service;
     }
 
     /**
@@ -31,8 +38,7 @@ class SectorController extends DefaultController
      */
     public function index(Request $request)
     {
-        // 코스피 고정
-        return $this->response($this->config);
+        return $this->response($this->config->get('kospi'));
     }
 
     /**
@@ -66,7 +72,7 @@ class SectorController extends DefaultController
 
         $data = $request->get('data');
 
-        $rs = $this->koa->storeSectors($market, $data);
+        $rs = $this->service->storeThemes($market, $data);
         return $this->success($rs, 'POST');
     }
 }

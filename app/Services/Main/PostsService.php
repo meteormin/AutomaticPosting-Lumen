@@ -113,19 +113,17 @@ class PostsService extends Service implements AutoPostInterface
 
         $title = __("stock.$type");
 
-        if ($refine->get('title') == 'theme') {
+        if ($refine->get('type') == 'theme') {
             $code = $refine->get('code');
-            $theme = collect(config('themes'))->filter(function ($value) use ($code) {
-                return $value['code'] == $code;
-            })->first();
-
-            $name = str_replace('_', '', $theme['name']);
+            $name = config("themes.kospi.themes_raw.{$code}");
+            $name = str_replace('_', '', $name);
             $date = $refine->get('date');
             $data = $refine->get('data')->toArray();
         }
 
-        if ($refine->get('title') == 'sector') {
-            $name = config('sectors.kospi.sectors_raw.' . $refine->get('code'));
+        if ($refine->get('type') == 'sector') {
+            $code = $refine->get('code');
+            $name = config("sectors.kospi.sectors_raw.{$code}");
             $date = $refine->get('date');
             $data = $refine->get('data')->toArray();
         }
@@ -136,6 +134,8 @@ class PostsService extends Service implements AutoPostInterface
 
         $now = Carbon::now()->format('[Y-m-d]');
 
+        $this->dto->setType($refine->get('type'));
+        $this->dto->setCode($refine->get('code'));
         $this->dto->setTitle("{$now} {$title}: {$name}");
         $this->dto->setSubTitle("$name ({$refine['date']})");
         $this->dto->setContents($data);

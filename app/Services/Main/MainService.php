@@ -137,7 +137,7 @@ class MainService extends Service
         });
 
         return collect([
-            'title' => $type,
+            'type' => $type,
             'code' => $where ?? $this->getPriority($type),
             'date' => Carbon::now()->subYears(3)->format('Y') . ' ~ ' . Carbon::now()->subYear()->format('Y'),
             'data' => $refinedData
@@ -156,7 +156,7 @@ class MainService extends Service
         }
 
         if ($type == 'theme') {
-            $config = collect(config('themes'));
+            $config = collect(config('themes.kospi.themes'));
         }
 
         $currentCount = Posts::where('type', $type)->count();

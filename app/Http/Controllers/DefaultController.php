@@ -8,8 +8,6 @@ use App\Response\ErrorCode;
 
 class DefaultController extends Controller
 {
-    use ErrorCode;
-
     /**
      * 생성 혹은 조회
      * @param mixed $response
@@ -40,9 +38,8 @@ class DefaultController extends Controller
      */
     protected function validationFail(\Illuminate\Support\MessageBag $messageBag)
     {
-        return ApiResponse::error(self::VALIDATION_FAIL, $messageBag);
+        return ApiResponse::error(ErrorCode::VALIDATION_FAIL, $messageBag);
     }
-
 
     /**
      * @param integer $code

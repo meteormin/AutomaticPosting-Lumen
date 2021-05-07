@@ -10,10 +10,8 @@ use App\Response\ErrorCode;
  *
  * 비즈니스 로직
  */
-class Service
+class Service extends ErrorCode
 {
-    use ErrorCode;
-
     /**
      * @var int $code 에러 코드
      */

@@ -95,17 +95,6 @@ class StockController extends DefaultController
         return $this->success($rs, 'POST');
     }
 
-    public function storeThemes(Request $request)
-    {
-        $data = null;
-        if ($request->has('data')) {
-            $data = $request->get('data');
-        }
-
-        $rs = $this->koa->storeThemes($data);
-        return $this->success($rs);
-    }
-
     /**
      * Undocumented function
      *
