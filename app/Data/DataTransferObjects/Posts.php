@@ -3,6 +3,8 @@
 namespace App\Data\DataTransferObjects;
 
 use App\Data\Abstracts\Dto;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Storage;
 
 class Posts extends Dto
 {
@@ -309,5 +311,31 @@ class Posts extends Dto
         $this->published = $published;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     * @throws FileNotFoundException
+     */
+    public function getContentImg(): ?string
+    {
+        if(is_null($this->id)){
+            return null;
+        }
+
+        $filename="posts/{$this->id}.png";
+
+        if(Storage::disk('local')->exists($filename)){
+            return Storage::disk('local')->get($filename);
+        }
+
+        $filePath = storage_path("app/$filename");
+        exec("wkhtmltoimage http://localhost:58080/api/posts/{$this->id} {$filePath}",$output,$code);
+
+        if($code === 0){
+            return $this->getContentImg();
+        }
+
+        return null;
     }
 }
