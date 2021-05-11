@@ -336,6 +336,6 @@ class Posts extends Dto
             return $this->getContentImg();
         }
 
-        return null;
+        return json_encode($output);
     }
 }
