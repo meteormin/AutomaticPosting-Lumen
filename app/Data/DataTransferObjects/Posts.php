@@ -314,6 +314,7 @@ class Posts extends Dto
     }
 
     /**
+     * 해당 파일 있으면 가져오고 없으면 저장한다
      * @return string|null
      * @throws FileNotFoundException
      */
@@ -324,6 +325,9 @@ class Posts extends Dto
         }
 
         $filename="posts/{$this->id}.png";
+        if(!Storage::disk('local')->exists('posts')){
+            Storage::disk('local')->makeDirectory('posts');
+        }
 
         if(Storage::disk('local')->exists($filename)){
             return Storage::disk('local')->get($filename);

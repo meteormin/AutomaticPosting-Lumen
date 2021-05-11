@@ -28,9 +28,9 @@ class Client
      * host를 설정하지 않을 경우 config폴더의 api파일의 host를 따르게 된다.
      * token은 생성 시 설정 하지 않은 경우 setToken메서드를 이용하면 된다.
      *
-     * @param   string  $host        [$host description]
-     * @param   string  $token       [$token description]
-     * @param   string  $token_type  [$token_type description]
+     * @param string $host [$host description]
+     * @param string $token [$token description]
+     * @param string $token_type [$token_type description]
      *
      */
     public function __construct(string $host = null, string $token = null, string $token_type = 'Bearer')
@@ -44,9 +44,9 @@ class Client
     /**
      * [makeRequest description]
      * Http-Client를 통해 api로 요청을 보낸다.
-     * @param   string  $method      메서드 이름
-     * @param   string  $ep          api의 end-point
-     * @param   array   $parameters  요청 파라미터
+     * @param string $method 메서드 이름
+     * @param string $ep api의 end-point
+     * @param array $parameters 요청 파라미터
      * @return  string|array              [return description]
      */
     private function makeRequest(string $method = null, string $ep = '', array $parameters = null)
@@ -85,9 +85,9 @@ class Client
             if (is_array($attach)) {
                 foreach ($attach as $key => $value) {
                     if (is_null($client)) {
-                        $client = Http::attach($key, $value);
+                        $client = Http::attach($key, $value[0], $value[1]);
                     } else {
-                        $client->attach($key, $value);
+                        $client->attach($key, $value[0], $value[1]);
                     }
                 }
             }
@@ -158,8 +158,8 @@ class Client
      * 토큰 설정
      * 기본은 bearer토큰이다
      *
-     * @param   string|null  $token     [$token description]
-     * @param   string  $tokenType   [$authType description]
+     * @param string|null $token [$token description]
+     * @param string $tokenType [$authType description]
      *
      * @return  $this             [return description]
      */
@@ -183,14 +183,14 @@ class Client
     /**
      * 파일 첨부
      *
-     * @param   string  $key     [$key description]
-     * @param   mixed  $attach  [$attach description]
+     * @param string $key [$key description]
+     * @param mixed $attach [$attach description]
      *
      * @return  $this           [return description]
      */
-    public function setAttach(string $key, $attach)
+    public function setAttach(string $key, $attach, string $filename = null): Client
     {
-        $this->attachment[$key] = $attach;
+        $this->attachment[$key] = [$attach, $filename];
 
         return $this;
     }
@@ -209,7 +209,7 @@ class Client
      * 요청 결과에 맞게 응답을 준다.
      * error면 error속성에
      * 정상결과면 response속성에 결과를 대입
-     * @param   HttpResponse  $response  [$response description]
+     * @param HttpResponse $response [$response description]
      *
      * @return  mixed                   [return description]
      */

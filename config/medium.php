@@ -15,6 +15,10 @@ return [
         'posts' => [
             'method' => 'post',
             'end_point' => "/v1/users/".env('MEDIUM_AUTHOR_ID')."/posts"
+        ],
+        'images'=>[
+            'method'=>'post',
+            'end_point'=>"/v1/images"
         ]
     ]
 ];

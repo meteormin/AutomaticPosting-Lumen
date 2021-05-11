@@ -6,7 +6,7 @@ use App\Data\DataTransferObjects\Posts as PostsDto;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Services\AutoPostInterface;
-use App\Services\Medium\MediumClient;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
 
 class MediumService extends Service implements AutoPostInterface
@@ -36,6 +36,7 @@ class MediumService extends Service implements AutoPostInterface
      *
      * @return array|null
      * @throws JsonMapper_Exception
+     * @throws FileNotFoundException
      */
     public function autoPost(string $type, int $postsId = null): ?array
     {
@@ -52,8 +53,19 @@ class MediumService extends Service implements AutoPostInterface
             return null;
         }
 
+        $dto = PostsDto::newInstance($posts->toArray());
+        if(is_null($dto->getContentImg())){
+            return null;
+        }
+
+        $res = $this->client->images($dto->getContentImg());
+        if(isset($res['data'])){
+            $url = $res['data']['url'];
+            $dto->setContents("<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>");
+        }
+
 //        $posts->published = 1;
 //        $posts->save();
-        return $this->client->posts(PostsDto::newInstance($posts->toArray()));
+        return $this->client->posts($dto);
     }
 }

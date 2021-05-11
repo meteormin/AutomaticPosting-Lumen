@@ -5,8 +5,8 @@ namespace App\Services\Medium;
 use App\Data\DataTransferObjects\MediumPosts;
 use App\Data\DataTransferObjects\Posts;
 use App\Services\Libraries\Client;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use App\Exceptions\ApiErrorException;
 
 class MediumClient
 {
@@ -108,6 +108,23 @@ class MediumClient
         ]);
 
         $response = $this->client->post($this->methods('posts.end_point'), $mediumPosts->toArray());
+
+        if (is_null($response)) {
+            return $this->client->getError();
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param string $contents
+     * @return array|string
+     */
+    public function images(string $contents)
+    {
+        $response = $this->client
+            ->setAttach('image', $contents, 'posts_' . Carbon::now()->timestamp . '.png')
+            ->post($this->methods('images.end_point'));
 
         if (is_null($response)) {
             return $this->client->getError();
