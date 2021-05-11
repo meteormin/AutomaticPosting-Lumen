@@ -69,7 +69,7 @@ class Client
             if (is_null($client)) {
                 $client = Http::withHeaders($withHeaders);
             } else {
-                $client = $client->withToken($withToken, $this->token_type);
+                $client = $client->withHeaders($withHeaders);
             }
         }
 
@@ -142,13 +142,13 @@ class Client
         return $this->headers;
     }
 
-    public function setHeaders(array $headers)
+    public function setHeaders(array $headers): Client
     {
         $this->headers = $headers;
         return $this;
     }
 
-    public function asForm()
+    public function asForm(): Client
     {
         $this->asForm = true;
         return $this;
@@ -163,7 +163,7 @@ class Client
      *
      * @return  $this             [return description]
      */
-    public function setToken(?string $token, string $tokenType = 'Bearer')
+    public function setToken(?string $token, string $tokenType = 'Bearer'): Client
     {
         $this->token = $token;
         $this->token_type = $tokenType;
@@ -175,7 +175,7 @@ class Client
      *
      * @return  string [return description]
      */
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->token;
     }

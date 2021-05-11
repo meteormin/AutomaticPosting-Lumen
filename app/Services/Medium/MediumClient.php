@@ -65,6 +65,11 @@ class MediumClient
         return Arr::get($this->methods, $key, $default);
     }
 
+    public function client(): Client
+    {
+        return $this->client;
+    }
+
     /**
      * MediumClient constructor.
      * @param Client $client
@@ -75,6 +80,14 @@ class MediumClient
 
         $this->methods = $this->config('methods');
         $this->client = $client->setHost($this->config('host'));
+        $this->client->setToken($this->config('token'));
+    }
+
+    /**
+     * @return void
+     */
+    public function resetClient(){
+        $this->client = new Client($this->config('host'));
         $this->client->setToken($this->config('token'));
     }
 

@@ -59,6 +59,8 @@ class MediumService extends Service implements AutoPostInterface
         }
 
         $res = $this->client->images($dto->getContentImg());
+
+
         if(isset($res['data'])){
             $url = $res['data']['url'];
             $dto->setContents("<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>");
@@ -66,6 +68,7 @@ class MediumService extends Service implements AutoPostInterface
 
 //        $posts->published = 1;
 //        $posts->save();
+        $this->client->resetClient();
         return $this->client->posts($dto);
     }
 }
