@@ -1,5 +1,13 @@
 # Change Log
 
+## 2021.05.11
+
+> Version: 0.3.2
+
+-   Medium Post Command생성
+-   Dto관련 기능 분해 BaseObject를 두고 공통 기능들은 Trait으로 관리
+    - 해당 수정사항 롤백
+
 ## 2021.05.07
 
 > Version: 0.3.1
