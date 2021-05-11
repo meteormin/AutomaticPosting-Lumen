@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Response\ErrorCode;
+use App\Services\Tistory\TistoryClient;
+use Illuminate\Http\Request;
+
+class TistoryController extends DefaultController
+{
+    /**
+     * Undocumented variable
+     *
+     * @var TistoryClient
+     */
+    protected $client;
+
+    public function __construct(TistoryClient $client)
+    {
+        $this->client = $client;
+    }
+
+    public function auth(Request $request)
+    {
+        return redirect($this->client->authorize());
+    }
+
+    public function callback(Request $request)
+    {
+        if (!$request->has('code')) {
+            return $this->error(ErrorCode::VALIDATION_FAIL, 'has not param: code');
+        }
+
+        return $this->response($this->client->callback($request->get('code')));
+    }
+}

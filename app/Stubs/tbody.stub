@@ -1,0 +1,10 @@
+    <tr>
+        <td>{{code}}</td>
+        <td>{{name}}</td>
+        <td>{{current_price}}</td>
+        <td>{{deficit_count}}</td>
+        <td>{{flow_rate_avg}}</td>
+        <td>{{debt_rate_avg}}</td>
+    </tr>
+
+
