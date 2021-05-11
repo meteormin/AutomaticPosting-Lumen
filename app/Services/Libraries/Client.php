@@ -122,7 +122,7 @@ class Client
         return $this->makeRequest('get', $endPoint, $parameters);
     }
 
-    public function post(string $endPoint, array $parameters = null)
+    public function post(string $endPoint, array $parameters = [])
     {
         return $this->makeRequest('post', $endPoint, $parameters);
     }
