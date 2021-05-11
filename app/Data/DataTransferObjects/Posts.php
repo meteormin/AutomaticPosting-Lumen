@@ -330,12 +330,12 @@ class Posts extends Dto
         }
 
         $filePath = storage_path("app/$filename");
-        exec("wkhtmltoimage http://localhost:58080/api/posts/{$this->id} {$filePath}",$output,$code);
+        $output = shell_exec("wkhtmltoimage http://localhost:58080/api/posts/{$this->id} {$filePath}");
 
-        if($code === 0){
-            return $this->getContentImg();
+        if(Storage::disk('local')->exists($filename)){
+            return Storage::disk('local')->get($filename);
         }
 
-        return json_encode($output);
+        return $output;
     }
 }
