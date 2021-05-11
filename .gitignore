@@ -11,3 +11,4 @@ _ide_helper_models.php
 /public/hot
 /public/storage
 /storage/*.key
+.phpstorm.meta.php
