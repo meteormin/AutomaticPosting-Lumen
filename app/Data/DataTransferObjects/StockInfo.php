@@ -1,11 +1,10 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
-use App\DataTransferObjects\Abstracts\Dto;
-use Illuminate\Support\Collection;
+use App\Data\Abstracts\Dto;
 
-class Refine extends Dto
+class StockInfo extends Dto
 {
     /**
      * @var string $code
@@ -41,26 +40,6 @@ class Refine extends Dto
      * @var int $currentPrice
      */
     protected int $currentPrice;
-
-    /**
-     * @var Collection
-     */
-    protected Collection $financeData;
-
-    /**
-     * @var int
-     */
-    protected int $deficitCount;
-
-    /**
-     * @var float
-     */
-    protected int $flowRateAvg;
-
-    /**
-     * @var float
-     */
-    protected int $debtRateAvg;
 
     /**
      * Get $code
@@ -113,11 +92,12 @@ class Refine extends Dto
     /**
      * Get $currentPrice
      *
-     * @return string
+     * @return  int
      */
-    public function getCurrentPrice(): string
+    public function getCurrentPrice(): int
     {
-        return number_format($this->currentPrice);
+        return $this->currentPrice < 0 ?
+            $this->currentPrice * (-1) : $this->currentPrice;
     }
 
     /**
@@ -226,104 +206,6 @@ class Refine extends Dto
     public function setPbr(int $pbr)
     {
         $this->pbr = $pbr;
-
-        return $this;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return Collection
-     */
-    public function getFinanceData(): Collection
-    {
-        return $this->financeData;
-    }
-
-    /**
-     * Set the value of financeData
-     * @param Collection|null
-     * @return $this
-     */
-    public function setFinanceData(?Collection $financeData)
-    {
-        if (is_null($financeData)) {
-            $financeData = collect();
-        }
-
-        $this->financeData = collect($financeData);
-
-        return $this;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return int
-     */
-    public function getDeficitCount(): int
-    {
-        return $this->deficitCount;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param int|null $deficitCount
-     *
-     * @return $this
-     */
-    public function setDeficitCount(?int $deficitCount)
-    {
-        $this->deficitCount = $deficitCount ?? 0;
-
-        return $this;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return float
-     */
-    public function getFlowRateAvg(): float
-    {
-        return $this->flowRateAvg;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param float $flowRateAvg
-     *
-     * @return $this
-     */
-    public function setFlowRateAvg(?float $flowRateAvg)
-    {
-        $this->flowRateAvg = $flowRateAvg ?? 0.0;
-
-        return $this;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return float
-     */
-    public function getDebtRateAvg(): float
-    {
-        return $this->debtRateAvg;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @param float|null $debtRateAvg
-     *
-     * @return $this
-     */
-    public function setDebtRateAvg(?float $debtRateAvg)
-    {
-        $this->debtRateAvg = $debtRateAvg ?? 0.0;
 
         return $this;
     }

@@ -31,7 +31,12 @@ abstract class Generator
      */
     protected MakeClass $maker;
 
-    public function __construct(string $name, string $json)
+    /**
+     * Generator constructor.
+     * @param string $name
+     * @param string|null $json
+     */
+    public function __construct(string $name, string $json = null)
     {
         $this->name = $name;
         $this->json = $json;

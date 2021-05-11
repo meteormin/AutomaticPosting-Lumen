@@ -4,7 +4,7 @@ namespace App\Services\Kiwoom;
 
 use Storage;
 use Illuminate\Support\Collection;
-use App\DataTransferObjects\StockInfo;
+use App\Data\DataTransferObjects\StockInfo;
 
 class Stocks
 {

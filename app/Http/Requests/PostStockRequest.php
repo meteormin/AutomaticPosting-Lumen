@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Throwable;
-use App\DataTransferObjects\StockInfo;
+use App\Data\DataTransferObjects\StockInfo;
 use App\Response\ErrorCode;
 use Illuminate\Http\Request;
 use App\Response\ApiResponse;

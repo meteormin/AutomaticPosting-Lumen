@@ -1,9 +1,9 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
-use App\DataTransferObjects\Abstracts\Dto;
-use App\DataTransferObjects\Utils\ArrController;
+use App\Data\Abstracts\Dto;
+use App\Data\Utils\ArrController;
 
 class MediumPosts extends Dto
 {
@@ -18,9 +18,9 @@ class MediumPosts extends Dto
     protected string $contentFormat = 'html';
 
     /**
-     * @var string $contents
+     * @var string $content
      */
-    protected string $contents;
+    protected string $content;
 
     /**
      * @var string $canonicalUrl
@@ -35,7 +35,7 @@ class MediumPosts extends Dto
     /**
      * @var string $pulishStatus
      */
-    protected string $pulishStatus = 'public';
+    protected string $publishStatus = 'public';
 
     /**
      * Get $title
@@ -54,7 +54,7 @@ class MediumPosts extends Dto
      *
      * @return  $this
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): MediumPosts
     {
         $this->title = $title;
 
@@ -62,29 +62,20 @@ class MediumPosts extends Dto
     }
 
     /**
-     * Get $contents
-     *
-     * @return  string
+     * @return string
      */
-    public function getContents(): string
+    public function getContent(): string
     {
-        $contetns = preg_replace('/\r|\n|/', '', $this->contents);
-        $contetns = str_replace('\\n', '', $contetns);
-
-        return $contetns;
+        return $this->content;
     }
 
     /**
-     * Set $contents
-     *
-     * @param  string  $contents  $contents
-     *
-     * @return  $this
+     * @param string $content
+     * @return MediumPosts
      */
-    public function setContents(string $contents)
+    public function setContent(string $content): MediumPosts
     {
-        $this->contents = $contents;
-
+        $this->content = $content;
         return $this;
     }
 
@@ -105,7 +96,7 @@ class MediumPosts extends Dto
      *
      * @return  $this
      */
-    public function setContentFormat(string $contentFormat = 'html')
+    public function setContentFormat(string $contentFormat = 'html'): MediumPosts
     {
         if ($contentFormat == 'html' || $contentFormat == 'markdown') {
             $this->contentFormat = $contentFormat;
@@ -115,26 +106,26 @@ class MediumPosts extends Dto
     }
 
     /**
-     * Get $pulishStatus
+     * Get $publishStatus
      *
      * @return  string
      */
-    public function getPulishStatus(): string
+    public function getPublishStatus(): string
     {
-        return $this->pulishStatus;
+        return $this->publishStatus;
     }
 
     /**
      * Set $pulishStatus
      *
-     * @param  string $pulishStatus
+     * @param  string $publishStatus
      *
      * @return  $this
      */
-    public function setPulishStatus(string $pulishStatus = 'public')
+    public function setPublishStatus(string $publishStatus = 'public'): MediumPosts
     {
-        if ($pulishStatus == 'public' || $pulishStatus == 'draft' || $pulishStatus == 'unlisted') {
-            $this->pulishStatus = $pulishStatus;
+        if ($publishStatus == 'public' || $publishStatus == 'draft' || $publishStatus == 'unlisted') {
+            $this->publishStatus = $publishStatus;
         }
 
         return $this;
@@ -153,11 +144,11 @@ class MediumPosts extends Dto
     /**
      * Set $canonicalUrl
      *
-     * @param  string|null $canonicalUrl
+     * @param  string $canonicalUrl
      *
      * @return  $this
      */
-    public function setCanonicalUrl(?string $canonicalUrl)
+    public function setCanonicalUrl(string $canonicalUrl): MediumPosts
     {
         $this->canonicalUrl = $canonicalUrl;
 
@@ -177,11 +168,11 @@ class MediumPosts extends Dto
     /**
      * Set $tags
      *
-     * @param  array|null  $tags
+     * @param  array  $tags
      *
      * @return  $this
      */
-    public function setTags(?array $tags)
+    public function setTags(array $tags = []): MediumPosts
     {
         $this->tags = $tags;
 

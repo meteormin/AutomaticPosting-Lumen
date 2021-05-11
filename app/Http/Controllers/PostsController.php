@@ -8,6 +8,9 @@ use App\Services\Main\MainService;
 use App\Services\Kiwoom\KoaService;
 use App\Services\OpenDart\OpenDartService;
 use App\Http\Controllers\DefaultController;
+use Illuminate\View\View;
+use JsonMapper_Exception;
+use Laravel\Lumen\Application;
 
 class PostsController extends DefaultController
 {
@@ -16,14 +19,14 @@ class PostsController extends DefaultController
      *
      * @var MainService
      */
-    protected $mainService;
+    protected MainService $mainService;
 
     /**
      * Undocumented variable
      *
      * @var PostsService
      */
-    protected $postsService;
+    protected PostsService $postsService;
 
     public function __construct(MainService $mainService, PostsService $postsService)
     {
@@ -34,7 +37,9 @@ class PostsController extends DefaultController
     /**
      * Undocumented function
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return View|Application
+     * @throws JsonMapper_Exception
      */
     public function index(Request $request)
     {
@@ -43,10 +48,16 @@ class PostsController extends DefaultController
 
     public function show(Request $request, int $id)
     {
+        if($request->is('api/posts/*')){
+            return view('components.stand-alone',['post' => $this->postsService->find($id)]);
+        }
         return view('post', ['post' => $this->postsService->find($id)]);
     }
 
-    public function refine(Request $request, string $name)
+    /**
+     * @throws JsonMapper_Exception
+     */
+    public function refine(Request $request, string $name): \Illuminate\Http\JsonResponse
     {
         return $this->response($this->mainService->getRefinedData($name));
     }

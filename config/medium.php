@@ -14,7 +14,7 @@ return [
         ],
         'posts' => [
             'method' => 'post',
-            'end_point' => '/v1/users/{authorId}/posts'
+            'end_point' => "/v1/users/".env('MEDIUM_AUTHOR_ID')."/posts"
         ]
     ]
 ];

@@ -10,7 +10,8 @@
         "laravel/lumen-framework": "^8.0",
         "laravel/tinker": "^2.6",
         "netresearch/jsonmapper": "4.0.0",
-        "nomadnt/lumen-passport": "^10.1"
+        "nomadnt/lumen-passport": "^10.1",
+        "ext-json": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

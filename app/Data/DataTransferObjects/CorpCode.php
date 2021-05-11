@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
-use App\DataTransferObjects\Abstracts\Dto;
+use App\Data\Abstracts\Dto;
 
 class CorpCode extends Dto
 {
@@ -37,13 +37,10 @@ class CorpCode extends Dto
     }
 
     /**
-     * Set $corpCode
-     *
-     * @param  string  $corpCode  $corpCode
-     *
-     * @return  self
+     * @param string $corpCode
+     * @return $this
      */
-    public function setCorpCode(string $corpCode)
+    public function setCorpCode(string $corpCode): CorpCode
     {
         $this->corpCode = $corpCode;
 
@@ -51,11 +48,9 @@ class CorpCode extends Dto
     }
 
     /**
-     * Get $corpName
-     *
-     * @return  string
+     * @return string
      */
-    public function getCorpName()
+    public function getCorpName(): string
     {
         return $this->corpName;
     }
@@ -67,7 +62,7 @@ class CorpCode extends Dto
      *
      * @return  self
      */
-    public function setCorpName(string $corpName)
+    public function setCorpName(string $corpName): CorpCode
     {
         $this->corpName = $corpName;
 
@@ -89,9 +84,9 @@ class CorpCode extends Dto
      *
      * @param  mixed  $stockCode  $stockCode
      *
-     * @return  self
+     * @return  $this
      */
-    public function setStockCode($stockCode = null)
+    public function setStockCode($stockCode = null): CorpCode
     {
         $this->stockCode = $stockCode;
 
@@ -103,7 +98,7 @@ class CorpCode extends Dto
      *
      * @return  string
      */
-    public function getModifyDate()
+    public function getModifyDate(): string
     {
         return $this->modifyDate;
     }
@@ -113,9 +108,9 @@ class CorpCode extends Dto
      *
      * @param  string  $modifyDate  $modifyDate
      *
-     * @return  self
+     * @return $this
      */
-    public function setModifyDate(string $modifyDate)
+    public function setModifyDate(string $modifyDate): CorpCode
     {
         $this->modifyDate = $modifyDate;
 

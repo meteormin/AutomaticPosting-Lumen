@@ -1,12 +1,34 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
-use App\DataTransferObjects\Abstracts\Dynamic;
+use App\Data\Abstracts\Dynamic;
 
-// 동적으로 속성을 관리
+/**
+ * Class FinanceData
+ * @package App\Data\DataTransferObjects
+ *
+ * @property $date
+ * @property $currentAssets
+ * @property $totalAssets
+ * @property $floatingDebt
+ * @property $totalDebt
+ * @property $netIncome
+ * @property $flowRage
+ * @property $debtRate
+ *
+ * @method string getDate()
+ * @method int getCurrentAssets()
+ * @method int getTotalAssets()
+ * @method int getNetIncome()
+ * @method int getFloatingDebt()
+ * @method int getTotalDebt()
+ * @method int getFlowRate()
+ * @method int getDebtRate()
+ */
+
 class FinanceData extends Dynamic
 {
     /**
@@ -40,28 +62,30 @@ class FinanceData extends Dynamic
      *
      * @param array $mapTable
      *
-     * @return void
+     * @return FinanceData
      */
-    public function setMapTable(array $mapTable)
+    public function setMapTable(array $mapTable): FinanceData
     {
         $this->mapTable = $mapTable;
         return $this;
     }
 
-    public function getMapTable()
+    /**
+     * @return array|string[][]
+     */
+    public function getMapTable(): array
     {
         return $this->mapTable;
     }
 
     /**
-     * mapping
-     *
+     * @param mixed $input
      * @return Collection
      */
-    public static function map($arrayAble)
+    public static function map($input): Collection
     {
-        if ($arrayAble instanceof Arrayable) {
-            $arrayAble = $arrayAble->toArray();
+        if ($input instanceof Arrayable) {
+            $input = $input->toArray();
         }
 
         $current = (new static);
@@ -72,7 +96,7 @@ class FinanceData extends Dynamic
 
         // 데이터는 기본적으로 {계정 명}:[당기, 전기, 전전기] 형식의 데이터로 구성되어 있음
         // 하지만 데이터가 항상 3기 모두 존재하지 않으므로 루프문으로 처리
-        foreach ($arrayAble as $origin) {
+        foreach ($input as $origin) {
             foreach ($table as $key => $value) {
                 foreach ($value as $k => $v) {
                     if ($origin[$key] == $v) {
@@ -129,7 +153,7 @@ class FinanceData extends Dynamic
      *
      * @return $this
      */
-    protected function setFlowRate()
+    protected function setFlowRate(): FinanceData
     {
         $currentAssets = $this->getAttribute('current_assets');
         $floatingDebt = $this->getAttribute('floating_debt');
@@ -144,7 +168,7 @@ class FinanceData extends Dynamic
      *
      * @return $this
      */
-    protected function setDebtRate()
+    protected function setDebtRate(): FinanceData
     {
         $totalDebt = $this->getAttribute('total_debt');
         $totalAssets = $this->getAttribute('total_assets');
@@ -153,10 +177,5 @@ class FinanceData extends Dynamic
         }
 
         return $this->setAttribute('debt_rate', $debtRate ?? '');
-    }
-
-    public function toArray(bool $allowNull = true): ?array
-    {
-        return parent::toArray($allowNull);
     }
 }

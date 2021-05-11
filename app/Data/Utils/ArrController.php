@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Utils;
+namespace App\Data\Utils;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

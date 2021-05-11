@@ -2,12 +2,26 @@
 
 namespace App\Models;
 
-use App\DataTransferObjects\PostsStatus as Dto;
+use App\Data\DataTransferObjects\PostsStatus as Dto;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * App\Models\PostsStatus
+ *
  * @property string     $type
  * @property string     $code
+ * @property int $type_count
+ * @property int $code_count
+ * @method static \Illuminate\Support\Collection|static[] all($columns = ['*'])
+ * @method static \Illuminate\Support\Collection|static[] get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereCodeCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostsStatus whereTypeCount($value)
+ * @mixin \Eloquent
  */
 class PostsStatus extends Model
 {

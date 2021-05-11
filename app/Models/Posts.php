@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use DateTimeInterface;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\DataTransferObjects\Posts as Dto;
+use Illuminate\Support\Collection;
+use JsonMapper_Exception;
 
 /**
+ * App\Models\Posts
+ *
  * @property int $user_id
  * @property string     $title
  * @property string     $sub_title
@@ -18,29 +22,46 @@ use App\DataTransferObjects\Posts as Dto;
  * @property string     $created_by
  * @property string     $updated_by
  * @property string     $deleted_by
+ * @property int $id
+ * @property string $type
+ * @property string $code
+ * @property bool $published
+ * @method static Posts newInstance()
+ * @method static Collection|static[] all($columns = ['*'])
+ * @method static Collection|static[] get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts newQuery()
+ * @method static \Illuminate\Database\Query\Builder|Posts onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereContents($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereSubTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Posts whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|Posts withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Posts withoutTrashed()
+ * @mixin Eloquent
  */
 class Posts extends Model
 {
     use SoftDeletes;
 
     /**
-     * Create a new Eloquent Collection instance.
-     *
-     * @param  array  $models
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function newCollection(array $models = [])
-    {
-        return (new Dto)->mapList($models);
-    }
-
-    /**
      * Prepare a date for array / JSON serialization.
      *
-     * @param  \DateTimeInterface  $date
+     * @param  DateTimeInterface  $date
      * @return string
      */
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }

@@ -1,33 +1,67 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use App\DataTransferObjects\Abstracts\Dto;
+use App\Data\Abstracts\Dto;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\DataTransferObjects\Abstracts\DtoInterface;
+use App\Data\Abstracts\DtoInterface;
+use JsonMapper_Exception;
 
 class Paginator extends Dto
 {
-    protected $currentPage;
-    protected $lastPageUrl;
-    protected $prevPageUrl;
-    protected $nextPageUrl;
-    protected $total;
+    /**
+     * @var int
+     */
+    protected int $currentPage;
 
-    protected $dataKey;
+    /**
+     * @var string
+     */
+    protected ?string $lastPageUrl;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $prevPageUrl;
+
+    /**
+     * @var string|null
+     */
+    protected ?string $nextPageUrl;
+
+    /**
+     * @var int
+     */
+    protected int $total;
+
+    /**
+     * @var string
+     */
+    protected string $dataKey;
+
+    /**
+     * @var array|Collection
+     */
     protected $data;
-    protected $hidden = [];
 
-    public function __construct(LengthAwarePaginator $paginate, string $data = 'data')
+    /**
+     * Paginator constructor.
+     * @param LengthAwarePaginator $paginate
+     * @param string $data
+     * @param DtoInterface $mapInstance
+     * @throws JsonMapper_Exception
+     */
+    public function __construct(LengthAwarePaginator $paginate, DtoInterface $mapInstance, string $data = 'data')
     {
+        parent::__construct();
         $this->setCurrentPage($paginate->currentPage());
         $this->setLastPageUrl($paginate->lastPage());
         $this->setPrevPageUrl($paginate->previousPageUrl());
         $this->setNextPageUrl($paginate->nextPageUrl());
         $this->setTotal($paginate->total());
-        $this->setData($data, $paginate->items());
+        $this->setData($data, $mapInstance->mapList($paginate->items()));
     }
 
     /**
@@ -46,7 +80,7 @@ class Paginator extends Dto
      *
      * @return $this
      */
-    public function setData(string $property, $data = [])
+    public function setData(string $property, $data = []): Paginator
     {
         $this->dataKey = $property;
         $this->data = $data;
@@ -56,7 +90,7 @@ class Paginator extends Dto
     /**
      * Get the value of currentPage
      */
-    public function getCurrentPage()
+    public function getCurrentPage(): int
     {
         return $this->currentPage;
     }
@@ -66,7 +100,7 @@ class Paginator extends Dto
      *
      * @return  self
      */
-    public function setCurrentPage($currentPage = '')
+    public function setCurrentPage($currentPage = ''): Paginator
     {
         $this->currentPage = $currentPage;
 
@@ -76,7 +110,7 @@ class Paginator extends Dto
     /**
      * Get the value of lastPageUrl
      */
-    public function getLastPageUrl()
+    public function getLastPageUrl(): ?string
     {
         return $this->lastPageUrl;
     }
@@ -84,9 +118,9 @@ class Paginator extends Dto
     /**
      * Set the value of lastPageUrl
      *
-     * @return  self
+     * @return $this
      */
-    public function setLastPageUrl($lastPageUrl = '')
+    public function setLastPageUrl($lastPageUrl = ''): Paginator
     {
         $this->lastPageUrl = $lastPageUrl;
 
@@ -96,17 +130,16 @@ class Paginator extends Dto
     /**
      * Get the value of nextPageUrl
      */
-    public function getNextPageUrl()
+    public function getNextPageUrl(): ?string
     {
         return $this->nextPageUrl;
     }
 
     /**
-     * Set the value of nextPageUrl
-     *
-     * @return  self
+     * @param string $nextPageUrl
+     * @return $this
      */
-    public function setNextPageUrl($nextPageUrl = '')
+    public function setNextPageUrl($nextPageUrl = ''): Paginator
     {
         $this->nextPageUrl = $nextPageUrl;
 
@@ -116,7 +149,7 @@ class Paginator extends Dto
     /**
      * Get the value of total
      */
-    public function getTotal()
+    public function getTotal(): int
     {
         return $this->total;
     }
@@ -124,9 +157,9 @@ class Paginator extends Dto
     /**
      * Set the value of total
      *
-     * @return  self
+     * @return  $this
      */
-    public function setTotal($total)
+    public function setTotal($total): Paginator
     {
         $this->total = $total;
 
@@ -136,7 +169,7 @@ class Paginator extends Dto
     /**
      * Get the value of prevPageUrl
      */
-    public function getPrevPageUrl()
+    public function getPrevPageUrl(): ?string
     {
         return $this->prevPageUrl;
     }
@@ -144,9 +177,9 @@ class Paginator extends Dto
     /**
      * Set the value of prevPageUrl
      *
-     * @return  self
+     * @return  $this
      */
-    public function setPrevPageUrl($prevPageUrl = '')
+    public function setPrevPageUrl($prevPageUrl = ''): Paginator
     {
         $this->prevPageUrl = $prevPageUrl;
 

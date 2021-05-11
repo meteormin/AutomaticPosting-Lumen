@@ -1,27 +1,29 @@
 <?php
 
+
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Models\Posts;
+use App\Services\Medium\MediumService;
 use Illuminate\Console\Command;
-use App\Services\Main\PostsService;
 use JsonMapper_Exception;
+use App\Data\DataTransferObjects\Posts as Dto;
 
-class AutoPost extends Command
+class MediumPost extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'autopost {name}';
+    protected $signature = 'medium {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'auto store post';
+    protected $description = 'auto store post to medium';
 
     /**
      * Create a new command instance.
@@ -36,11 +38,10 @@ class AutoPost extends Command
     /**
      * Execute the console command.
      *
-     * @param PostsService $posts
+     * @param MediumService $service
      * @return int
-     * @throws JsonMapper_Exception
      */
-    public function handle(PostsService $posts): int
+    public function handle(MediumService $service): int
     {
         if (is_null($this->argument('name'))) {
             $this->error('name parameter is requried');
@@ -48,11 +49,11 @@ class AutoPost extends Command
         }
 
         $this->info('auto post: ' . $this->argument('name'));
-        $user = User::find(1);
-        $postId = $posts->autoPost($this->argument('name'), $user->id, $user->email);
+
+        $res = $service->autoPost($this->argument('name'));
 
         $this->info('success post...');
-        $this->info('post id: ' . $postId);
+        $this->info('response: ' . json_encode($res));
         return 0;
     }
 }

@@ -2,14 +2,16 @@
 
 namespace App\Services\OpenDart;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use JsonMapper_Exception;
 use ZipArchive;
 use Illuminate\Support\Arr;
-use App\DataTransferObjects\Acnt;
+use App\Data\DataTransferObjects\Acnt;
 use App\Services\Libraries\Client;
 use Illuminate\Support\Collection;
-use App\DataTransferObjects\CorpCode;
+use App\Data\DataTransferObjects\CorpCode;
 use Illuminate\Support\Facades\Storage;
-use App\DataTransferObjects\Paginator as SimplePaginator;
+use App\Data\DataTransferObjects\Paginator as SimplePaginator;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 class OpenDartClient
@@ -100,7 +102,8 @@ class OpenDartClient
     /**
      * 회사 고유 코드 가져오기
      * @param string|null $code
-     * @return Collection|Paginator
+     * @return SimplePaginator|Collection
+     * @throws JsonMapper_Exception|FileNotFoundException
      */
     public function getCorpCode(string $code = null)
     {
@@ -138,9 +141,7 @@ class OpenDartClient
                 'query' => request()->query()
             ]);
 
-            $simplePaginator = new SimplePaginator($paginator, 'corp_codes', $this->corpCode->newInstance());
-
-            return $simplePaginator;
+            return new SimplePaginator($paginator, $this->corpCode->newInstance(),'corp_codes');
         }
 
         return $dtos;
@@ -152,16 +153,17 @@ class OpenDartClient
      * @param string $corpCode
      * @param string $year
      * @param string $reprtCode
-     * @return Collection|Acnt[]
+     * @return Collection
+     * @throws JsonMapper_Exception
      */
-    public function getSinglAcnt(string $corpCode, string $year, string $reprtCdoe = '11011')
+    public function getSinglAcnt(string $corpCode, string $year, string $reprtCode = '11011')
     {
         $response = $this->client->get(
             config('opendart.method.SinglAcnt.url') . $this->makeQueryString([
                 'crtfc_key' => config('opendart.api_key'),
                 'corp_code' => $corpCode,
                 'bsns_year' => $year,
-                'reprt_code' => $reprtCdoe
+                'reprt_code' => $reprtCode
             ])
         );
 
@@ -179,8 +181,9 @@ class OpenDartClient
      * @param string $year
      * @param string $reprtCode
      * @return Collection
+     * @throws JsonMapper_Exception
      */
-    public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011')
+    public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011'): Collection
     {
         if (count($corpCode) == 0) {
             return collect();

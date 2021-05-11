@@ -30,6 +30,7 @@ namespace App\Models{
  * @method static \Illuminate\Support\Collection|static[] all($columns = ['*'])
  * @method static \Illuminate\Support\Collection|static[] get($columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Builder|Posts newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Model|Posts newModelInstance()
  * @method static \Illuminate\Database\Eloquent\Builder|Posts newQuery()
  * @method static \Illuminate\Database\Query\Builder|Posts onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Posts query()

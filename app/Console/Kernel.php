@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\OpenDart::class,
         \App\Console\Commands\Kiwoom::class,
         \App\Console\Commands\AutoPost::class,
+        \App\Console\Commands\MediumPost::class,
     ];
 
     /**

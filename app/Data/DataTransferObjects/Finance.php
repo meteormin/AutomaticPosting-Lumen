@@ -1,21 +1,22 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use App\DataTransferObjects\Abstracts\Dto;
+use App\Data\Abstracts\Dto;
+use JsonMapper_Exception;
 
 class Finance extends Dto
 {
     /**
      * @var StockInfo|null $stock
      */
-    protected $stock;
+    protected ?StockInfo $stock;
 
     /**
      * @var Collection|null $acnt
      */
-    protected $acnt;
+    protected ?Collection $acnt;
 
     /**
      * 재무정보 filter 조건
@@ -40,9 +41,12 @@ class Finance extends Dto
      *
      * @param StockInfo|null $stock
      * @param Collection|null $acnt
+     * @throws JsonMapper_Exception
      */
     public function __construct(?StockInfo $stock = null, ?Collection $acnt = null)
     {
+        parent::__construct();
+
         $this->stock = $stock;
         $this->acnt = $acnt;
     }
@@ -54,7 +58,7 @@ class Finance extends Dto
      *
      * @return $this
      */
-    public function setStock(?StockInfo $stock)
+    public function setStock(?StockInfo $stock): Finance
     {
         $this->stock = $stock;
         return $this;
@@ -65,7 +69,7 @@ class Finance extends Dto
      *
      * @return StockInfo|null
      */
-    public function getStock()
+    public function getStock(): ?string
     {
         return $this->stock;
     }
@@ -77,7 +81,7 @@ class Finance extends Dto
      *
      * @return $this
      */
-    public function setAcnt($acnt)
+    public function setAcnt($acnt): Finance
     {
         $this->acnt = collect($acnt);
         return $this;
@@ -86,9 +90,9 @@ class Finance extends Dto
     /**
      * get acnt list
      *
-     * @return Collection|Acnt[]
+     * @return Collection
      */
-    public function getAcnt()
+    public function getAcnt(): Collection
     {
         return $this->acnt;
     }
@@ -99,9 +103,9 @@ class Finance extends Dto
      *
      * @param array $filters
      *
-     * @return void
+     * @return $this
      */
-    public function setFilterAttributeInAcnt(array $filters)
+    public function setFilterAttributeInAcnt(array $filters): Finance
     {
         $this->filters = $filters;
         return $this;
@@ -138,8 +142,9 @@ class Finance extends Dto
      * Undocumented function
      *
      * @return Refine|null
+     * @throws JsonMapper_Exception
      */
-    public function refine()
+    public function refine(): ?Refine
     {
         $where = $this->getFilterAttributeInAcnt();
         $acnt = collect($this->getAcnt()->toArray());

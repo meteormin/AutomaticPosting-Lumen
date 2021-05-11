@@ -2,8 +2,8 @@
 
 namespace App\Services\Medium;
 
-use App\DataTransferObjects\MediumPosts;
-use App\DataTransferObjects\Posts;
+use App\Data\DataTransferObjects\MediumPosts;
+use App\Data\DataTransferObjects\Posts;
 use App\Services\Libraries\Client;
 use Illuminate\Support\Arr;
 use App\Exceptions\ApiErrorException;
@@ -15,26 +15,26 @@ class MediumClient
      *
      * @var Client
      */
-    protected $client;
+    protected Client $client;
 
     /**
      * Undocumented variable
      *
      * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * Undocumented variable
      *
      * @var array
      */
-    protected $methods;
+    protected array $methods;
 
     /**
      * Undocumented function
      *
-     * @param string $key
+     * @param string|null $key
      * @param mixed $default
      *
      * @return mixed
@@ -51,7 +51,7 @@ class MediumClient
     /**
      * Undocumented function
      *
-     * @param string $key
+     * @param string|null $key
      * @param mixed $default
      *
      * @return mixed
@@ -65,6 +65,10 @@ class MediumClient
         return Arr::get($this->methods, $key, $default);
     }
 
+    /**
+     * MediumClient constructor.
+     * @param Client $client
+     */
     public function __construct(Client $client)
     {
         $this->config = config('medium');
@@ -96,15 +100,12 @@ class MediumClient
     {
         $mediumPosts = new MediumPosts;
         $mediumPosts->setTitle($posts->getTitle());
-        $mediumPosts->setContents($posts->getContents());
+        $mediumPosts->setContent($posts->getContents());
         $mediumPosts->setTags([
             '주식',
             $posts->getType('ko'),
             $posts->getCode('ko')
         ]);
-
-        print_r($mediumPosts->toArray());
-        exit;
 
         $response = $this->client->post($this->methods('posts.end_point'), $mediumPosts->toArray());
 

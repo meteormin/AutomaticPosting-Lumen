@@ -2,10 +2,12 @@
 
 namespace App\Services\Medium;
 
+use App\Data\DataTransferObjects\Posts as PostsDto;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Services\AutoPostInterface;
 use App\Services\Medium\MediumClient;
+use JsonMapper_Exception;
 
 class MediumService extends Service implements AutoPostInterface
 {
@@ -21,7 +23,7 @@ class MediumService extends Service implements AutoPostInterface
      *
      * @return MediumClient
      */
-    public function client()
+    public function client(): MediumClient
     {
         return $this->client;
     }
@@ -30,21 +32,28 @@ class MediumService extends Service implements AutoPostInterface
      * Undocumented function
      *
      * @param string $type
-     * @param integer $postsId
+     * @param int|null $postsId
      *
-     * @return array
+     * @return array|null
+     * @throws JsonMapper_Exception
      */
-    public function autoPost(string $type, int $postsId = null)
+    public function autoPost(string $type, int $postsId = null): ?array
     {
         if (is_null($postsId)) {
             $posts = Posts::where('type', $type)
                 ->where('published', false)
-                ->orderByDese('created_at')
+                ->orderByDesc('created_at')
                 ->first();
         } else {
             $posts = Posts::find($postsId);
         }
 
-        return $this->client->posts($posts);
+        if(is_null($posts)){
+            return null;
+        }
+
+//        $posts->published = 1;
+//        $posts->save();
+        return $this->client->posts(PostsDto::newInstance($posts->toArray()));
     }
 }

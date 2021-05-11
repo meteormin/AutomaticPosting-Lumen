@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
-use App\DataTransferObjects\Abstracts\Dto;
+use App\Data\Abstracts\Dto;
 
 class Acnt extends Dto
 {
@@ -146,7 +146,7 @@ class Acnt extends Dto
      *
      * @return int|null
      */
-    public function getOrd()
+    public function getOrd(): ?int
     {
         return $this->ord;
     }
@@ -156,9 +156,9 @@ class Acnt extends Dto
      *
      * @param int|null $ord  $ord
      *
-     * @return self
+     * @return Acnt
      */
-    public function setOrd($ord)
+    public function setOrd(?int $ord): Acnt
     {
         $this->ord = $ord;
 
@@ -170,7 +170,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getRceptNo()
+    public function getRceptNo(): ?string
     {
         return $this->rceptNo;
     }
@@ -180,9 +180,9 @@ class Acnt extends Dto
      *
      * @param string|null $rceptNo  $rceptNo
      *
-     * @return self
+     * @return Acnt
      */
-    public function setRceptNo($rceptNo)
+    public function setRceptNo(?string $rceptNo): Acnt
     {
         $this->rceptNo = $rceptNo;
 
@@ -194,7 +194,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getReptCode()
+    public function getReptCode(): ?string
     {
         return $this->reptCode;
     }
@@ -204,9 +204,9 @@ class Acnt extends Dto
      *
      * @param string|null $reptCode  $reptCode
      *
-     * @return self
+     * @return Acnt
      */
-    public function setReptCode($reptCode)
+    public function setReptCode(?string $reptCode): Acnt
     {
         $this->reptCode = $reptCode;
 
@@ -218,7 +218,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getBsnsYear()
+    public function getBsnsYear(): ?string
     {
         return $this->bsnsYear;
     }
@@ -228,9 +228,9 @@ class Acnt extends Dto
      *
      * @param string|null $bsnsYear  $bsnsYear
      *
-     * @return self
+     * @return Acnt
      */
-    public function setBsnsYear($bsnsYear)
+    public function setBsnsYear(?string $bsnsYear): Acnt
     {
         $this->bsnsYear = $bsnsYear;
 
@@ -242,7 +242,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getCorpCode()
+    public function getCorpCode(): ?string
     {
         return $this->corpCode;
     }
@@ -254,7 +254,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setCorpCode($corpCode)
+    public function setCorpCode(?string $corpCode): Acnt
     {
         $this->corpCode = $corpCode;
 
@@ -266,7 +266,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getStockCode()
+    public function getStockCode(): ?string
     {
         return $this->stockCode;
     }
@@ -278,7 +278,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setStockCode($stockCode)
+    public function setStockCode(?string $stockCode): Acnt
     {
         $this->stockCode = $stockCode;
 
@@ -290,7 +290,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getFsDiv()
+    public function getFsDiv(): ?string
     {
         return $this->fsDiv;
     }
@@ -300,9 +300,9 @@ class Acnt extends Dto
      *
      * @param string|null $fsDiv  개별/연결구분
      *
-     * @return self
+     * @return Acnt
      */
-    public function setFsDiv($fsDiv)
+    public function setFsDiv(?string $fsDiv): Acnt
     {
         $this->fsDiv = $fsDiv;
 
@@ -314,7 +314,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getFsNm()
+    public function getFsNm(): ?string
     {
         return $this->fsNm;
     }
@@ -324,9 +324,9 @@ class Acnt extends Dto
      *
      * @param string|null $fsNm  개별/연결명
      *
-     * @return self
+     * @return Acnt
      */
-    public function setFsNm($fsNm)
+    public function setFsNm(?string $fsNm): Acnt
     {
         $this->fsNm = $fsNm;
 
@@ -338,7 +338,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getSjDiv()
+    public function getSjDiv(): ?string
     {
         return $this->sjDiv;
     }
@@ -348,9 +348,9 @@ class Acnt extends Dto
      *
      * @param string|null $sjDiv  $sjDiv
      *
-     * @return self
+     * @return Acnt
      */
-    public function setSjDiv($sjDiv)
+    public function setSjDiv(?string $sjDiv): Acnt
     {
         $this->sjDiv = $sjDiv;
 
@@ -362,7 +362,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getSjNm()
+    public function getSjNm(): ?string
     {
         return $this->sjNm;
     }
@@ -374,7 +374,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setSjNm($sjNm)
+    public function setSjNm(?string $sjNm): Acnt
     {
         $this->sjNm = $sjNm;
 
@@ -386,7 +386,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getAccountId()
+    public function getAccountId(): ?string
     {
         return $this->accountId;
     }
@@ -398,7 +398,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setAccountId($accountId)
+    public function setAccountId(?string $accountId): Acnt
     {
         $this->accountId = $accountId;
 
@@ -410,7 +410,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getAccountNm()
+    public function getAccountNm(): ?string
     {
         return $this->accountNm;
     }
@@ -422,7 +422,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setAccountNm($accountNm)
+    public function setAccountNm(?string $accountNm): Acnt
     {
         $this->accountNm = $accountNm;
 
@@ -434,7 +434,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getThstrmNm()
+    public function getThstrmNm(): ?string
     {
         return $this->thstrmNm;
     }
@@ -446,7 +446,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setThstrmNm($thstrmNm)
+    public function setThstrmNm(?string $thstrmNm): Acnt
     {
         $this->thstrmNm = $thstrmNm;
 
@@ -458,19 +458,16 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getThstrmDt()
+    public function getThstrmDt(): ?string
     {
         return $this->thstrmDt;
     }
 
     /**
-     * Set $thstrmDt
-     *
-     * @param string|null $thstrmDt  $thstrmDt
-     *
-     * @return self
+     * @param string|null $thstrmDt
+     * @return $this
      */
-    public function setThstrmDt($thstrmDt)
+    public function setThstrmDt(?string $thstrmDt): Acnt
     {
         $this->thstrmDt = $thstrmDt;
 
@@ -482,7 +479,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getThstrmAmount()
+    public function getThstrmAmount(): ?string
     {
         return $this->thstrmAmount;
     }
@@ -494,7 +491,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setThstrmAmount($thstrmAmount)
+    public function setThstrmAmount(?string $thstrmAmount): Acnt
     {
         $this->thstrmAmount = $thstrmAmount;
 
@@ -506,7 +503,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getThstrmAddAmount()
+    public function getThstrmAddAmount(): ?string
     {
         return $this->thstrmAddAmount;
     }
@@ -518,7 +515,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setThstrmAddAmount($thstrmAddAmount)
+    public function setThstrmAddAmount(?string $thstrmAddAmount): Acnt
     {
         $this->thstrmAddAmount = $thstrmAddAmount;
 
@@ -542,7 +539,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setFrmtrmNm($frmtrmNm)
+    public function setFrmtrmNm(?string $frmtrmNm): Acnt
     {
         $this->frmtrmNm = $frmtrmNm;
 
@@ -554,7 +551,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getFrmtrmAmount()
+    public function getFrmtrmAmount(): Acnt
     {
         return $this->frmtrmAmount;
     }
@@ -562,11 +559,11 @@ class Acnt extends Dto
     /**
      * Set $frmtrmAmount
      *
-     * @param string|null $frmtrmAmount  $frmtrmAmount
+     * @param string|null $frmtrmAmount
      *
      * @return self
      */
-    public function setFrmtrmAmount($frmtrmAmount)
+    public function setFrmtrmAmount(?string $frmtrmAmount)
     {
         $this->frmtrmAmount = $frmtrmAmount;
 
@@ -578,7 +575,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getFrmtrmAddAmount()
+    public function getFrmtrmAddAmount(): ?string
     {
         return $this->frmtrmAddAmount;
     }
@@ -590,7 +587,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setFrmtrmAddAmount($frmtrmAddAmount)
+    public function setFrmtrmAddAmount(?string $frmtrmAddAmount): Acnt
     {
         $this->frmtrmAddAmount = $frmtrmAddAmount;
 
@@ -602,7 +599,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getBfefrmtrmNm()
+    public function getBfefrmtrmNm(): ?string
     {
         return $this->bfefrmtrmNm;
     }
@@ -614,7 +611,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setBfefrmtrmNm($bfefrmtrmNm)
+    public function setBfefrmtrmNm(?string $bfefrmtrmNm): Acnt
     {
         $this->bfefrmtrmNm = $bfefrmtrmNm;
 
@@ -626,7 +623,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getBfefrmtrmAmount()
+    public function getBfefrmtrmAmount(): ?string
     {
         return $this->bfefrmtrmAmount;
     }
@@ -638,7 +635,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setBfefrmtrmAmount($bfefrmtrmAmount)
+    public function setBfefrmtrmAmount(?string $bfefrmtrmAmount): Acnt
     {
         $this->bfefrmtrmAmount = $bfefrmtrmAmount;
 
@@ -650,7 +647,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getFrmtrmDt()
+    public function getFrmtrmDt(): ?string
     {
         return $this->frmtrmDt;
     }
@@ -662,7 +659,7 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setFrmtrmDt($frmtrmDt)
+    public function setFrmtrmDt(?string $frmtrmDt): Acnt
     {
         $this->frmtrmDt = $frmtrmDt;
 
@@ -674,7 +671,7 @@ class Acnt extends Dto
      *
      * @return string|null
      */
-    public function getBfefrmtrmDt()
+    public function getBfefrmtrmDt(): ?string
     {
         return $this->bfefrmtrmDt;
     }
@@ -686,13 +683,17 @@ class Acnt extends Dto
      *
      * @return self
      */
-    public function setBfefrmtrmDt($bfefrmtrmDt)
+    public function setBfefrmtrmDt(?string $bfefrmtrmDt): Acnt
     {
         $this->bfefrmtrmDt = $bfefrmtrmDt;
 
         return $this;
     }
 
+    /**
+     * @param bool $allowNull
+     * @return array|null
+     */
     public function toArray(bool $allowNull = true): ?array
     {
         return parent::toArray($allowNull);

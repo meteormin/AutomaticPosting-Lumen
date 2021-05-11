@@ -2,15 +2,19 @@
 
 namespace App\Services\Main;
 
+use App\Data\Abstracts\Dto;
+use App\Data\Abstracts\DtoInterface;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Response\ErrorCode;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use App\Services\Main\MainService;
-use App\DataTransferObjects\Paginator;
-use App\DataTransferObjects\Posts as PostsDto;
+use App\Data\DataTransferObjects\Paginator;
+use App\Data\DataTransferObjects\Posts as PostsDto;
 use App\Services\AutoPostInterface;
 use App\Services\Libraries\Generate\TableGenerator;
+use Illuminate\Support\Collection;
+use JsonMapper_Exception;
 
 /**
  * Posts Service
@@ -37,6 +41,7 @@ class PostsService extends Service implements AutoPostInterface
      * Undocumented function
      *
      * @param Posts $posts
+     * @param PostsDto $dto
      * @param MainService $service
      */
     public function __construct(Posts $posts, PostsDto $dto, MainService $service)
@@ -52,40 +57,63 @@ class PostsService extends Service implements AutoPostInterface
      * @param integer $count
      *
      * @return Paginator
+     * @throws JsonMapper_Exception
      */
-    public function paginate(int $count = 10)
+    public function paginate(int $count = 10): Paginator
     {
         $model = $this->model->orderByDesc('created_at')->paginate($count);
 
-        return new Paginator($model, 'posts');
+        return new Paginator($model, $this->entity(), 'posts');
     }
 
     /**
-     * Undocumented function
-     *
-     * @return PostsDto[]
+     * @return Posts
      */
-    public function all()
+    public function model(): Posts
     {
-        return $this->model->all();
+        return Posts::newModelInstance();
     }
 
     /**
-     * Undocumented function
-     *
      * @return PostsDto
+     * @throws JsonMapper_Exception
      */
-    public function find(int $id)
+    public function entity(): PostsDto
     {
-        return $this->model->findOrFail($id);
+        return PostsDto::newInstance();
     }
 
     /**
      * Undocumented function
      *
      * @return Collection|PostsDto[]
+     * @throws JsonMapper_Exception
      */
-    public function findByAttribute(array $input, string $op = '=')
+    public function all(): Collection
+    {
+        return $this->entity()->mapList(Posts::all());
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param int $id
+     * @return Dto
+     * @throws JsonMapper_Exception
+     */
+    public function find(int $id): Dto
+    {
+        return $this->entity()->map($this->model()->findOrFail($id));
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $input
+     * @param string $op
+     * @return Collection
+     */
+    public function findByAttribute(array $input, string $op = '='): Collection
     {
         $input = collect($input);
 
@@ -101,17 +129,21 @@ class PostsService extends Service implements AutoPostInterface
     /**
      * Undocumented function
      *
-     * @param string $name
-     * @param integer $userId
-     * @param string $createdBy
+     * @param string $type
+     * @param integer|null $userId
+     * @param string|null $createdBy
      *
      * @return int
+     * @throws JsonMapper_Exception
      */
-    public function autoPost(string $type, int $userId = null, string $createdBy = null)
+    public function autoPost(string $type, int $userId = null, string $createdBy = null): int
     {
         $refine = $this->service->getRefinedData($type);
 
         $title = __("stock.$type");
+        $name = '';
+        $date = '';
+        $data = '';
 
         if ($refine->get('type') == 'theme') {
             $code = $refine->get('code');
@@ -152,7 +184,7 @@ class PostsService extends Service implements AutoPostInterface
      *
      * @return int
      */
-    public function create(PostsDto $dto, int $userId, string $createdBy)
+    public function create(PostsDto $dto, int $userId, string $createdBy): int
     {
         $dto->setUserId($userId);
         $dto->setCreatedBy($createdBy);
@@ -171,11 +203,11 @@ class PostsService extends Service implements AutoPostInterface
      * @param string $updatedBy
      * @return int
      */
-    public function update(int $id, PostsDto $dto, string $updatedBy)
+    public function update(int $id, PostsDto $dto, string $updatedBy): int
     {
         $model = $this->model->findOrFail($id);
         $model->updated_by = $updatedBy;
-        $model->fill($dto);
+        $model->fill($dto->toArray());
         if ($model->save()) {
             return $id;
         }
@@ -191,7 +223,7 @@ class PostsService extends Service implements AutoPostInterface
      *
      * @return bool
      */
-    public function delete(int $id, string $deletedBy)
+    public function delete(int $id, string $deletedBy): bool
     {
         $this->model->findOrFail($id);
         $this->model->deleted_by = $deletedBy;

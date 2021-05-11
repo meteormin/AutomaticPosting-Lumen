@@ -33,7 +33,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($data as $item)
-                                            @if($item instanceof \App\DataTransferObjects\Refine)
+                                            @if($item instanceof \App\Data\DataTransferObjects\Refine)
                                                 <tr>
                                                     <td>{{ $item->getCode() }}</td>
                                                     <td>{{ $item->getName() }}</td>

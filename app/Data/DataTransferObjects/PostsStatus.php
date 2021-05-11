@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
-use App\DataTransferObjects\Abstracts\Dto;
+use App\Data\Abstracts\Dto;
 
 class PostsStatus extends Dto
 {

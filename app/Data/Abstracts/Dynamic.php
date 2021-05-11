@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTransferObjects\Abstracts;
+namespace App\Data\Abstracts;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -22,7 +22,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @var array
      */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
      * 새 객체 생성시, 픽스해둔 $fillable의 필드들이
@@ -44,7 +44,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @return mixed
      */
-    public function __call($name, $args)
+    public function __call(string $name, array $args)
     {
         if (substr($name, 0, 3) == 'get') {
             return $this->getAttribute(Str::snake(substr($name, 3)));
@@ -105,7 +105,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @return $this
      */
-    public function setAttribute(string $key, $value)
+    public function setAttribute(string $key, $value): Dynamic
     {
         if (in_array(Str::snake($key), $this->fillable)) {
             $this->attributes[Str::snake($key)] = $value;
@@ -124,7 +124,7 @@ abstract class Dynamic implements Arrayable, Jsonable
         $this->fillable = $fillable->all();
     }
 
-    public function getFillable()
+    public function getFillable(): array
     {
         return $this->fillable;
     }
@@ -136,7 +136,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      *
      * @return $this
      */
-    public function fill(array $input)
+    public function fill(array $input): Dynamic
     {
         foreach ($input as $key => $value) {
             $this->setAttribute($key, $value);
@@ -146,23 +146,16 @@ abstract class Dynamic implements Arrayable, Jsonable
     }
 
     /**
-     * return attributes array
-     *
-     * @param boolean $allowNull
-     *
-     * @return array|null
+     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }
 
     /**
-     * return to json
-     *
      * @param int $options
-     *
-     * @return void
+     * @return false|string
      */
     public function toJson($options = JSON_UNESCAPED_UNICODE)
     {

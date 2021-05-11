@@ -5,12 +5,13 @@ namespace App\Services\Main;
 use App\Services\Service;
 use Illuminate\Support\Collection;
 use App\Services\Kiwoom\KoaService;
-use App\DataTransferObjects\Finance;
-use App\DataTransferObjects\StockInfo;
+use App\Data\DataTransferObjects\Finance;
+use App\Data\DataTransferObjects\StockInfo;
 use App\Models\Posts;
 use App\Services\Kiwoom\Windows;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Carbon;
+use JsonMapper_Exception;
 
 class MainService extends Service
 {
@@ -19,21 +20,21 @@ class MainService extends Service
      *
      * @var KoaService
      */
-    protected $koa;
+    protected KoaService $koa;
 
     /**
      * Undocumented variable
      *
      * @var OpenDartService
      */
-    protected $openDart;
+    protected OpenDartService $openDart;
 
     /**
      * Undocumented variable
      *
      * @var Windows
      */
-    protected $win;
+    protected Windows $win;
 
     public function __construct(KoaService $koa, OpenDartService $openDart, Windows $win)
     {
@@ -52,8 +53,10 @@ class MainService extends Service
      *
      * @return Collection
      */
-    public function getStockInfo(string $type, string $where = null)
+    public function getStockInfo(string $type, string $where = null): Collection
     {
+        $stockInfo = collect();
+
         if ($type == 'sector') {
             if (is_null($where)) {
                 $where = $this->getPriority($type);
@@ -84,10 +87,9 @@ class MainService extends Service
      *
      * @return Collection
      */
-    public function getRawData(string $type, string $where = null)
+    public function getRawData(string $type, string $where = null): Collection
     {
         $stockInfo = $this->getStockInfo($type, $where);
-        $acnts = collect();
         $rsList = collect();
         $stockCodes = collect();
 
@@ -121,8 +123,9 @@ class MainService extends Service
      * @param string|null $where
      *
      * @return Collection
+     * @throws JsonMapper_Exception
      */
-    public function getRefinedData(string $type, string $where = null)
+    public function getRefinedData(string $type, string $where = null): Collection
     {
         $rawData = $this->getRawData($type, $where);
 
@@ -149,8 +152,10 @@ class MainService extends Service
      * @param string $type
      * @return string
      */
-    public function getPriority(string $type)
+    public function getPriority(string $type): string
     {
+        $config = collect();
+
         if ($type == 'sector') {
             $config = collect(config('sectors.kospi.sectors'));
         }
@@ -161,17 +166,9 @@ class MainService extends Service
 
         $currentCount = Posts::where('type', $type)->count();
 
-        $remainder = 0;
-        $index = 0;
-
-        if ($currentCount != 0) {
-            $remainder = $config->count() % $currentCount;
-            $index = $config->count() - $remainder;
-        }
-
-        if ($remainder == 0) {
-            $index = $remainder;
-        }
+        // max - (max - (current % max)
+        $remainder = $currentCount % $config->count();
+        $index = $config->count() - ($config->count() - $remainder);
 
         return $config->get($index)['code'];
     }
@@ -186,6 +183,7 @@ class MainService extends Service
      */
     public function updateStockInfo(string $type, string $code)
     {
+        $options = [];
         if ($type == 'sector') {
             $options['market'] = 'kospi';
             $options['sector'] = $code;

@@ -74,4 +74,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
 
     // Open Dart 기업 코드 저장
     $router->post('corp-codes', 'StockController@storeCorpCodes');
+
+    // stand alone page only include header
+    $router->get('posts/{id}', 'PostsController@show');
 });

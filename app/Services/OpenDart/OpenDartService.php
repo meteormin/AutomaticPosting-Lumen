@@ -5,8 +5,9 @@ namespace App\Services\OpenDart;
 use App\Services\Service;
 use Illuminate\Support\Carbon;
 use Illuminate\Pagination\Paginator;
-use App\DataTransferObjects\CorpCode;
+use App\Data\DataTransferObjects\CorpCode;
 use App\Exceptions\ApiErrorException;
+use Illuminate\Support\Collection;
 
 class OpenDartService extends Service
 {
@@ -109,9 +110,8 @@ class OpenDartService extends Service
      * 다중 회사 주요 계정 가져오기
      *
      * @param array $stockCodes
-     * @param string $year
-     * @param string $reprtCoe
-     *
+     * @param string|null $year
+     * @param string $reprtCode
      * @return Collection
      */
     public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011')

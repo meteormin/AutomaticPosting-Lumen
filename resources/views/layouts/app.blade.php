@@ -28,12 +28,15 @@
         @include('layouts.open-graph')
     </head>
     <body>
-        @include('layouts.nav')
-        @yield('navigation')
-        @yield('header')
-        @yield('content')
-        @yield('footer')
-
+        @if(request()->is('api/posts/*'))
+            @yield('stand-alone')
+        @else
+            @include('layouts.nav')
+            @yield('navigation')
+            @yield('header')
+            @yield('content')
+            @yield('footer')
+        @endif
         <!-- Bootstrap core JS-->
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>

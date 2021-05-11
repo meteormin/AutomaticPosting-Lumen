@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DataTransferObjects;
+namespace App\Data\DataTransferObjects;
 
-use App\DataTransferObjects\Abstracts\Dto;
+use App\Data\Abstracts\Dto;
 
 class Posts extends Dto
 {
@@ -73,7 +73,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setId(int $id)
+    public function setId(int $id): Posts
     {
         $this->id = $id;
 
@@ -97,7 +97,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): Posts
     {
         $this->title = $title;
 
@@ -121,7 +121,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setSubTitle(string $subTitle)
+    public function setSubTitle(string $subTitle): Posts
     {
         $this->subTitle = $subTitle;
 
@@ -148,7 +148,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setContents(string $contents)
+    public function setContents(string $contents): Posts
     {
         $this->contents = $contents;
 
@@ -160,7 +160,7 @@ class Posts extends Dto
      *
      * @return  string
      */
-    public function getCreatedBy()
+    public function getCreatedBy(): string
     {
         return $this->createdBy;
     }
@@ -172,7 +172,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setCreatedBy(string $createdBy)
+    public function setCreatedBy(string $createdBy): Posts
     {
         $this->createdBy = $createdBy;
 
@@ -184,7 +184,7 @@ class Posts extends Dto
      *
      * @return  string
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
@@ -196,7 +196,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setCreatedAt(string $createdAt)
+    public function setCreatedAt(string $createdAt): Posts
     {
         $this->createdAt = $createdAt;
 
@@ -220,7 +220,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setUserId(int $userId)
+    public function setUserId(int $userId): Posts
     {
         $this->userId = $userId;
 
@@ -248,7 +248,7 @@ class Posts extends Dto
      *
      * @return  $this
      */
-    public function setType(string $type)
+    public function setType(string $type): Posts
     {
         $this->type = $type;
 
@@ -260,7 +260,7 @@ class Posts extends Dto
      * @param string $type return data type code or ko (default is code)
      * @return  string
      */
-    public function getCode(string $type = 'code')
+    public function getCode(string $type = 'code'): string
     {
         if ($type == 'ko') {
             if ($this->type == 'sector') {
@@ -284,7 +284,7 @@ class Posts extends Dto
      *
      * @return  self
      */
-    public function setCode(string $code)
+    public function setCode(string $code): Posts
     {
         $this->code = $code;
 
@@ -304,7 +304,7 @@ class Posts extends Dto
      * @param bool $published
      * @return  $this
      */
-    public function setPublished(bool $published)
+    public function setPublished(bool $published): Posts
     {
         $this->published = $published;
 

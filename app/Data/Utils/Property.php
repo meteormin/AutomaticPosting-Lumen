@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities\Utils;
+namespace App\Data\Utils;
 
 use ReflectionClass;
 use ReflectionObject;
