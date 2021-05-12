@@ -3,11 +3,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Posts;
 use App\Services\Medium\MediumService;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
-use App\Data\DataTransferObjects\Posts as Dto;
 
 class MediumPost extends Command
 {
@@ -50,10 +49,16 @@ class MediumPost extends Command
 
         $this->info('auto post: ' . $this->argument('name'));
 
-        $res = $service->autoPost($this->argument('name'));
+        try {
+            $res = $service->autoPost($this->argument('name'));
+            $this->info('success post...');
+            $this->info('response: ' . json_encode($res));
+            return 0;
 
-        $this->info('success post...');
-        $this->info('response: ' . json_encode($res));
-        return 0;
+        } catch (FileNotFoundException | JsonMapper_Exception $e) {
+            $this->error($e->getMessage());
+        }
+
+       return 1;
     }
 }

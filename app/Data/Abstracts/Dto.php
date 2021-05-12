@@ -80,7 +80,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
      * @param int $options
      * @return string
      */
-    public function toJson($options = JSON_UNESCAPED_UNICODE, bool $allowNull = true): string
+    public function toJson($options = JSON_UNESCAPED_UNICODE, bool $allowNull = false): string
     {
         return json_encode($this->toArray($allowNull), $options);
     }

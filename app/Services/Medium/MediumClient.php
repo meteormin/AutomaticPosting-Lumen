@@ -7,16 +7,10 @@ use App\Data\DataTransferObjects\Posts;
 use App\Services\Libraries\Client;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use JsonMapper_Exception;
 
 class MediumClient
 {
-    /**
-     * Undocumented variable
-     *
-     * @var Client
-     */
-    protected Client $client;
-
     /**
      * Undocumented variable
      *
@@ -30,6 +24,28 @@ class MediumClient
      * @var array
      */
     protected array $methods;
+
+    /**
+     * @var string|array|mixed|null
+     */
+    protected ?string $host;
+
+    /**
+     * @var string|array|mixed|null
+     */
+    protected ?string $token;
+
+    /**
+     * MediumClient constructor.
+     */
+    public function __construct()
+    {
+        $this->config = config('medium');
+
+        $this->methods = $this->config('methods');
+        $this->host = $this->config('host');
+        $this->token = $this->config('token');
+    }
 
     /**
      * Undocumented function
@@ -65,38 +81,24 @@ class MediumClient
         return Arr::get($this->methods, $key, $default);
     }
 
+    /**
+     * @return Client
+     */
     public function client(): Client
     {
-        return $this->client;
+        return Client::newInstance($this->host, $this->token);
     }
 
     /**
-     * MediumClient constructor.
-     * @param Client $client
+     * @return array|string
      */
-    public function __construct(Client $client)
-    {
-        $this->config = config('medium');
-
-        $this->methods = $this->config('methods');
-        $this->client = $client->setHost($this->config('host'));
-        $this->client->setToken($this->config('token'));
-    }
-
-    /**
-     * @return void
-     */
-    public function resetClient(){
-        $this->client = new Client($this->config('host'));
-        $this->client->setToken($this->config('token'));
-    }
-
     public function me()
     {
-        $response = $this->client->get($this->methods('me.end_point'));
+        $client = $this->client();
+        $response = $client->get($this->methods('me.end_point'));
 
         if (is_null($response)) {
-            return $this->client->getError();
+            return $this->client()->getError();
         }
 
         return $response;
@@ -108,10 +110,20 @@ class MediumClient
      * @param Posts $posts
      *
      * @return string|array
+     * @throws JsonMapper_Exception
      */
     public function posts(Posts $posts)
     {
-        $mediumPosts = new MediumPosts;
+        $mediumPosts = MediumPosts::newInstance([
+            'title' => $posts->getTitle(),
+            'content' => $posts->getContents(),
+            'tags' => [
+                '주식',
+                $posts->getType('ko'),
+                $posts->getCode('ko')
+            ]
+        ]);
+
         $mediumPosts->setTitle($posts->getTitle());
         $mediumPosts->setContent($posts->getContents());
         $mediumPosts->setTags([
@@ -119,11 +131,11 @@ class MediumClient
             $posts->getType('ko'),
             $posts->getCode('ko')
         ]);
-
-        $response = $this->client->post($this->methods('posts.end_point'), $mediumPosts->toArray());
+        $client = $this->client();
+        $response = $client->post($this->methods('posts.end_point'), $mediumPosts->toArray());
 
         if (is_null($response)) {
-            return $this->client->getError();
+            return $client->getError();
         }
 
         return $response;
@@ -135,12 +147,13 @@ class MediumClient
      */
     public function images(string $contents)
     {
-        $response = $this->client
+        $client = $this->client();
+        $response = $client
             ->setAttach('image', $contents, 'posts_' . Carbon::now()->timestamp . '.png')
             ->post($this->methods('images.end_point'));
 
         if (is_null($response)) {
-            return $this->client->getError();
+            return $client->getError();
         }
 
         return $response;

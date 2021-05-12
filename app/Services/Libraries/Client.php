@@ -5,22 +5,57 @@ namespace App\Services\Libraries;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\Response as HttpResponse;
+use Illuminate\Http\Client\Response;
 
 /**
  * Laravel Http Client wrapper
  */
 class Client
 {
-    private $host;
-    private $headers;
-    private $options;
-    private $token;
-    private $token_type;
-    private $attachment;
+    /**
+     * @var string|null
+     */
+    private ?string $host;
+
+    /**
+     * @var array|null
+     */
+    private ?array $headers;
+
+    /**
+     * @var array
+     */
+    private array $options;
+
+    /**
+     * @var string|null
+     */
+    private ?string $token;
+
+    /**
+     * @var string
+     */
+    private string $token_type;
+
+    /**
+     * @var array|null
+     */
+    private ?array $attachment;
+
+    /**
+     * @var Response
+     */
     private $response;
+
+    /**
+     * @var array|string
+     */
     private $error;
-    private $asForm;
+
+    /**
+     * @var bool
+     */
+    private bool $asForm;
 
     /**
      * 생성자
@@ -42,11 +77,22 @@ class Client
     }
 
     /**
+     * @param string|null $host
+     * @param string|null $token
+     * @param string $token_type
+     * @return Client
+     */
+    public static function newInstance(string $host = null, string $token = null, string $token_type = 'Bearer'): Client
+    {
+        return new static($host,$token,$token_type);
+    }
+
+    /**
      * [makeRequest description]
-     * Http-Client를 통해 api로 요청을 보낸다.
-     * @param string $method 메서드 이름
+     * Http Client를 통해 http요청을 보낸다.
+     * @param string|null $method 메서드 이름
      * @param string $ep api의 end-point
-     * @param array $parameters 요청 파라미터
+     * @param array|null $parameters 요청 파라미터
      * @return  string|array              [return description]
      */
     private function makeRequest(string $method = null, string $ep = '', array $parameters = null)
@@ -117,7 +163,7 @@ class Client
         return $this->response($response);
     }
 
-    public function get(string $endPoint, array $parameters = null)
+    public function get(string $endPoint, array $parameters = [])
     {
         return $this->makeRequest('get', $endPoint, $parameters);
     }
@@ -127,17 +173,17 @@ class Client
         return $this->makeRequest('post', $endPoint, $parameters);
     }
 
-    public function put(string $endPoint, array $parameters = null)
+    public function put(string $endPoint, array $parameters = [])
     {
         return $this->makeRequest('put', $endPoint, $parameters);
     }
 
-    public function delete(string $endPoint, array $parameters = null)
+    public function delete(string $endPoint, array $parameters = [])
     {
         return $this->makeRequest('delete', $endPoint, $parameters);
     }
 
-    public function getHeaders()
+    public function getHeaders(): ?array
     {
         return $this->headers;
     }
@@ -185,7 +231,7 @@ class Client
      *
      * @param string $key [$key description]
      * @param mixed $attach [$attach description]
-     *
+     * @param string|null $filename
      * @return  $this           [return description]
      */
     public function setAttach(string $key, $attach, string $filename = null): Client
@@ -198,9 +244,9 @@ class Client
     /**
      * 첨부한 파일 조회
      *
-     * @return  mixed  [return description]
+     * @return  array|null  [return description]
      */
-    public function getAttach()
+    public function getAttach(): ?array
     {
         return $this->attachment;
     }
@@ -209,11 +255,11 @@ class Client
      * 요청 결과에 맞게 응답을 준다.
      * error면 error속성에
      * 정상결과면 response속성에 결과를 대입
-     * @param HttpResponse $response [$response description]
+     * @param Response $response [$response description]
      *
-     * @return  mixed                   [return description]
+     * @return array|string                   [return description]
      */
-    private function response(HttpResponse $response)
+    private function response(Response $response)
     {
         $this->response = $response;
 
@@ -227,11 +273,14 @@ class Client
         }
     }
 
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
 
+    /**
+     * @return array|string
+     */
     public function getError()
     {
         return $this->error;
@@ -241,7 +290,7 @@ class Client
      * Get the value of host
      * @return string
      */
-    public function getHost()
+    public function getHost(): ?string
     {
         return $this->host;
     }
@@ -251,7 +300,7 @@ class Client
      * @param string $host
      * @return  $this
      */
-    public function setHost(string $host)
+    public function setHost(string $host): Client
     {
         $this->host = $host;
 
@@ -261,7 +310,7 @@ class Client
     /**
      * Get the value of options
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -269,9 +318,10 @@ class Client
     /**
      * Set the value of options
      *
-     * @return self
+     * @param $options
+     * @return $this
      */
-    public function setOptions($options)
+    public function setOptions($options): Client
     {
         $this->options = $options;
 
