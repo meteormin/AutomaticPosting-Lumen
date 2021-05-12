@@ -35,7 +35,10 @@ class MediumPosts extends Dto
     /**
      * @var string $pulishStatus
      */
-    protected string $publishStatus = 'public';
+//    production
+//    protected string $publishStatus = 'public';
+//   test
+    protected string $publishStatus = 'draft';
 
     /**
      * Get $title
@@ -50,7 +53,7 @@ class MediumPosts extends Dto
     /**
      * Set $title
      *
-     * @param  string  $title  $title
+     * @param string $title $title
      *
      * @return  $this
      */
@@ -92,7 +95,7 @@ class MediumPosts extends Dto
     /**
      * Set $contentFormat
      *
-     * @param  string  $contentFormat  $contentFormat
+     * @param string $contentFormat $contentFormat
      *
      * @return  $this
      */
@@ -118,7 +121,7 @@ class MediumPosts extends Dto
     /**
      * Set $pulishStatus
      *
-     * @param  string $publishStatus
+     * @param string $publishStatus
      *
      * @return  $this
      */
@@ -144,7 +147,7 @@ class MediumPosts extends Dto
     /**
      * Set $canonicalUrl
      *
-     * @param  string $canonicalUrl
+     * @param string $canonicalUrl
      *
      * @return  $this
      */
@@ -168,7 +171,7 @@ class MediumPosts extends Dto
     /**
      * Set $tags
      *
-     * @param  array  $tags
+     * @param array $tags
      *
      * @return  $this
      */
