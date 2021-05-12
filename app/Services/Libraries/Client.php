@@ -308,9 +308,9 @@ class Client
     }
 
     /**
-     * Get the value of options
+     * @return array|null
      */
-    public function getOptions(): array
+    public function getOptions(): ?array
     {
         return $this->options;
     }
