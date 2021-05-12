@@ -63,7 +63,6 @@ class MediumService extends Service implements AutoPostInterface
 
         if(isset($res['data'])){
             $url = $res['data']['url'];
-            $dto->setPublished('draft');
             $dto->setContents("<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>");
         }
 
