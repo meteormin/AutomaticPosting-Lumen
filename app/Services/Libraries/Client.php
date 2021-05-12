@@ -20,32 +20,32 @@ class Client
     /**
      * @var array|null
      */
-    private ?array $headers;
-
-    /**
-     * @var array
-     */
-    private array $options;
-
-    /**
-     * @var string|null
-     */
-    private ?string $token;
-
-    /**
-     * @var string
-     */
-    private string $token_type;
+    private ?array $headers = null;
 
     /**
      * @var array|null
      */
-    private ?array $attachment;
+    private ?array $options = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $token = null;
+
+    /**
+     * @var string
+     */
+    private string $token_type = 'Bearer';
+
+    /**
+     * @var array|null
+     */
+    private ?array $attachment = null;
 
     /**
      * @var Response
      */
-    private $response;
+    private Response $response;
 
     /**
      * @var array|string
