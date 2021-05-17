@@ -335,7 +335,7 @@ class Posts extends Dto
 
         $filePath = storage_path("app/$filename");
 
-        $host = request()->getHttpHost();
+        $host = config('app.static_ip');
         $port = config('app.custom_port');
 
         $command = "wkhtmltoimage http://{$host}:{$port}/api/posts/{$this->id} {$filePath}";
