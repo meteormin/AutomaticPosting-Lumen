@@ -28,6 +28,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'custom_port'=>env('APP_PORT',80),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
