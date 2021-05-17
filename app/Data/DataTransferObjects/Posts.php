@@ -334,7 +334,8 @@ class Posts extends Dto
         }
 
         $filePath = storage_path("app/$filename");
-        $command = "wkhtmltoimage http://localhost:58080/api/posts/{$this->id} {$filePath}";
+        $host = request()->getHttpHost();
+        $command = "wkhtmltoimage http://{$host}/api/posts/{$this->id} {$filePath}";
         $output = exec($command,$output,$code);
 
         if($code === 0){

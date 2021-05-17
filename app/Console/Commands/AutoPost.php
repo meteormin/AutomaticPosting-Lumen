@@ -47,7 +47,7 @@ class AutoPost extends Command
             return 1;
         }
 
-        $this->info('auto post: ' . $this->argument('name'));
+        $this->info('[Basic] auto post: ' . $this->argument('name'));
         $user = User::find(1);
         $postId = $posts->autoPost($this->argument('name'), $user->id, $user->email);
 

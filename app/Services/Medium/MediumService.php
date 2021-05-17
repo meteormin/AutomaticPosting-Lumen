@@ -40,34 +40,26 @@ class MediumService extends Service implements AutoPostInterface
      */
     public function autoPost(string $type, int $postsId = null): ?array
     {
-        if (is_null($postsId)) {
-            $posts = Posts::where('type', $type)
-                ->where('published', false)
-                ->orderByDesc('created_at')
-                ->first();
-        } else {
-            $posts = Posts::find($postsId);
-        }
+        $posts = Posts::getForAutoPost($type,$postsId);
 
-        if(is_null($posts)){
-            return null;
-        }
-
-        $dto = PostsDto::newInstance($posts->toArray());
-        if(is_null($dto->getContentImg())){
+        $dto = PostsDto::newInstance($posts);
+        if (is_null($dto->getContentImg())) {
             return null;
         }
 
         $res = $this->client->images($dto->getContentImg());
 
-
-        if(isset($res['data'])){
+        if (isset($res['data'])) {
             $url = $res['data']['url'];
-            $dto->setContents("<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>");
+            $content = "<h3>{$dto->getTitle()}</h3>";
+            $content .= "<br>";
+            $content .= "<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>";
+
+            $dto->setContents($content);
         }
 
-//        $posts->published = 1;
-//        $posts->save();
+        $posts->published = 1;
+        $posts->save();
 
         return $this->client->posts($dto);
     }

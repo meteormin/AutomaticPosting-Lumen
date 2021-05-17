@@ -66,6 +66,19 @@ class Posts extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    public static function getForAutoPost(string $type, int $postsId = null){
+        if (is_null($postsId)) {
+            $posts = Posts::where('type', $type)
+                ->where('published', false)
+                ->orderByDesc('created_at')
+                ->first();
+        } else {
+            $posts = Posts::find($postsId);
+        }
+
+        return $posts;
+    }
+
     /**
      * The database table used by the model.
      *

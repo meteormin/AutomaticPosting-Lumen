@@ -3,19 +3,20 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Medium\MediumService;
+
+use App\Services\WordPress\WpPostService;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
 
-class MediumPost extends Command
+class WpPost extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'medium {name}';
+    protected $signature = 'WpPost {name}';
 
     /**
      * The console command description.
@@ -37,17 +38,18 @@ class MediumPost extends Command
     /**
      * Execute the console command.
      *
-     * @param MediumService $service
+     * @param WpPostService $service
      * @return int
+     * @throws JsonMapper_Exception
      */
-    public function handle(MediumService $service): int
+    public function handle(WpPostService $service): int
     {
         if (is_null($this->argument('name'))) {
             $this->error('name parameter is required');
             return 1;
         }
 
-        $this->info('[Medium] auto post: ' . $this->argument('name'));
+        $this->info('[Word Press] auto post: ' . $this->argument('name'));
 
         try {
             $res = $service->autoPost($this->argument('name'));
@@ -59,6 +61,6 @@ class MediumPost extends Command
             $this->error($e->getMessage());
         }
 
-       return 1;
+        return 1;
     }
 }
