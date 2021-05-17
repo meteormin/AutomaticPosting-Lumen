@@ -6,7 +6,6 @@ namespace App\Services\WordPress;
 
 use App\Models\Posts;
 use App\Data\DataTransferObjects\Posts as Dto;
-use App\Models\WpPosts;
 use App\Services\AutoPostInterface;
 use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
