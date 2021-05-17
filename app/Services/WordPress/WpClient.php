@@ -2,11 +2,7 @@
 
 namespace App\Services\WordPress;
 
-use App\Data\DataTransferObjects\MediumPosts;
-use App\Data\DataTransferObjects\Posts;
 use App\Services\Libraries\Client;
-use Carbon\Carbon;
-use JsonMapper_Exception;
 
 class WpClient
 {
@@ -36,7 +32,7 @@ class WpClient
      */
     public function auth(){
         $client = $this->client();
-        return $client->post('/wp-json/jwt-auth/v1/tokan',[
+        return $client->post('/wp-json/jwt-auth/v1/token',[
             'username'=>config('wordpress.id'),
             'password'=>config('wordpress.pwd')
         ]);
