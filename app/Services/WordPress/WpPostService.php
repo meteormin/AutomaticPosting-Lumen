@@ -35,7 +35,7 @@ class WpPostService extends  Service implements AutoPostInterface
         if(file_put_contents(base_path($publicImgFile),$dto->getContentImg()) === false){
             $this->throw(self::SERVER_ERROR,'fail put file...');
         }
-        $host =request()->getHttpHost();
+        $host =request()->getHttpHost().':'.config('app.custom_port');
 
         $url = "http://{$host}/{$publicImgFile}";
 
