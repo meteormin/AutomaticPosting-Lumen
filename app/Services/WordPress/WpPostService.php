@@ -30,8 +30,8 @@ class WpPostService extends  Service implements AutoPostInterface
     {
         $posts = Posts::getForAutoPost($type,$postsId);
         $dto = Dto::newInstance($posts);
-        $publicImgFile = "public/img/posts/{$dto->getId()}.png";
-        if(file_put_contents(base_path($publicImgFile),$dto->getContentImg()) === false){
+        $publicImgFile = "img/posts/{$dto->getId()}.png";
+        if(file_put_contents(base_path('public/'.$publicImgFile),$dto->getContentImg()) === false){
             $this->throw(self::SERVER_ERROR,'fail put file...');
         }
         $host =config('app.static_ip').':'.config('app.custom_port');
