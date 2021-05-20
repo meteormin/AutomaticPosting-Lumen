@@ -2,6 +2,7 @@
 
 namespace App\Services\WordPress;
 
+use App\Data\DataTransferObjects\WPosts;
 use App\Services\Libraries\Client;
 
 class WpClient
@@ -39,14 +40,14 @@ class WpClient
     }
 
     /**
-     * @param array $input
+     * @param WPosts $input
      * @return array|string
      */
-    public function posts(array $input)
+    public function posts(WPosts $input)
     {
         $auth = $this->auth();
         $client = $this->client();
-        $response = $client->setToken($auth['token'])->post('/wp-json/wp/v2/posts',$input);
+        $response = $client->setToken($auth['token'])->post('/wp-json/wp/v2/posts',$input->toArray());
 
         if (is_null($response)) {
             return $this->client()->getError();

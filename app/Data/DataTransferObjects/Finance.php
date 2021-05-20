@@ -69,7 +69,7 @@ class Finance extends Dto
      *
      * @return StockInfo|null
      */
-    public function getStock(): ?string
+    public function getStock(): ?StockInfo
     {
         return $this->stock;
     }

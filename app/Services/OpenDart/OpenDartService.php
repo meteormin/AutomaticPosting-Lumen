@@ -3,18 +3,20 @@
 namespace App\Services\OpenDart;
 
 use App\Services\Service;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Carbon;
 use Illuminate\Pagination\Paginator;
 use App\Data\DataTransferObjects\CorpCode;
 use App\Exceptions\ApiErrorException;
 use Illuminate\Support\Collection;
+use JsonMapper_Exception;
 
 class OpenDartService extends Service
 {
     /**
      * @var OpenDartClient
      */
-    protected $module;
+    protected OpenDartClient $module;
 
     public function __construct(OpenDartClient $client)
     {
@@ -27,7 +29,7 @@ class OpenDartService extends Service
      * @return bool
      * @throws ApiErrorException
      */
-    public function saveCorpCodes()
+    public function saveCorpCodes(): bool
     {
         if ($this->module->requestCorpCodes()) {
             return true;
@@ -39,9 +41,11 @@ class OpenDartService extends Service
     /**
      * Undocumented function
      *
-     * @param string $code
+     * @param string|null $code
      *
-     * @return Collection|Paginator
+     * @return \App\Data\DataTransferObjects\Paginator|Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
     public function getCorpCode(string $code = null)
     {
@@ -64,8 +68,11 @@ class OpenDartService extends Service
      * @param string $stockCode
      *
      * @return CorpCode
+     * //
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function findCorpCodeByStockCode(string $stockCode)
+    public function findCorpCodeByStockCode(string $stockCode): CorpCode
     {
         $corpCodes = $this->module->getCorpCode();
 
@@ -84,9 +91,11 @@ class OpenDartService extends Service
      * @param string|null $year
      * @param string $reprtCode
      *
-     * @return Collection|Acnt[]
+     * @return Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function getSingle(string $stockCode, string $year = null, string $reprtCode = '11011')
+    public function getSingle(string $stockCode, string $year = null, string $reprtCode = '11011'): Collection
     {
         if (is_null($year)) {
             $year = Carbon::now()->format('Y');
@@ -98,7 +107,6 @@ class OpenDartService extends Service
 
         $corpCode = $this->findCorpCodeByStockCode($stockCode);
 
-        $corpCode = $corpCode;
         if (is_null($corpCode)) {
             $this->throw(self::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
         }
@@ -113,8 +121,10 @@ class OpenDartService extends Service
      * @param string|null $year
      * @param string $reprtCode
      * @return Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011')
+    public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011'): Collection
     {
         $corpCodes = collect();
 

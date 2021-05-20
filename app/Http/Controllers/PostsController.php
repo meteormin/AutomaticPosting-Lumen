@@ -46,6 +46,9 @@ class PostsController extends DefaultController
         return view('list', ['posts' => $this->postsService->paginate()]);
     }
 
+    /**
+     * @throws JsonMapper_Exception
+     */
     public function show(Request $request, int $id)
     {
         if($request->is('api/posts/*')){

@@ -36,9 +36,9 @@ class MediumPosts extends Dto
      * @var string $pulishStatus
      */
 //    production
-//    protected string $publishStatus = 'public';
+    protected string $publishStatus = 'public';
 //   test
-    protected string $publishStatus = 'draft';
+//    protected string $publishStatus = 'draft';
 
     /**
      * Get $title

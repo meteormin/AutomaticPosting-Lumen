@@ -4,6 +4,7 @@
 namespace App\Services\WordPress;
 
 
+use App\Data\DataTransferObjects\WPosts;
 use App\Models\Posts;
 use App\Data\DataTransferObjects\Posts as Dto;
 use App\Services\AutoPostInterface;
@@ -11,11 +12,12 @@ use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
 
-class WpPostService extends  Service implements AutoPostInterface
+class WpPostService extends Service implements AutoPostInterface
 {
     protected WpClient $client;
 
-    public function __construct(WpClient $client){
+    public function __construct(WpClient $client)
+    {
         $this->client = $client;
     }
 
@@ -28,13 +30,18 @@ class WpPostService extends  Service implements AutoPostInterface
      */
     public function autoPost(string $type, int $postsId = null)
     {
-        $posts = Posts::getForAutoPost($type,$postsId);
+        $posts = Posts::getForAutoPost($type, $postsId);
         $dto = Dto::newInstance($posts);
         $publicImgFile = "img/posts/{$dto->getId()}.png";
-        if(file_put_contents(base_path('public/'.$publicImgFile),$dto->getContentImg()) === false){
-            $this->throw(self::SERVER_ERROR,'fail put file...');
+
+        if(!file_exists(base_path('public/img/posts'))){
+            mkdir(base_path('public/img/posts'));
         }
-        $host =config('app.static_ip').':'.config('app.custom_port');
+
+        if (file_put_contents(base_path('public/' . $publicImgFile), $dto->getContentImg()) === false) {
+            $this->throw(self::SERVER_ERROR, 'fail put file...');
+        }
+        $host = config('app.static_ip') . ':' . config('app.custom_port');
 
         $url = "http://{$host}/{$publicImgFile}";
 
@@ -42,12 +49,10 @@ class WpPostService extends  Service implements AutoPostInterface
         $content .= "<br>";
         $content .= "<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>";
 
-        return $this->client->posts([
-            'status'=>'publish',
-            'title'=>$dto->getTitle(),
-            'content'=>$content,
-            'author'=>1,
-            "categories"=>1
+        $input = WPosts::newInstance([
+            'title' => $dto->getTitle(),
+            'content' => $content
         ]);
+        return $this->client->posts($input);
     }
 }

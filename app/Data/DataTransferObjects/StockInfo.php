@@ -7,9 +7,9 @@ use App\Data\Abstracts\Dto;
 class StockInfo extends Dto
 {
     /**
-     * @var string $code
+     * @var string|null $code
      */
-    protected string $code;
+    protected ?string $code;
 
     /**
      * @var string $name
@@ -44,9 +44,9 @@ class StockInfo extends Dto
     /**
      * Get $code
      *
-     * @return  string
+     * @return  string|null
      */
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }
@@ -54,11 +54,11 @@ class StockInfo extends Dto
     /**
      * Set $code
      *
-     * @param  string  $code  $code
+     * @param  mixed $code  $code
      *
-     * @return  self
+     * @return  $this
      */
-    public function setCode(string $code)
+    public function setCode($code)
     {
         $this->code = $code;
 

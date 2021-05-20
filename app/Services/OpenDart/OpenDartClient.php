@@ -3,9 +3,10 @@
 namespace App\Services\OpenDart;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use JsonMapper_Exception;
 use ZipArchive;
-use Illuminate\Support\Arr;
+use Illuminate\Filesystem\FilesystemAdapter;
 use App\Data\DataTransferObjects\Acnt;
 use App\Services\Libraries\Client;
 use Illuminate\Support\Collection;
@@ -21,12 +22,12 @@ class OpenDartClient
      *
      * @var Client
      */
-    protected $client;
+    public Client $client;
 
     /**
      * disk
      *
-     * @var \Illuminate\Contracts\Filesystem\Filesystem
+     * @var FilesystemAdapter|Filesystem
      */
     protected $disk;
 
@@ -35,21 +36,21 @@ class OpenDartClient
      *
      * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * acnt object
      *
      * @var Acnt
      */
-    protected $acnt;
+    protected Acnt $acnt;
 
     /**
      * corpCode object
      *
      * @var CorpCode $corpCode
      */
-    protected $corpCode;
+    protected CorpCode $corpCode;
 
     /**
      * @param Client $client
@@ -65,16 +66,9 @@ class OpenDartClient
         $this->corpCode = $corpCode;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @param array $data
-     *
-     * @return string
-     */
-    protected function makeQueryString(array $data)
+    public function client(): Client
     {
-        return '?' . Arr::query($data);
+        return $this->client->newInstance(config('opendart.host'));
     }
 
     /**
@@ -82,9 +76,12 @@ class OpenDartClient
      *
      * @return bool
      */
-    public function requestCorpCodes()
+    public function requestCorpCodes(): bool
     {
-        $response = $this->client->get(config('opendart.method.corpCode.url') . $this->makeQueryString(['crtfc_key' => config('opendart.api_key')]));
+        $response = $this->client->get(config('opendart.method.corpCode.url'), [
+            'crtfc_key' => config('opendart.api_key')
+        ]);
+
         if (is_null($response)) {
             return $this->client->getError();
         }
@@ -93,16 +90,17 @@ class OpenDartClient
 
         $zip = new ZipArchive;
         $zip->open(storage_path('app/' . $this->path . '/CORPCODE.zip'));
+
         $zip->extractTo(storage_path('app/' . $this->path));
         $xml = simplexml_load_file(storage_path('app/' . $this->path . '/CORPCODE.xml'));
 
-        return Storage::disk('local')->put($this->path . '/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE));
+        return $this->disk->put($this->path . '/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE));
     }
 
     /**
      * 회사 고유 코드 가져오기
      * @param string|null $code
-     * @return SimplePaginator|Collection
+     * @return SimplePaginator|Collection|null
      * @throws JsonMapper_Exception|FileNotFoundException
      */
     public function getCorpCode(string $code = null)
@@ -110,8 +108,8 @@ class OpenDartClient
         $json = '';
 
         if (!$this->disk->exists($this->path . '/codes.json')) {
-            if ($this->requestCorpCodes()) {
-                $json = $this->disk->get($this->path . '/codes.json');
+            if (!$this->requestCorpCodes()) {
+                return null;
             }
         }
 
@@ -141,7 +139,7 @@ class OpenDartClient
                 'query' => request()->query()
             ]);
 
-            return new SimplePaginator($paginator, $this->corpCode->newInstance(),'corp_codes');
+            return new SimplePaginator($paginator, $this->corpCode->newInstance(), 'corp_codes');
         }
 
         return $dtos;
@@ -153,19 +151,18 @@ class OpenDartClient
      * @param string $corpCode
      * @param string $year
      * @param string $reprtCode
-     * @return Collection
+     * @return array|Collection|string
      * @throws JsonMapper_Exception
      */
     public function getSinglAcnt(string $corpCode, string $year, string $reprtCode = '11011')
     {
         $response = $this->client->get(
-            config('opendart.method.SinglAcnt.url') . $this->makeQueryString([
-                'crtfc_key' => config('opendart.api_key'),
-                'corp_code' => $corpCode,
-                'bsns_year' => $year,
-                'reprt_code' => $reprtCode
-            ])
-        );
+            config('opendart.method.SinglAcnt.url'), [
+            'crtfc_key' => config('opendart.api_key'),
+            'corp_code' => $corpCode,
+            'bsns_year' => $year,
+            'reprt_code' => $reprtCode
+        ]);
 
         if (is_null($response)) {
             return $this->client->getError();
@@ -191,14 +188,12 @@ class OpenDartClient
 
         $codeStr = implode(',', $corpCode);
 
-        $response = $this->client->get(
-            config('opendart.method.MultiAcnt.url') . $this->makeQueryString([
-                'crtfc_key' => config('opendart.api_key'),
-                'corp_code' => $codeStr,
-                'bsns_year' => $year,
-                'reprt_code' => $reprtCode
-            ])
-        );
+        $response = $this->client()->get(config('opendart.method.MultiAcnt.url'), [
+            'crtfc_key' => config('opendart.api_key'),
+            'corp_code' => $codeStr,
+            'bsns_year' => $year,
+            'reprt_code' => $reprtCode
+        ]);
 
         if (is_null($response)) {
             return collect(['error' => $this->client->getError()]);
