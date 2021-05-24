@@ -1,5 +1,19 @@
 # Change Log
 
+## 2021.05.24
+
+> Version: 0.4.2
+
+- Medium에서 WordPress로 옮김
+    - Word Press 포스팅 API 적용
+    - Word Press Auto Posting Command 추가
+- Posts DTO(Posts기본 DTO) 수정
+    - 포스트내용(contents) 이미지 변환 후 리턴하는 getter생성
+    - wkhtmltopdf라는 라이브러리 사용
+        - 참고: https://github.com/wkhtmltopdf/packaging
+- Open dart Client 수정
+    - get요청 시, url에 쿼리스트링을 추가하지 않고, parameter매개변수에 넣어줘야 작동함
+
 ## 2021.05.11
 
 > Version: 0.3.2
