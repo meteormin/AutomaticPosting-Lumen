@@ -1,10 +1,12 @@
 # Automatic Postirng With Lumen PHP Framework
 
-> Version: 0.3.0
+> Version: 0.4.2
 
 ## Details
 
 https://github.com/miniyus/AutomaticPosting
+
+### [Change Log](changelog.md)
 
 ## About Lumen
 
