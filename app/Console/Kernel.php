@@ -30,5 +30,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //        $schedule->command( \App\Console\Commands\MediumPost::class,['theme'])->weekly();
+        $schedule->command(\App\Console\Commands\OpenDart::class)->quarterly();
+        $schedule->command(\App\Console\Commands\AutoPost::class)->weekly();
+
     }
 }

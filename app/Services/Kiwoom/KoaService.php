@@ -2,10 +2,13 @@
 
 namespace App\Services\Kiwoom;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use JsonMapper_Exception;
 use TypeError;
 use App\Services\Service;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use function PHPUnit\Framework\directoryExists;
 
 class KoaService extends Service
 {
@@ -14,7 +17,7 @@ class KoaService extends Service
      *
      * @var Stocks
      */
-    protected $module;
+    protected Stocks $module;
 
     public function __construct(Stocks $module)
     {
@@ -28,7 +31,7 @@ class KoaService extends Service
      *
      * @return Collection
      */
-    public function storeStock(string $name, Collection $stocks)
+    public function storeStock(string $name, Collection $stocks): Collection
     {
         $rs = collect();
 
@@ -46,11 +49,13 @@ class KoaService extends Service
     /**
      *
      * @param string $name
-     * @param array $codes
+     * @param array|null $codes
      *
      * @return Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function showStock(string $name, array $codes = null)
+    public function showStock(string $name, array $codes = null): Collection
     {
         if (empty($codes)) {
             return $this->module->get($name);
@@ -70,8 +75,10 @@ class KoaService extends Service
      * @param string $sector
      *
      * @return collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function showBySector(string $sector)
+    public function showBySector(string $sector): Collection
     {
         $rs = $this->module->getBySector($sector);
         if (is_null($rs)) {
@@ -87,8 +94,10 @@ class KoaService extends Service
      * @param string $theme
      *
      * @return collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function showByTheme(string $theme)
+    public function showByTheme(string $theme): Collection
     {
         $rs = $this->module->getByTheme($theme);
         if (is_null($rs)) {
@@ -98,16 +107,32 @@ class KoaService extends Service
         return $rs;
     }
 
+    /**
+     * @param string $market
+     * @param array|null $data
+     * @return false|int
+     */
     public function storeThemes(string $market, ?array $data)
     {
         return $this->storeConfig('theme', $market, $data);
     }
 
+    /**
+     * @param string $market
+     * @param array|null $data
+     * @return false|int
+     */
     public function storeSectors(string $market, ?array $data)
     {
         return $this->storeConfig('sector', $market, $data);
     }
 
+    /**
+     * @param string $type
+     * @param string $market
+     * @param array|null $data
+     * @return false|int
+     */
     public function storeConfig(string $type, string $market, ?array $data)
     {
         if (!($type == 'sector' || $type == 'theme')) {
@@ -115,8 +140,13 @@ class KoaService extends Service
         }
 
         $type = Str::plural($type);
+        $resourcePath = 'resources/lang/ko';
 
-        $file = base_path("resources/lang/ko/{$type}.json");
+        if(!directoryExists($resourcePath)){
+            mkdir($resourcePath);
+        }
+
+        $file = base_path("{$resourcePath}/{$type}.json");
 
         $data = collect($data);
 
@@ -131,8 +161,8 @@ class KoaService extends Service
         });
 
         switch ($market) {
-            case 0:
-                $marketCode = 0;
+            case 1:
+                $marketCode = 1;
                 break;
             default:
                 $marketCode = 0;

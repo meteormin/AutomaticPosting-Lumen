@@ -7,6 +7,7 @@ use App\Data\Abstracts\DtoInterface;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Response\ErrorCode;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use App\Data\DataTransferObjects\Paginator;
@@ -134,7 +135,7 @@ class PostsService extends Service implements AutoPostInterface
      * @param string|null $createdBy
      *
      * @return int
-     * @throws JsonMapper_Exception
+     * @throws JsonMapper_Exception|FileNotFoundException
      */
     public function autoPost(string $type, int $userId = null, string $createdBy = null): int
     {

@@ -4,10 +4,12 @@
 namespace App\Services\WordPress;
 
 
+use App\Data\DataTransferObjects\WpMedia;
 use App\Data\DataTransferObjects\WPosts;
 use App\Models\Posts;
 use App\Data\DataTransferObjects\Posts as Dto;
 use App\Services\AutoPostInterface;
+use App\Services\Libraries\Client;
 use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
@@ -34,17 +36,25 @@ class WpPostService extends Service implements AutoPostInterface
         $dto = Dto::newInstance($posts);
         $publicImgFile = "img/posts/{$dto->getId()}.png";
 
-        if(!file_exists(base_path('public/img/posts'))){
+        if (!file_exists(base_path('public/img/posts'))) {
             mkdir(base_path('public/img/posts'));
         }
 
         if (file_put_contents(base_path('public/' . $publicImgFile), $dto->getContentImg()) === false) {
             $this->throw(self::SERVER_ERROR, 'fail put file...');
         }
-        $host = config('app.static_ip') . ':' . config('app.custom_port');
+        $host = config('app.static_ip') . ':' . config('app.app_port');
 
         $url = "http://{$host}/{$publicImgFile}";
 
+        $media = WpMedia::newInstance([
+            'title' => $dto->getTitle(),
+            'content' => $dto->getContentImgPath(),
+        ]);
+
+        $mediaResponse = $this->client->uploadMedia($media);
+        print_r($mediaResponse);
+        $url = $mediaResponse['guid']['rendered'];
         $content = "<h3>{$dto->getTitle()}</h3>";
         $content .= "<br>";
         $content .= "<figure><img alt=\"{$dto->getSubTitle()}\" src=\"{$url}\"><figcaption>{$dto->getSubTitle()}</figcaption></figure>";

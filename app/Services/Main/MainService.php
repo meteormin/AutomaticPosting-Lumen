@@ -3,6 +3,7 @@
 namespace App\Services\Main;
 
 use App\Services\Service;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Collection;
 use App\Services\Kiwoom\KoaService;
 use App\Data\DataTransferObjects\Finance;
@@ -86,6 +87,8 @@ class MainService extends Service
      * @param string|null $where
      *
      * @return Collection
+     * @throws JsonMapper_Exception
+     * @throws FileNotFoundException
      */
     public function getRawData(string $type, string $where = null): Collection
     {
@@ -123,7 +126,7 @@ class MainService extends Service
      * @param string|null $where
      *
      * @return Collection
-     * @throws JsonMapper_Exception
+     * @throws JsonMapper_Exception|FileNotFoundException
      */
     public function getRefinedData(string $type, string $where = null): Collection
     {

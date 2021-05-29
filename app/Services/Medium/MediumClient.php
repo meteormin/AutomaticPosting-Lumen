@@ -7,9 +7,10 @@ use App\Data\DataTransferObjects\Posts;
 use App\Services\Libraries\Client;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use JsonMapper_Exception;
 
-class MediumClient
+class MediumClient extends Client
 {
     /**
      * Undocumented variable
@@ -41,9 +42,8 @@ class MediumClient
     public function __construct()
     {
         $this->config = config('medium');
-
+        parent::__construct($this->config('host'));
         $this->methods = $this->config('methods');
-        $this->host = $this->config('host');
         $this->token = $this->config('token');
     }
 
@@ -82,23 +82,16 @@ class MediumClient
     }
 
     /**
-     * @return Client
-     */
-    public function client(): Client
-    {
-        return Client::newInstance($this->host, $this->token);
-    }
-
-    /**
      * @return array|string
      */
     public function me()
     {
-        $client = $this->client();
-        $response = $client->get($this->methods('me.end_point'));
+        $response = $this->response(
+            Http::get($this->methods('me.end_point'))
+        );
 
         if (is_null($response)) {
-            return $this->client()->getError();
+            return $this->getError();
         }
 
         return $response;
@@ -131,11 +124,13 @@ class MediumClient
             $posts->getType('ko'),
             $posts->getCode('ko')
         ]);
-        $client = $this->client();
-        $response = $client->post($this->methods('posts.end_point'), $mediumPosts->toArray());
+
+        $response = $this->response(
+            Http::post($this->methods('posts.end_point'), $mediumPosts->toArray())
+        );
 
         if (is_null($response)) {
-            return $client->getError();
+            return $this->getError();
         }
 
         return $response;
@@ -147,13 +142,14 @@ class MediumClient
      */
     public function images(string $contents)
     {
-        $client = $this->client();
-        $response = $client
-            ->setAttach('image', $contents, 'posts_' . Carbon::now()->timestamp . '.png')
-            ->post($this->methods('images.end_point'));
+
+        $response = $this->response(
+            Http::attach('image', $contents, 'posts_' . Carbon::now()->timestamp . '.png')
+                ->post($this->methods('images.end_point'))
+        );
 
         if (is_null($response)) {
-            return $client->getError();
+            return $this->getError();
         }
 
         return $response;

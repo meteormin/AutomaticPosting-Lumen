@@ -14,6 +14,11 @@ class WPosts extends Dto
     private string $content;
     private int $author = 1;
     private int $categories = 1;
+    private string $commentStatus = 'open';
+    private string $pingStatus = 'open';
+    private string $altText = '';
+    private string $caption = '';
+    private string $description = '';
 
     /**
      * WPosts constructor.

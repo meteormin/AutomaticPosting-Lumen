@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use DateTimeInterface;
-use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
-use JsonMapper_Exception;
 
 /**
  * App\Models\Posts
@@ -68,12 +67,12 @@ class Posts extends Model
 
     public static function getForAutoPost(string $type, int $postsId = null){
         if (is_null($postsId)) {
-            $posts = Posts::where('type', $type)
+            $posts = static::where('type', $type)
                 ->where('published', false)
                 ->orderByDesc('created_at')
                 ->first();
         } else {
-            $posts = Posts::find($postsId);
+            $posts = static::find($postsId);
         }
 
         return $posts;

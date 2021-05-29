@@ -34,7 +34,7 @@ class Posts extends Dto
     protected string $title;
 
     /**
-     * @var string $subTitle;
+     * @var string $subTitle ;
      */
     protected string $subTitle;
 
@@ -71,7 +71,7 @@ class Posts extends Dto
     /**
      * Set $id
      *
-     * @param  int  $id  $id
+     * @param int $id $id
      *
      * @return  $this
      */
@@ -95,7 +95,7 @@ class Posts extends Dto
     /**
      * Set $title
      *
-     * @param  string  $title  $title
+     * @param string $title $title
      *
      * @return  $this
      */
@@ -119,7 +119,7 @@ class Posts extends Dto
     /**
      * Set $subTitle;
      *
-     * @param  string  $subTitle  $subTitle;
+     * @param string $subTitle $subTitle;
      *
      * @return  $this
      */
@@ -146,7 +146,7 @@ class Posts extends Dto
     /**
      * Set $contents
      *
-     * @param  string  $contents  $contents
+     * @param string $contents $contents
      *
      * @return  $this
      */
@@ -170,7 +170,7 @@ class Posts extends Dto
     /**
      * Set $createdBy
      *
-     * @param  string  $createdBy  $createdBy
+     * @param string $createdBy $createdBy
      *
      * @return  $this
      */
@@ -194,7 +194,7 @@ class Posts extends Dto
     /**
      * Set $createdAt
      *
-     * @param  string  $createdAt  $createdAt
+     * @param string $createdAt $createdAt
      *
      * @return  $this
      */
@@ -218,7 +218,7 @@ class Posts extends Dto
     /**
      * Set $userId
      *
-     * @param  int  $userId  $userId
+     * @param int $userId $userId
      *
      * @return  $this
      */
@@ -246,7 +246,7 @@ class Posts extends Dto
     /**
      * Set $type
      *
-     * @param  string  $type
+     * @param string $type
      *
      * @return  $this
      */
@@ -282,7 +282,7 @@ class Posts extends Dto
     /**
      * Set $code
      *
-     * @param  string  $code  $code
+     * @param string $code $code
      *
      * @return  self
      */
@@ -320,31 +320,39 @@ class Posts extends Dto
      */
     public function getContentImg(): ?string
     {
-        if(is_null($this->id)){
+        if (is_null($this->id)) {
             return null;
         }
 
-        $filename="posts/{$this->id}.png";
-        if(!Storage::disk('local')->exists('posts')){
+        $filename = $this->getContentImgPath();
+        if (!Storage::disk('local')->exists('posts')) {
             Storage::disk('local')->makeDirectory('posts');
         }
 
-        if(Storage::disk('local')->exists($filename)){
+        if (Storage::disk('local')->exists($filename)) {
             return Storage::disk('local')->get($filename);
         }
 
         $filePath = storage_path("app/$filename");
 
         $host = config('app.static_ip');
-        $port = config('app.custom_port');
+        $port = config('app.app_port');
 
         $command = "wkhtmltoimage http://{$host}:{$port}/api/posts/{$this->id} {$filePath}";
-        $output = exec($command,$output,$code);
+        $output = exec($command, $output, $code);
 
-        if($code === 0){
+        if ($code === 0) {
             return $this->getContentImg();
         }
 
         return json_encode($output);
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentImgPath(): string
+    {
+        return "posts/{$this->id}.png";
     }
 }

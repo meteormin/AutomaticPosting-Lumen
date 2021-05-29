@@ -131,7 +131,7 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
 
         $json = json_decode(json_encode($data));
         if (is_object($json)) {
-            $jsonMapper->map($json, $self);
+            $self = $jsonMapper->map($json, $self);
         }
 
         return $self;
@@ -167,9 +167,9 @@ abstract class Dto implements DtoInterface, Arrayable, Jsonable
      */
     public function makeHidden($hidden): DtoInterface
     {
-        $hidden = collect($this->hidden);
+        $collection = collect($this->hidden);
 
-        $this->hidden = $hidden->merge($hidden)->all();
+        $this->hidden = $collection->merge($hidden)->all();
 
         return $this;
     }

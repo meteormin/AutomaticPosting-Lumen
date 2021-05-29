@@ -11,19 +11,19 @@ class Maker
      * 새로 생성될 경로
      * @var string
      */
-    protected $path;
+    protected string $path;
     /**
      * stub 파일 경로
      * @var string
      */
-    protected $stubPath;
+    protected string $stubPath;
 
     /**
      * 새로 생성할 파일의 확장자
      *
      * @var string
      */
-    protected $ext;
+    protected string $ext;
 
     public function __construct(string $path = null, string $ext = 'php')
     {
@@ -40,7 +40,7 @@ class Maker
      *
      * @return $this
      */
-    public function setPath(string $path)
+    public function setPath(string $path): Maker
     {
         $this->path = base_path($path);
 
@@ -61,7 +61,7 @@ class Maker
      *
      * @return bool
      */
-    public function make(string $class, string $name, array $parameters)
+    public function make(string $class, string $name, array $parameters): bool
     {
         if ($this->putFile($name, $class, $parameters)) {
             return true;
@@ -78,7 +78,7 @@ class Maker
      *
      * @return string|null
      */
-    public function run(string $class, array $parameters)
+    public function run(string $class, array $parameters): ?string
     {
         $class = "{$this->stubPath}/{$class}.stub";
 
@@ -112,7 +112,7 @@ class Maker
      *
      * @return string
      */
-    protected function write(string $filename, array $parameters)
+    protected function write(string $filename, array $parameters): string
     {
         $contents = file_get_contents($filename);
 
@@ -126,8 +126,9 @@ class Maker
      *
      * @return array
      */
-    protected function convertParameters(array $parameters)
+    protected function convertParameters(array $parameters): array
     {
+        $converted = [];
         foreach ($parameters as $key => $value) {
             $converted["{{{$key}}}"] = $value;
         }
@@ -142,7 +143,7 @@ class Maker
      * @param array $parameters
      *
      * @return void
-     * @throws TypErrorException
+     * @throws TypeError
      */
     protected function validation(string $class, array $parameters)
     {
@@ -159,7 +160,5 @@ class Maker
                 throw new TypeError('Invalid Parameters:' . $parameters->toJson());
             }
         }
-
-        return;
     }
 }

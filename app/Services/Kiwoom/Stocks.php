@@ -2,6 +2,9 @@
 
 namespace App\Services\Kiwoom;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use JsonMapper_Exception;
 use Storage;
 use Illuminate\Support\Collection;
 use App\Data\DataTransferObjects\StockInfo;
@@ -11,7 +14,7 @@ class Stocks
     /**
      * Undocumented variable
      *
-     * @var \Illuminate\Contracts\Filesystem\Filesystem
+     * @var Filesystem
      */
     protected $disk;
 
@@ -20,21 +23,21 @@ class Stocks
      *
      * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      *
      *
      * @var Collection
      */
-    protected $sectors;
+    protected Collection $sectors;
 
     /**
      * Undocumented variable
      *
      * @var StockInfo
      */
-    protected $stockInfo;
+    protected StockInfo $stockInfo;
 
     public function __construct(StockInfo $stockInfo)
     {
@@ -52,7 +55,7 @@ class Stocks
      *
      * @return Collection
      */
-    public function put(string $name, Collection $stock)
+    public function put(string $name, Collection $stock): Collection
     {
         return collect([
             "{$name}_code" => $stock->get("{$name}_code"),
@@ -69,7 +72,7 @@ class Stocks
      * @param string
      * @return Collection
      */
-    protected function sectors()
+    protected function sectors(): Collection
     {
         return $this->sectors;
     }
@@ -80,8 +83,10 @@ class Stocks
      * @param string $sector
      *
      * @return Collection|null
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function getBySector(string $sector)
+    public function getBySector(string $sector): ?Collection
     {
         $file = $this->path . '/sector/sector_' . $sector . '.json';
         if ($this->disk->exists($file)) {
@@ -98,8 +103,10 @@ class Stocks
      * @param string $theme
      *
      * @return Collection|null
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function getByTheme(string $theme)
+    public function getByTheme(string $theme): ?Collection
     {
         $file = $this->path . '/theme/theme_' . $theme . '.json';
         if ($this->disk->exists($file)) {
@@ -111,13 +118,17 @@ class Stocks
     }
 
     /**
+     *
      * Undocumented function
      *
-     * @param string $code
+     * @param string $name
+     * @param string|null $code
      *
      * @return Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function get(string $name, string $code = null)
+    public function get(string $name, string $code = null): Collection
     {
         $res = collect();
 

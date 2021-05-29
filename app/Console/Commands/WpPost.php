@@ -40,7 +40,6 @@ class WpPost extends Command
      *
      * @param WpPostService $service
      * @return int
-     * @throws JsonMapper_Exception
      */
     public function handle(WpPostService $service): int
     {

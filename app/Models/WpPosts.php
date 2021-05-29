@@ -5,14 +5,16 @@ namespace App\Models;
 
 
 use DateTimeInterface;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\WpPosts
  *
  * @property int $ID
  * @property int $post_author
- * @property \Illuminate\Support\Carbon $post_date
+ * @property Carbon $post_date
  * @property string $post_date_gmt
  * @property string $post_content
  * @property string $post_title
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $post_name
  * @property string $to_ping
  * @property string $pinged
- * @property \Illuminate\Support\Carbon $post_modified
+ * @property Carbon $post_modified
  * @property string $post_modified_gmt
  * @property string $post_content_filtered
  * @property int $post_parent
@@ -59,7 +61,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|WpPosts wherePostTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WpPosts wherePostType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WpPosts whereToPing($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class WpPosts extends Model
 {

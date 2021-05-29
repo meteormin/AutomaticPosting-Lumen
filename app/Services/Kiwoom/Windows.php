@@ -3,7 +3,6 @@
 namespace App\Services\Kiwoom;
 
 use App\Services\Service;
-use App\Response\ErrorCode;
 use Illuminate\Support\Collection;
 use App\Exceptions\ApiErrorException;
 
@@ -25,9 +24,9 @@ class Windows extends Service
      * @param string $where
      * @param array $options
      *
-     * @return array
+     * @return array|null
      */
-    public function run(string $where, array $options)
+    public function run(string $where, array $options): ?array
     {
         $option = $this->validate($where, $options);
 
@@ -48,11 +47,11 @@ class Windows extends Service
      * @param string $where
      * @param array $options
      *
-     * @return string|void
+     * @return string
      *
      * @throws ApiErrorException
      */
-    protected function validate(string $where, array $options)
+    protected function validate(string $where, array $options): string
     {
         $options = collect($options);
 
@@ -81,7 +80,7 @@ class Windows extends Service
      *
      * @return string
      */
-    protected function makeOption(string $where, Collection $options)
+    protected function makeOption(string $where, Collection $options): string
     {
         if ($where == 'sector') {
             return "-m {$options->get('market')} -s {$options->get('sector')}";

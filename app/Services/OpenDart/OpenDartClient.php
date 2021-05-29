@@ -4,6 +4,7 @@ namespace App\Services\OpenDart;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Http;
 use JsonMapper_Exception;
 use ZipArchive;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -15,15 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Data\DataTransferObjects\Paginator as SimplePaginator;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
-class OpenDartClient
+class OpenDartClient extends Client
 {
-    /**
-     * Undocumented variable
-     *
-     * @var Client
-     */
-    public Client $client;
-
     /**
      * disk
      *
@@ -53,22 +47,16 @@ class OpenDartClient
     protected CorpCode $corpCode;
 
     /**
-     * @param Client $client
      * @param Acnt $acnt
      * @param CorpCode $corpCode
      */
-    public function __construct(Client $client, Acnt $acnt, CorpCode $corpCode)
+    public function __construct(Acnt $acnt, CorpCode $corpCode)
     {
-        $this->client = $client->setHost(config('opendart.host'));
+        parent::__construct(config('opendart.host'));
         $this->path = 'opendart';
         $this->disk = Storage::disk('local');
         $this->acnt = $acnt;
         $this->corpCode = $corpCode;
-    }
-
-    public function client(): Client
-    {
-        return $this->client->newInstance(config('opendart.host'));
     }
 
     /**
@@ -78,12 +66,18 @@ class OpenDartClient
      */
     public function requestCorpCodes(): bool
     {
-        $response = $this->client->get(config('opendart.method.corpCode.url'), [
-            'crtfc_key' => config('opendart.api_key')
-        ]);
+        $response = $this->response(
+            Http::get($this->getHost() . config('opendart.method.corpCode.url'), [
+                'crtfc_key' => config('opendart.api_key')
+            ])
+        );
 
         if (is_null($response)) {
-            return $this->client->getError();
+            return $this->getError();
+        }
+
+        if (!$this->disk->exists($this->path)) {
+            $this->disk->makeDirectory($this->path);
         }
 
         $this->disk->put($this->path . '/CORPCODE.zip', $response);
@@ -105,8 +99,6 @@ class OpenDartClient
      */
     public function getCorpCode(string $code = null)
     {
-        $json = '';
-
         if (!$this->disk->exists($this->path . '/codes.json')) {
             if (!$this->requestCorpCodes()) {
                 return null;
@@ -156,16 +148,18 @@ class OpenDartClient
      */
     public function getSinglAcnt(string $corpCode, string $year, string $reprtCode = '11011')
     {
-        $response = $this->client->get(
-            config('opendart.method.SinglAcnt.url'), [
-            'crtfc_key' => config('opendart.api_key'),
-            'corp_code' => $corpCode,
-            'bsns_year' => $year,
-            'reprt_code' => $reprtCode
-        ]);
+        $response = $this->response(
+            Http::get($this->getHost() . $this->
+                config('opendart.method.SinglAcnt.url'), [
+                'crtfc_key' => config('opendart.api_key'),
+                'corp_code' => $corpCode,
+                'bsns_year' => $year,
+                'reprt_code' => $reprtCode
+            ])
+        );
 
         if (is_null($response)) {
-            return $this->client->getError();
+            return $this->getError();
         }
 
         return $this->acnt->mapList($response['list']);
@@ -188,15 +182,17 @@ class OpenDartClient
 
         $codeStr = implode(',', $corpCode);
 
-        $response = $this->client()->get(config('opendart.method.MultiAcnt.url'), [
-            'crtfc_key' => config('opendart.api_key'),
-            'corp_code' => $codeStr,
-            'bsns_year' => $year,
-            'reprt_code' => $reprtCode
-        ]);
+        $response = $this->response(
+            Http::get($this->getHost() . config('opendart.method.MultiAcnt.url'), [
+                'crtfc_key' => config('opendart.api_key'),
+                'corp_code' => $codeStr,
+                'bsns_year' => $year,
+                'reprt_code' => $reprtCode
+            ])
+        );
 
         if (is_null($response)) {
-            return collect(['error' => $this->client->getError()]);
+            return collect(['error' => $this->getError()]);
         }
 
         $rsList = collect();

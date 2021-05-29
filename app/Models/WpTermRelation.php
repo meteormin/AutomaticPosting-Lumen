@@ -4,6 +4,7 @@
 namespace App\Models;
 
 
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|WpTermRelation whereObjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WpTermRelation whereTermOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|WpTermRelation whereTermTaxonomyId($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class WpTermRelation extends Model
 {

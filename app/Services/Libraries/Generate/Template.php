@@ -3,17 +3,17 @@
 namespace App\Services\Libraries\Generate;
 
 use JsonMapper;
+use JsonMapper_Exception;
 
 abstract class Template
 {
     /**
-     *
-     *
-     * @param   Object  $data  [$data description]
+     * @param Object $data [$data description]
      *
      * @return  $this        [return description]
+     * @throws JsonMapper_Exception
      */
-    public function map(Object $data)
+    public function map(Object $data): Template
     {
         return (new JsonMapper)->map($data, $this);
     }
