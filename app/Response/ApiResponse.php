@@ -15,7 +15,7 @@ class ApiResponse
      */
     public static function response($data, $status = 200)
     {
-        $response = response()->json($data, $status, [], JSON_UNESCAPED_UNICODE);
+        $response = response()->json($data, $status, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         return $response;
     }
@@ -39,7 +39,7 @@ class ApiResponse
             $data = '';
         }
 
-        $response = response()->json(['message' => $data], $response_code, [], JSON_UNESCAPED_UNICODE);
+        $response = response()->json(['message' => $data], $response_code, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         return $response;
     }
@@ -60,6 +60,6 @@ class ApiResponse
 
         Log::error($response->toArray('LOG'));
 
-        return response()->json($response->toArray(), $response->getHttpStatus(), [], JSON_UNESCAPED_UNICODE);
+        return response()->json($response->toArray(), $response->getHttpStatus(), [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 }

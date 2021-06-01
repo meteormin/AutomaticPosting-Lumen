@@ -39,7 +39,7 @@ class Kiwoom extends Command
     public function handle(Windows $runner)
     {
         $where = $this->argument('where');
-        $options = json_encode($this->options(), JSON_UNESCAPED_UNICODE);
+        $options = json_encode($this->options(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         $this->info("get stockinfo by {$where}: {$options}");
 
@@ -47,7 +47,7 @@ class Kiwoom extends Command
 
         $output = $runner->run($this->argument('where'), $this->options());
 
-        $this->info(json_encode($output, JSON_UNESCAPED_UNICODE));
+        $this->info(json_encode($output, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         return 0;
     }

@@ -157,7 +157,7 @@ abstract class Dynamic implements Arrayable, Jsonable
      * @param int $options
      * @return false|string
      */
-    public function toJson($options = JSON_UNESCAPED_UNICODE)
+    public function toJson($options = JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
     {
         return json_encode($this->attributes);
     }

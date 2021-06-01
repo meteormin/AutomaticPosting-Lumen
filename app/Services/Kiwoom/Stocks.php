@@ -62,7 +62,7 @@ class Stocks
             "{$name}_name" => $stock->get("{$name}_name"),
             'result' => $this->disk->put(
                 "{$this->path}/{$name}/{$stock->get('file_name')}.json",
-                $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE)
+                $stock->except('file_name')->toJson(JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
             )
         ]);
     }

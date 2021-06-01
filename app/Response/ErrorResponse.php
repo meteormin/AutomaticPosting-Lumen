@@ -164,7 +164,7 @@ class ErrorResponse extends ErrorCode implements Arrayable, Jsonable
      *
      * @return string
      */
-    public function toJson($options = JSON_UNESCAPED_UNICODE)
+    public function toJson($options = JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
     {
         return json_encode($this->toArray(), $options);
     }

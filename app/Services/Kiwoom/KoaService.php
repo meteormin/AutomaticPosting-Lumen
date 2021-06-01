@@ -142,7 +142,7 @@ class KoaService extends Service
         $type = Str::plural($type);
         $resourcePath = 'resources/lang/ko';
 
-        if(!directoryExists($resourcePath)){
+        if (!directoryExists($resourcePath)) {
             mkdir($resourcePath);
         }
 
@@ -177,6 +177,6 @@ class KoaService extends Service
             ]
         ];
 
-        return file_put_contents($file, json_encode($contents, JSON_UNESCAPED_UNICODE));
+        return file_put_contents($file, json_encode($contents, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 }

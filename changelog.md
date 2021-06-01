@@ -1,5 +1,13 @@
 # Change Log
 
+## 2021.06.01
+
+> Version: 0.5.0
+
+- Bootstrap 템플릿 교체
+  - SB-Admin
+- Google Chart 추가
+
 ## 2021.05.24
 
 > Version: 0.4.2

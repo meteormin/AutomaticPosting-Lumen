@@ -30,9 +30,8 @@ $router->get('posts/{id}', 'PostsController@show');
 // stand alone page only include header
 $router->get('api/posts/{id}', 'PostsController@show');
 
+// api: json response
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
-    $router->get('tistory/auth', 'TistoryController@auth');
-
     // 섹터 리스트 조회
     $router->get('sectors', 'SectorController@index');
 
@@ -77,4 +76,12 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
 
     // Open Dart 기업 코드 저장
     $router->post('corp-codes', 'StockController@storeCorpCodes');
+});
+
+// infographics
+$router->group(['prefix' => 'infographics'], function () use ($router) {
+    $router->get('/', [
+        'as' => 'infographics.home',
+        'uses'=>'InfoGraphics\MainController@index'
+    ]);
 });

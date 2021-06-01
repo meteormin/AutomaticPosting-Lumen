@@ -88,7 +88,7 @@ class OpenDartClient extends Client
         $zip->extractTo(storage_path('app/' . $this->path));
         $xml = simplexml_load_file(storage_path('app/' . $this->path . '/CORPCODE.xml'));
 
-        return $this->disk->put($this->path . '/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE));
+        return $this->disk->put($this->path . '/codes.json', json_encode($xml, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     }
 
     /**
@@ -149,8 +149,7 @@ class OpenDartClient extends Client
     public function getSinglAcnt(string $corpCode, string $year, string $reprtCode = '11011')
     {
         $response = $this->response(
-            Http::get($this->getHost() . $this->
-                config('opendart.method.SinglAcnt.url'), [
+            Http::get($this->getHost() . config('opendart.method.SinglAcnt.url'), [
                 'crtfc_key' => config('opendart.api_key'),
                 'corp_code' => $corpCode,
                 'bsns_year' => $year,

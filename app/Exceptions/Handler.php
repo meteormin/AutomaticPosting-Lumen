@@ -2,6 +2,12 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
+use Laravel\Lumen\Application;
 use Throwable;
 use App\Response\ApiResponse;
 use App\Response\ErrorCode;
@@ -34,10 +40,10 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Throwable  $exception
+     * @param Throwable $exception
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function report(Throwable $exception)
     {
@@ -47,11 +53,11 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @param  Request  $request
+     * @param Throwable $exception
+     * @return JsonResponse|Response|View|Application
      *
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function render($request, Throwable $exception)
     {
@@ -75,8 +81,18 @@ class Handler extends ExceptionHandler
             return ApiResponse::error(ErrorCode::SERVER_ERROR, $exception->getMessage());
         }
 
-        if ($exception instanceof NotFoundHttpException || $exception instanceof ResourceNotFoundException) {
-            return view('404');
+        if($request->is('api/posts/*') || $request->is('posts/*')) {
+            if ($exception instanceof NotFoundHttpException || $exception instanceof ResourceNotFoundException) {
+                return view('404');
+            }
+        }
+
+        if($request->is('infographics/*')){
+            if ($exception instanceof NotFoundHttpException || $exception instanceof ResourceNotFoundException) {
+                return view('sb-admin.404');
+            } else{
+                return view('sb-admin.500');
+            }
         }
 
         return parent::render($request, $exception);

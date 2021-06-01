@@ -11,6 +11,8 @@
         {{-- <script src="{{ url('/js/app.js') }}" defer></script> --}}
 
         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+
         <!-- Fonts -->
         <link rel="icon" type="image/png" href="/assets/favicon.png?{{ \Carbon\Carbon::now()->timestamp }}" sizes="16x16" />
         <!-- Font Awesome icons (free version)-->
@@ -21,7 +23,7 @@
 
         <!-- Styles -->
         {{-- <link href="{{ url('/css/app.css') }}" rel="stylesheet" /> --}}
-        <link href="{{ url('/css/styles.css') }}" rel="stylesheet" />
+        <link href="{{ url('/css/posts/styles.css') }}" rel="stylesheet" />
         <link rel="manifest" href="/assets/manifest.json" />
         <link rel="apple-touch-icon" href="/assets/favicon.png" />
         <link rel="shortcut icon" href="/assets/favicon.png" />
@@ -32,7 +34,6 @@
             @yield('stand-alone')
         @else
             @include('layouts.nav')
-            @yield('navigation')
             @yield('header')
             @yield('content')
             @yield('footer')
@@ -41,6 +42,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="{{ url('js/scripts.js') }}"></script>
+        <script src="{{ url('js/posts/scripts.js') }}"></script>
     </body>
 </html>
