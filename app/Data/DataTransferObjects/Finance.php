@@ -175,8 +175,7 @@ class Finance extends Dto
 
             $netIncome += $data->getNetIncome();
 
-            if ($data->getNetIncome() <= 0) {
-
+            if ($data->getNetIncome() < 0) {
                 $deficitCnt++;
             }
 
