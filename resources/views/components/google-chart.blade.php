@@ -1,81 +1,41 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{url('/js/sb-admin/class-watcher.js')}}"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+@isset($chart)
+    <script src="{{url('/js/sb-admin/google-'. $chart .'-chart.js')}}?{{time()}}"></script>
+@else
+    <script src="{{url('/js/sb-admin/google-example-chart.js')}}"></script>
+@endisset
+
 <script>
+    var chart = "{{ $chart ?? '' }}";
+    var elementId = "{{ $element ?? '' }}";
+    var data = @json($data ?? [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    var columns = @json($columns ?? [],JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    var options = @json($options ?? [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-    @isset($chart)
-    google.charts.load('current', {packages: ['{{ $packages ?? 'corechart' }}']});
-    @else
+
     google.charts.load('current', {packages: ['{{ $packages ?? 'treemap' }}']});
-    @endisset
-    google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        @isset($chart)
-        let data = google.visualization.arrayToDataTable(@json($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        let options = {};
-
-        @if($chart == 'bar')
-        let columns = @json($columns,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        options = @json($options,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        let view = new google.visualization.DataView(data);
-        view.setColumns(columns);
-
-        let chart = new google.visualization.BarChart(document.getElementById("google-chart"));
-        chart.draw(view, options);
-        @endif
-
-        @if($chart == 'treemap')
-        let tree = new google.visualization.TreeMap(document.getElementById("google-chart"));
-        options = @json($options,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        tree.draw(data, options);
-        @endif
-            @else
-            data = google.visualization.arrayToDataTable([
-            ['Location', 'Parent', 'Market trade volume (size)', 'Market increase/decrease (color)'],
-            ['Global', null, 0, 0],
-            ['America', 'Global', 0, 0],
-            ['Europe', 'Global', 0, 0],
-            ['Asia', 'Global', 0, 0],
-            ['Australia', 'Global', 0, 0],
-            ['Africa', 'Global', 0, 0],
-            ['Brazil', 'America', 11, 10],
-            ['USA', 'America', 52, 31],
-            ['Mexico', 'America', 24, 12],
-            ['Canada', 'America', 16, -23],
-            ['France', 'Europe', 42, -11],
-            ['Germany', 'Europe', 31, -2],
-            ['Sweden', 'Europe', 22, -13],
-            ['Italy', 'Europe', 17, 4],
-            ['UK', 'Europe', 21, -5],
-            ['China', 'Asia', 36, 4],
-            ['Japan', 'Asia', 20, -12],
-            ['India', 'Asia', 40, 63],
-            ['Laos', 'Asia', 4, 34],
-            ['Mongolia', 'Asia', 1, -5],
-            ['Israel', 'Asia', 12, 24],
-            ['Iran', 'Asia', 18, 13],
-            ['Pakistan', 'Asia', 11, -52],
-            ['Egypt', 'Africa', 21, 0],
-            ['S. Africa', 'Africa', 30, 43],
-            ['Sudan', 'Africa', 12, 2],
-            ['Congo', 'Africa', 10, 12],
-            ['Zaire', 'Africa', 8, 10]
-        ]);
-
-        tree = new google.visualization.TreeMap(document.getElementById('google-chart'));
-
-        tree.draw(data, {
-            minColor: '#f00',
-            midColor: '#ddd',
-            maxColor: '#0d0',
-            headerHeight: 15,
-            fontColor: 'black',
-            showScale: false,
+    if (chart === "bar") {
+        google.charts.setOnLoadCallback(function () {
+            drawBarChart(elementId, data, options, columns);
         });
-        @endisset
+    } else if (chart === "treemap") {
+        google.charts.setOnLoadCallback(function () {
+            drawTreeMapChart(elementId, data, options);
+        });
+    } else {
+        google.charts.setOnLoadCallback(function () {
+            drawChart();
+        });
     }
 
     $(window).resize(function () {
         drawChart();
     });
+
+    let target = document.body;
+
+    let classWatcher = new ClassWatcher(target, 'sb-sidenav-toggled', drawChart, drawChart);
 </script>

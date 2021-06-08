@@ -74,11 +74,11 @@ class KoaService extends Service
      *
      * @param string $sector
      *
-     * @return collection
+     * @return collection|null
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function showBySector(string $sector): Collection
+    public function showBySector(string $sector): ?Collection
     {
         $rs = $this->module->getBySector($sector);
         if (is_null($rs)) {

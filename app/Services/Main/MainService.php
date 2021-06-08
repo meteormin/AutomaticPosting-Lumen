@@ -65,9 +65,11 @@ class MainService extends Service
                 $where = $this->getPriority($type);
             }
 
-            $this->updateStockInfo($type, $where);
-
             $stockInfo = $this->koa->showBySector($where);
+            if(is_null($stockInfo)) {
+                $this->updateStockInfo($type, $where);
+                $stockInfo = $this->koa->showBySector($where);
+            }
         }
 
         if ($type == 'theme') {
@@ -75,9 +77,11 @@ class MainService extends Service
                 $where = $this->getPriority($type);
             }
 
-            $this->updateStockInfo($type, $where);
-
             $stockInfo = $this->koa->showByTheme($where);
+            if(is_null($stockInfo)) {
+                $this->updateStockInfo($type, $where);
+                $stockInfo = $this->koa->showByTheme($where);
+            }
         }
 
         return $stockInfo;

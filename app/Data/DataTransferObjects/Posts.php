@@ -137,10 +137,8 @@ class Posts extends Dto
      */
     public function getContents(): string
     {
-        $contetns = preg_replace('/\r|\n|/', '', $this->contents);
-        $contetns = str_replace('\\n', '', $contetns);
-
-        return $contetns;
+        $contents = preg_replace('/\r|\n|/', '', $this->contents);
+        return str_replace('\\n', '', $contents);
     }
 
     /**

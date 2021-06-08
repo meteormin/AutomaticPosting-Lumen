@@ -29,8 +29,11 @@ class Windows extends Service
     public function run(string $where, array $options): ?array
     {
         $option = $this->validate($where, $options);
-
-        $ssh = "ssh -i {$this->sshConfig['public_key']} {$this->sshConfig['host']} ";
+        if(!is_null($this->sshConfig['password'])){
+            $ssh = "sshpass -p {$this->sshConfig['password']} ssh -o StrictHostKeyChecking=no {$this->sshConfig['public_key']}";
+        }else {
+            $ssh = "ssh -i {$this->sshConfig['public_key']} {$this->sshConfig['host']} ";
+        }
 
         $python = "'{$this->sshConfig['command']} {$option}'";
 

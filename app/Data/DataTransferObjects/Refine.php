@@ -47,6 +47,8 @@ class Refine extends Dto
      */
     protected Collection $financeData;
 
+    protected int $netIncome;
+
     /**
      * @var int
      */
@@ -61,6 +63,24 @@ class Refine extends Dto
      * @var float
      */
     protected float $debtRateAvg;
+
+    /**
+     * @return int
+     */
+    public function getNetIncome(): int
+    {
+        return $this->netIncome;
+    }
+
+    /**
+     * @param int $netIncome
+     * @return Refine
+     */
+    public function setNetIncome(int $netIncome): Refine
+    {
+        $this->netIncome = $netIncome;
+        return $this;
+    }
 
     /**
      * Get $code
@@ -79,7 +99,7 @@ class Refine extends Dto
      *
      * @return  $this
      */
-    public function setCode(string $code)
+    public function setCode(string $code): Refine
     {
         $this->code = $code;
 
@@ -151,7 +171,7 @@ class Refine extends Dto
      *
      * @return $this
      */
-    public function setCapital(int $capital)
+    public function setCapital(int $capital): Refine
     {
         $this->capital = $capital;
 
@@ -187,7 +207,7 @@ class Refine extends Dto
      *
      * @return int
      */
-    public function getPer()
+    public function getPer(): int
     {
         return $this->per;
     }
@@ -199,7 +219,7 @@ class Refine extends Dto
      *
      * @return $this
      */
-    public function setPer(int $per)
+    public function setPer(int $per): Refine
     {
         $this->per = $per;
 
@@ -242,7 +262,7 @@ class Refine extends Dto
 
     /**
      * Set the value of financeData
-     * @param Collection|null
+     * @param Collection|null $financeData
      * @return $this
      */
     public function setFinanceData(?Collection $financeData): Refine
@@ -293,11 +313,11 @@ class Refine extends Dto
     /**
      * Undocumented function
      *
-     * @param float $flowRateAvg
+     * @param float|null $flowRateAvg
      *
      * @return $this
      */
-    public function setFlowRateAvg(?float $flowRateAvg)
+    public function setFlowRateAvg(?float $flowRateAvg): Refine
     {
         $this->flowRateAvg = $flowRateAvg ?? 0.0;
 
@@ -321,7 +341,7 @@ class Refine extends Dto
      *
      * @return $this
      */
-    public function setDebtRateAvg(?float $debtRateAvg)
+    public function setDebtRateAvg(?float $debtRateAvg): Refine
     {
         $this->debtRateAvg = $debtRateAvg ?? 0.0;
 

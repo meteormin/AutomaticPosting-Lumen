@@ -84,4 +84,6 @@ $router->group(['prefix' => 'infographics'], function () use ($router) {
         'as' => 'infographics.home',
         'uses'=>'InfoGraphics\MainController@index'
     ]);
+
+    $router->get('/{type}/{code}','InfoGraphics\MainController@show');
 });

@@ -14,24 +14,29 @@
                     테마
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
+                @php $themes = config('themes.kospi.themes_raw') @endphp
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                      data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">테마1</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">테마2</a>
+                        @foreach($themes as $code => $theme)
+                            <a class="nav-link" href="/infographics/theme/{{$code}}">{{ $code }} : {{ $theme }}</a>
+                        @endforeach
                     </nav>
                 </div>
+
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                    aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     업종
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
+                @php $sectors = config('sectors.kospi.sectors_raw') @endphp
                 <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                      data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="layout-static.html">업종1</a>
-                        <a class="nav-link" href="layout-sidenav-light.html">업종2</a>
+                        @foreach($sectors as $code => $sector)
+                            <a class="nav-link" href="layout-static.html">{{$code}} : {{$sector}}</a>
+                        @endforeach
                     </nav>
                 </div>
                 <div class="sb-sidenav-menu-heading">Addons</div>

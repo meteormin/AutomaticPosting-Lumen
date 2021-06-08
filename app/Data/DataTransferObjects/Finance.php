@@ -161,20 +161,25 @@ class Finance extends Dto
         }
 
         $dataCnt = 0;
+        $netIncome = 0;
         $deficitCnt = 0;
         $flowRateSum = 0;
         $debtRateSum = 0;
 
-        $refineData->getFinanceData()->each(function ($item) use (&$dataCnt, &$deficitCnt, &$flowRateSum, &$debtRateSum) {
+        $refineData->getFinanceData()->each(function ($item) use (&$netIncome, &$dataCnt, &$deficitCnt, &$flowRateSum, &$debtRateSum) {
             if ($item instanceof FinanceData) {
                 $data = $item;
             } else {
                 $data = new FinanceData($item);
             }
 
+            $netIncome += $data->getNetIncome();
+
             if ($data->getNetIncome() <= 0) {
+
                 $deficitCnt++;
             }
+
             if (is_numeric($data->getFlowRate())) {
                 $flowRateSum += $data->getFlowRate();
             }
@@ -186,9 +191,10 @@ class Finance extends Dto
             $dataCnt++;
         });
 
+        $refineData->setNetIncome(round($netIncome / $dataCnt));
         $refineData->setDeficitCount($deficitCnt);
-        $refineData->setFlowRateAvg((float)($flowRateSum / $dataCnt));
-        $refineData->setDebtRateAvg((float)($debtRateSum / $dataCnt));
+        $refineData->setFlowRateAvg(round($flowRateSum / $dataCnt, 2));
+        $refineData->setDebtRateAvg(round($debtRateSum / $dataCnt, 2));
 
         return $refineData;
     }
