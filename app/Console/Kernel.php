@@ -32,6 +32,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command( \App\Console\Commands\MediumPost::class,['theme'])->weekly();
         $schedule->command(\App\Console\Commands\OpenDart::class)->quarterly();
         $schedule->command(\App\Console\Commands\AutoPost::class)->weekly();
-
+        $schedule->command(\App\Console\Commands\UpdateStockInfo::class, ['theme'])->daily();
+        $schedule->command(\App\Console\Commands\UpdateStockInfo::class, ['sector'])->daily();
     }
 }
