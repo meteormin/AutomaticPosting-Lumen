@@ -30,7 +30,7 @@ class Windows extends Service
     {
         $option = $this->validate($where, $options);
         if(!is_null($this->sshConfig['password'])){
-            $ssh = "sshpass -p {$this->sshConfig['password']} ssh -o StrictHostKeyChecking=no {$this->sshConfig['public_key']}";
+            $ssh = "sshpass -p {$this->sshConfig['password']} ssh -o StrictHostKeyChecking=no {$this->sshConfig['host']}";
         }else {
             $ssh = "ssh -i {$this->sshConfig['public_key']} {$this->sshConfig['host']} ";
         }
