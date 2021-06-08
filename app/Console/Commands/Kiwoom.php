@@ -19,7 +19,7 @@ class Kiwoom extends Command
      *
      * @var string
      */
-    protected $description = 'store open-dart corpCodes';
+    protected $description = 'get stock info';
 
     /**
      * Create a new command instance.
