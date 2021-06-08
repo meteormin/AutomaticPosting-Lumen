@@ -56,7 +56,7 @@ class Service extends BaseService
         $chartCollection->add($chartData);
         $refinedData->get('data')->each(function (Refine $item, $key) use ($id, $type,&$chartCollection) {
             $chartData = TreeMapChartData::newInstance();
-            $chartData->setId($item->getName());
+            $chartData->setId($item->getName()." (적자횟수: {$item->getDeficitCount()})");
             $chartData->setParentId($id);
             $chartData->setSize($item->getCapital());
             $chartData->setColor($item->getNetIncome());
@@ -90,7 +90,7 @@ class Service extends BaseService
 
         $refinedData->get('data')->each(function (Refine $item, $key) use ($id, &$chartCollection) {
             $chartData = BarChartData::newInstance();
-            $chartData->setId($item->getName().' \\n 적자횟수:'.$item->getDeficitCount());
+            $chartData->setId($item->getName()." (적자횟수: {$item->getDeficitCount()})");
             $chartData->setValue($item->getNetIncome());
             $chartData->setRole('blue');
 
