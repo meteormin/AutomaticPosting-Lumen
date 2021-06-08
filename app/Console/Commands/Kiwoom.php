@@ -34,9 +34,10 @@ class Kiwoom extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @param Windows $runner
+     * @return int
      */
-    public function handle(Windows $runner)
+    public function handle(Windows $runner): int
     {
         $where = $this->argument('where');
         $options = json_encode($this->options(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

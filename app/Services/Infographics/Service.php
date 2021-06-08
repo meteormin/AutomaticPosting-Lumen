@@ -48,21 +48,21 @@ class Service extends BaseService
         $chartData->setColor(0);
         $chartData->setLabels([
             'id' => '종목',
-            'parentId' => '종목별',
-            'size' => '당기순이익',
-            'color' => '적자횟수'
+            'parentId' => $type,
+            'size' => '시가총액',
+            'color' => '당기순이익'
         ]);
 
         $chartCollection->add($chartData);
-        $refinedData->get('data')->each(function (Refine $item, $key) use ($id, &$chartCollection) {
+        $refinedData->get('data')->each(function (Refine $item, $key) use ($id, $type,&$chartCollection) {
             $chartData = TreeMapChartData::newInstance();
             $chartData->setId($item->getName());
             $chartData->setParentId($id);
-            $chartData->setSize($item->getNetIncome());
-            $chartData->setColor($item->getDeficitCount());
+            $chartData->setSize($item->getCapital());
+            $chartData->setColor($item->getNetIncome());
             $chartData->setLabels([
                 'id' => '종목',
-                'parentId' => '테마명',
+                'parentId' => $type,
                 'size' => '당기순이익',
                 'color' => '적자횟수'
             ]);

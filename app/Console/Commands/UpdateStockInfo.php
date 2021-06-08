@@ -54,6 +54,7 @@ class UpdateStockInfo extends Command
 
         foreach (array_keys($list) as $code) {
             $service->updateStockInfo($type, $code);
+            $this->info("$type: $code");
         }
 
         $this->info('success update!');
