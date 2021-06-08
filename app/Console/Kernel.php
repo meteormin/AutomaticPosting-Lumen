@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\AutoPost::class,
         \App\Console\Commands\MediumPost::class,
         \App\Console\Commands\WpPost::class,
+        \App\Console\Commands\UpdateStockInfo::class
     ];
 
     /**
