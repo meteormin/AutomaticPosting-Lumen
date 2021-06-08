@@ -23,7 +23,7 @@ class WpPost extends Command
      *
      * @var string
      */
-    protected $description = 'auto store post to Word Press';
+    protected $description = 'auto store post to WordPress';
 
     /**
      * Create a new command instance.
