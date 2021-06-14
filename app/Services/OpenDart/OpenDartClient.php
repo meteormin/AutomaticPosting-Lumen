@@ -266,19 +266,22 @@ class OpenDartClient extends Client
         $reqCodes = collect();
         $list = $this->getCorpCode();
 
+        /** @var CorpCode[] $stockCodes */
         $stockCodes = $list->filter(function (CorpCode $item) use ($corpCodes) {
             return in_array($item->getCorpCode(), $corpCodes);
         });
 
         foreach ($stockCodes as $stockCode) {
-            if ($this->disk->exists("{$path}/{$stockCode}.json")) {
-                $jsonObject = json_decode($this->disk->get("{$path}/{$stockCode}.json"));
+            if ($this->disk->exists("{$path}/{$stockCode->getStockCode()}.json")) {
+                $jsonObject = json_decode($this->disk->get("{$path}/{$stockCode->getStockCode()}.json"));
                 $acnts->put($stockCode, Acnt::newInstance()->mapList($jsonObject));
             } else {
-                $corpCode = $this->getCorpCode($stockCode);
+                $corpCodes = $this->getCorpCode($stockCode->getStockCode());
 
-                if (!is_null($corpCode)) {
-                    $reqCodes->add($corpCode);
+                if (!is_null($corpCodes) && $corpCodes->isNotEmpty()) {
+                    /** @var CorpCode $corpCode */
+                    $corpCode = $corpCodes->first();
+                    $reqCodes->add($corpCode->getCorpCode());
                 }
             }
         }
