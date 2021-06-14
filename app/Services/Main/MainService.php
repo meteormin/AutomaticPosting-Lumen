@@ -2,6 +2,7 @@
 
 namespace App\Services\Main;
 
+use App\Services\OpenDart\ReportCode;
 use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Collection;
@@ -66,7 +67,7 @@ class MainService extends Service
             }
 
             $stockInfo = $this->koa->showBySector($where);
-            if(is_null($stockInfo)) {
+            if (is_null($stockInfo)) {
                 $this->updateStockInfo($type, $where);
                 $stockInfo = $this->koa->showBySector($where);
             }
@@ -78,7 +79,7 @@ class MainService extends Service
             }
 
             $stockInfo = $this->koa->showByTheme($where);
-            if(is_null($stockInfo)) {
+            if (is_null($stockInfo)) {
                 $this->updateStockInfo($type, $where);
                 $stockInfo = $this->koa->showByTheme($where);
             }
@@ -111,8 +112,7 @@ class MainService extends Service
             }
         });
 
-        $acnts = $this->openDart->getMultiple($stockCodes->all(), Carbon::now()->subYear()->format('Y'));
-
+        $acnts = $this->openDart->getMultiple($stockCodes->all(), Carbon::now()->year - 1);
         $rsList->filter(function ($finance) use ($acnts) {
             if ($finance instanceof Finance) {
                 $code = $finance->getStock()->getCode();
@@ -203,5 +203,15 @@ class MainService extends Service
         }
 
         $this->win->run($type, $options);
+    }
+
+    /**
+     * @param array $codes
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
+     */
+    public function updateOpenDart(array $codes)
+    {
+        $this->openDart->getMultiple($codes);
     }
 }

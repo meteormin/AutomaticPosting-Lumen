@@ -142,18 +142,18 @@ class OpenDartClient extends Client
      *
      * @param string $corpCode
      * @param string $year
-     * @param string $reprtCode
+     * @param string $reportCode
      * @return array|Collection|string
      * @throws JsonMapper_Exception
      */
-    public function getSinglAcnt(string $corpCode, string $year, string $reprtCode = '11011')
+    public function getSingleAcnt(string $corpCode, string $year, string $reportCode = ReportCode::ALL)
     {
         $response = $this->response(
             Http::get($this->getHost() . config('opendart.method.SinglAcnt.url'), [
                 'crtfc_key' => config('opendart.api_key'),
                 'corp_code' => $corpCode,
                 'bsns_year' => $year,
-                'reprt_code' => $reprtCode
+                'reprt_code' => $reportCode
             ])
         );
 
@@ -169,24 +169,31 @@ class OpenDartClient extends Client
      *
      * @param string[] $corpCode
      * @param string $year
-     * @param string $reprtCode
+     * @param string $reportCode
      * @return Collection
      * @throws JsonMapper_Exception
+     * @throws FileNotFoundException
      */
-    public function getMultiAcnt(array $corpCode, string $year, string $reprtCode = '11011'): Collection
+    public function getMultiAcnt(array $corpCode, string $year, string $reportCode = ReportCode::ALL): Collection
     {
         if (count($corpCode) == 0) {
             return collect();
         }
 
-        $codeStr = implode(',', $corpCode);
+        ['acnts' => $acnts, 'corpCodes' => $corpCodes] = $this->get($corpCode, $year, $reportCode);
+
+        if ($acnts->isNotEmpty() && $corpCodes->isEmpty()) {
+            return $acnts;
+        }
+
+        $codeStr = implode(',', $corpCodes->all());
 
         $response = $this->response(
             Http::get($this->getHost() . config('opendart.method.MultiAcnt.url'), [
                 'crtfc_key' => config('opendart.api_key'),
                 'corp_code' => $codeStr,
                 'bsns_year' => $year,
-                'reprt_code' => $reprtCode
+                'reprt_code' => $reportCode
             ])
         );
 
@@ -204,14 +211,79 @@ class OpenDartClient extends Client
 
         $dtos->each(function ($acnt) use (&$rsList) {
             if ($acnt instanceof Acnt) {
+                if ($acnt->getFsDiv() == "CFS") { // 연결 재무재표만
+                    if (!$rsList->has($acnt->getStockCode())) {
+                        $rsList->put($acnt->getStockCode(), collect());
+                    }
+
+                    $rsList->get($acnt->getStockCode())->add($acnt);
+                }
+            }
+        });
+
+        $rsList->each(function (Collection $acnt, $code) {
+            $this->disk->put("opendart/acnts/{$code}.json", $acnt->toJson());
+        });
+
+        if ($acnts->isNotEmpty()) {
+            $acnts->each(function (Acnt $acnt) use (&$rsList) {
                 if (!$rsList->has($acnt->getStockCode())) {
                     $rsList->put($acnt->getStockCode(), collect());
                 }
 
                 $rsList->get($acnt->getStockCode())->add($acnt);
-            }
-        });
+            });
+        }
 
         return $rsList;
+    }
+
+    /**
+     * @param array $corpCodes
+     * @param string $year
+     * @param string $reportCode
+     * @return array<Collection,Collection>
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
+     */
+    public function get(array $corpCodes, string $year, string $reportCode = ReportCode::ALL): array
+    {
+        $disk = Storage::disk('local');
+        $path = 'opendart/acnts';
+        if (!$disk->exists($path)) {
+            $disk->makeDirectory($path);
+        }
+
+        $acnts = collect();
+        $reqCodes = collect();
+        $disk = Storage::disk('local');
+        $list = $this->getCorpCode();
+
+        $stockCodes = $list->filter(function (CorpCode $item) use ($corpCodes) {
+            return in_array($item->getCorpCode(), $corpCodes);
+        });
+
+        foreach ($stockCodes as $stockCode) {
+            if ($disk->exists("{$path}/{$stockCode}.json")) {
+                $jsonObject = json_decode($disk->get("{$path}/{$stockCode}.json"));
+                $acnts->put($stockCode, Acnt::newInstance()->mapList($jsonObject));
+            } else {
+                $corpCode = $this->getCorpCode($stockCode);
+
+                if (!is_null($corpCode)) {
+                    $reqCodes->add($corpCode);
+                }
+            }
+        }
+
+        return [
+            'acnts' => $acnts,
+            'corpCodes' => $reqCodes
+        ];
+    }
+
+    public function put(array $stockCodes, string $year, string $reportCode = ReportCode::ALL)
+    {
+
     }
 }

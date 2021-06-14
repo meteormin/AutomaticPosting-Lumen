@@ -2,6 +2,7 @@
 
 namespace App\Services\OpenDart;
 
+use App\Data\DataTransferObjects\Acnt;
 use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Carbon;
@@ -9,6 +10,7 @@ use Illuminate\Pagination\Paginator;
 use App\Data\DataTransferObjects\CorpCode;
 use App\Exceptions\ApiErrorException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use JsonMapper_Exception;
 
 class OpenDartService extends Service
@@ -41,30 +43,6 @@ class OpenDartService extends Service
     /**
      * Undocumented function
      *
-     * @param string|null $code
-     *
-     * @return \App\Data\DataTransferObjects\Paginator|Collection
-     * @throws FileNotFoundException
-     * @throws JsonMapper_Exception
-     */
-    public function getCorpCode(string $code = null)
-    {
-        if (is_null($code)) {
-            return $this->module->getCorpCode();
-        }
-
-        $codes = explode(',', $code);
-        $res = collect();
-        foreach ($codes as $code) {
-            $res->add($this->module->getCorpCode($code)->first());
-        }
-
-        return $res;
-    }
-
-    /**
-     * Undocumented function
-     *
      * @param string $stockCode
      *
      * @return CorpCode
@@ -74,14 +52,7 @@ class OpenDartService extends Service
      */
     public function findCorpCodeByStockCode(string $stockCode): CorpCode
     {
-        $corpCodes = $this->module->getCorpCode();
-
-        return $corpCodes->filter(function ($item) use ($stockCode) {
-            if ($item instanceof CorpCode) {
-                return $item->getStockCode() == $stockCode;
-            }
-            return false;
-        })->first();
+        return $this->module->getCorpCode()->first();
     }
 
     /**
@@ -89,13 +60,13 @@ class OpenDartService extends Service
      *
      * @param string $stockCode
      * @param string|null $year
-     * @param string $reprtCode
+     * @param string $reportCode
      *
      * @return Collection
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function getSingle(string $stockCode, string $year = null, string $reprtCode = '11011'): Collection
+    public function getSingle(string $stockCode, string $year = null, string $reportCode = ReportCode::ALL): Collection
     {
         if (is_null($year)) {
             $year = Carbon::now()->format('Y');
@@ -111,7 +82,7 @@ class OpenDartService extends Service
             $this->throw(self::RESOURCE_NOT_FOUND, "can not found sotck: " . $stockCode);
         }
 
-        return $this->module->getSinglAcnt($corpCode->getCorpCode(), $year, $reprtCode);
+        return $this->module->getSingleAcnt($corpCode->getCorpCode(), $year, $reportCode);
     }
 
     /**
@@ -119,12 +90,12 @@ class OpenDartService extends Service
      *
      * @param array $stockCodes
      * @param string|null $year
-     * @param string $reprtCode
+     * @param string $reportCode
      * @return Collection
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function getMultiple(array $stockCodes, string $year = null, string $reprtCode = '11011'): Collection
+    public function getMultiple(array $stockCodes, string $year = null, string $reportCode = ReportCode::ALL): Collection
     {
         $corpCodes = collect();
 
@@ -136,14 +107,15 @@ class OpenDartService extends Service
             $this->throw(self::VALIDATION_FAIL, ['year' => ["year parameter must be 'yyyy' format"]]);
         }
 
-        foreach ($stockCodes as $stockCode) {
+        foreach ($stockCodes as $stockCode){
             $corpCode = $this->findCorpCodeByStockCode($stockCode);
-            if (!is_null($corpCode)) {
-                $corpCodes->add($corpCode->getCorpCode());
+            $code = $corpCode->getCorpCode();
+            if(!empty($code)){
+                $corpCodes->add($code);
             }
         }
 
-        $res = $this->module->getMultiAcnt($corpCodes->all(), $year);
+        $res = $this->module->getMultiAcnt($corpCodes->all(), $year, $reportCode);
         if ($res->isEmpty()) {
             $this->throw(self::RESOURCE_NOT_FOUND, "can not found stocks");
         }
