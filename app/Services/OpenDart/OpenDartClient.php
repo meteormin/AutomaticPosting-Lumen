@@ -281,9 +281,4 @@ class OpenDartClient extends Client
             'corpCodes' => $reqCodes
         ];
     }
-
-    public function put(array $stockCodes, string $year, string $reportCode = ReportCode::ALL)
-    {
-
-    }
 }

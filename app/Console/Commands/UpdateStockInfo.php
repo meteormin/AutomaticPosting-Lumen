@@ -6,6 +6,8 @@ namespace App\Console\Commands;
 
 use App\Services\Main\MainService;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use JsonMapper_Exception;
 
 class UpdateStockInfo extends Command
 {
@@ -54,7 +56,15 @@ class UpdateStockInfo extends Command
 
         foreach (array_keys($list) as $code) {
             $service->updateStockInfo($type, $code);
+
             $this->info("$type: $code");
+        }
+
+        $codes = array_keys($list);
+        try {
+            $service->updateOpenDart($codes);
+        } catch (FileNotFoundException | JsonMapper_Exception $e) {
+            $this->error($e->getMessage());
         }
 
         $this->info('success update!');
