@@ -2,15 +2,12 @@
 
 namespace App\Services\OpenDart;
 
-use App\Data\DataTransferObjects\Acnt;
 use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Carbon;
-use Illuminate\Pagination\Paginator;
 use App\Data\DataTransferObjects\CorpCode;
 use App\Exceptions\ApiErrorException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use JsonMapper_Exception;
 
 class OpenDartService extends Service

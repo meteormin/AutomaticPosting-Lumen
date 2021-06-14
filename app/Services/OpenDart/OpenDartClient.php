@@ -275,7 +275,7 @@ class OpenDartClient extends Client
         foreach ($stockCodes as $stockCode) {
             if ($this->disk->exists("{$path}/{$stockCode->getStockCode()}.json")) {
                 $jsonObject = json_decode($this->disk->get("{$path}/{$stockCode->getStockCode()}.json"));
-                $acnts->put($stockCode, Acnt::newInstance()->mapList($jsonObject));
+                $acnts->put($stockCode->getStockCode(), Acnt::newInstance()->mapList($jsonObject));
             } else {
                 $corpCodes = $this->getCorpCode($stockCode->getStockCode());
 
