@@ -60,13 +60,6 @@ class AutoPost extends Command
         $this->info('success post...');
         $this->info('post id: ' . $postId);
 
-        // wp
-//        $this->info('[Word Press] auto post:'.$name.','.$postId ?? '');
-//        $res = $wp->autoPost($name,$postId);
-//        $this->info('success wp post...');
-//        $this->info('response:');
-//        $this->info(json_encode($res));
-
         return 0;
     }
 }
