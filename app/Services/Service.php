@@ -18,7 +18,7 @@ class Service extends ErrorCode
     protected $code;
 
     /**
-     * @var string $error 간단한 에러 메시지
+     * @var string|array|null $error 간단한 에러 메시지
      */
     protected $error;
 

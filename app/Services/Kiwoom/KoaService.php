@@ -80,12 +80,7 @@ class KoaService extends Service
      */
     public function showBySector(string $sector): ?Collection
     {
-        $rs = $this->module->getBySector($sector);
-        if (is_null($rs)) {
-            $this->throw(self::RESOURCE_NOT_FOUND, 'not found sector: ' . $sector);
-        }
-
-        return $rs;
+        return $this->module->getBySector($sector);
     }
 
     /**
@@ -93,18 +88,13 @@ class KoaService extends Service
      *
      * @param string $theme
      *
-     * @return collection
+     * @return collection|null
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function showByTheme(string $theme): Collection
+    public function showByTheme(string $theme): ?Collection
     {
-        $rs = $this->module->getByTheme($theme);
-        if (is_null($rs)) {
-            $this->throw(self::RESOURCE_NOT_FOUND, 'not found theme: ' . $theme);
-        }
-
-        return $rs;
+        return $this->module->getByTheme($theme);
     }
 
     /**

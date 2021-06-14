@@ -248,15 +248,13 @@ class OpenDartClient extends Client
      */
     public function get(array $corpCodes, string $year, string $reportCode = ReportCode::ALL): array
     {
-        $disk = Storage::disk('local');
         $path = 'opendart/acnts';
-        if (!$disk->exists($path)) {
-            $disk->makeDirectory($path);
+        if (!$this->disk->exists($path)) {
+            $this->disk->makeDirectory($path);
         }
 
         $acnts = collect();
         $reqCodes = collect();
-        $disk = Storage::disk('local');
         $list = $this->getCorpCode();
 
         $stockCodes = $list->filter(function (CorpCode $item) use ($corpCodes) {
@@ -264,8 +262,8 @@ class OpenDartClient extends Client
         });
 
         foreach ($stockCodes as $stockCode) {
-            if ($disk->exists("{$path}/{$stockCode}.json")) {
-                $jsonObject = json_decode($disk->get("{$path}/{$stockCode}.json"));
+            if ($this->disk->exists("{$path}/{$stockCode}.json")) {
+                $jsonObject = json_decode($this->disk->get("{$path}/{$stockCode}.json"));
                 $acnts->put($stockCode, Acnt::newInstance()->mapList($jsonObject));
             } else {
                 $corpCode = $this->getCorpCode($stockCode);
