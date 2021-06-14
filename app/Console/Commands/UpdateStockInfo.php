@@ -38,6 +38,8 @@ class UpdateStockInfo extends Command
     /**
      * @param MainService $service
      * @return int
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
     public function handle(MainService $service): int
     {
@@ -56,15 +58,8 @@ class UpdateStockInfo extends Command
 
         foreach (array_keys($list) as $code) {
             $service->updateStockInfo($type, $code);
-
+            $service->updateOpenDart($type, $code);
             $this->info("$type: $code");
-        }
-
-        $codes = array_keys($list);
-        try {
-            $service->updateOpenDart($codes);
-        } catch (FileNotFoundException | JsonMapper_Exception $e) {
-            $this->error($e->getMessage());
         }
 
         $this->info('success update!');

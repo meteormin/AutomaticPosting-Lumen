@@ -208,12 +208,20 @@ class MainService extends Service
     }
 
     /**
-     * @param array $codes
+     * @param string $type
+     * @param string $code
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function updateOpenDart(array $codes)
+    public function updateOpenDart(string $type, string $code)
     {
-        $this->openDart->getMultiple($codes);
+        $stockInfo = $this->getStockInfo($type, $code);
+        $codes = collect();
+
+        $stockInfo->each(function (StockInfo $stock) use (&$codes) {
+            $codes->add($stock->getCode());
+        });
+
+        $this->openDart->getMultiple($codes->all());
     }
 }
