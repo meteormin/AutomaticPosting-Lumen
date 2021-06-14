@@ -52,7 +52,7 @@ class OpenDartService extends Service
      */
     public function findCorpCodeByStockCode(string $stockCode): CorpCode
     {
-        return $this->module->getCorpCode()->first();
+        return $this->module->getCorpCode($stockCode)->first();
     }
 
     /**
