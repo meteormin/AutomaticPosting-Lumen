@@ -77,6 +77,7 @@ $app->configure('winssh');
 $app->configure('medium');
 $app->configure('maketable');
 $app->configure('wordpress');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware

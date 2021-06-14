@@ -6,14 +6,14 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
+        "ext-simplexml": "*",
+        "ext-zip": "*",
         "guzzlehttp/guzzle": "^7.3",
         "laravel/lumen-framework": "^8.0",
         "laravel/tinker": "^2.6",
         "netresearch/jsonmapper": "4.0.0",
-        "nomadnt/lumen-passport": "^10.1",
-        "ext-json": "*",
-        "ext-zip": "*",
-        "ext-simplexml": "*"
+        "nomadnt/lumen-passport": "^10.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

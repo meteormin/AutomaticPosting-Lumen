@@ -5,6 +5,7 @@ namespace App\Services\OpenDart;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use JsonMapper_Exception;
 use ZipArchive;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -196,7 +197,15 @@ class OpenDartClient extends Client
                 'reprt_code' => $reportCode
             ])
         );
-
+        Log::info(json_encode([
+            'host'=>$this->getHost(),
+            'parameter'=>[
+                'crtfc_key' => config('opendart.api_key'),
+                'corp_code' => $codeStr,
+                'bsns_year' => $year,
+                'reprt_code' => $reportCode
+            ]
+        ],JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         if (is_null($response)) {
             return collect(['error' => $this->getError()]);
         }
