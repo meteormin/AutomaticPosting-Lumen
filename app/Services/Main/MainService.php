@@ -13,6 +13,7 @@ use App\Models\Posts;
 use App\Services\Kiwoom\Windows;
 use App\Services\OpenDart\OpenDartService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use JsonMapper_Exception;
 
 class MainService extends Service
@@ -79,6 +80,7 @@ class MainService extends Service
             }
 
             $stockInfo = $this->koa->showByTheme($where);
+            Log::info("theme: {$where}");
             if (is_null($stockInfo)) {
                 $this->updateStockInfo($type, $where);
                 $stockInfo = $this->koa->showByTheme($where);

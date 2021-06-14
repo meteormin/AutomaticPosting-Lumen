@@ -197,6 +197,7 @@ class OpenDartClient extends Client
                 'reprt_code' => $reportCode
             ])
         );
+
         Log::info(json_encode([
             'host'=>$this->getHost(),
             'parameter'=>[
@@ -266,7 +267,7 @@ class OpenDartClient extends Client
         $reqCodes = collect();
         $list = $this->getCorpCode();
 
-        /** @var CorpCode[] $stockCodes */
+        /** @var Collection<CorpCode>|CorpCode[] $stockCodes */
         $stockCodes = $list->filter(function (CorpCode $item) use ($corpCodes) {
             return in_array($item->getCorpCode(), $corpCodes);
         });
