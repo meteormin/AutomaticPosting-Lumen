@@ -9,6 +9,7 @@ use App\Services\Main\MainService;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
+use Throwable;
 
 class UpdateStockInfo extends Command
 {
@@ -62,7 +63,7 @@ class UpdateStockInfo extends Command
 
             try {
                 $service->updateOpenDart($type, $code);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 $this->error($e->getMessage());
             }
             $this->info("$type: $code");
