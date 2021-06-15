@@ -54,11 +54,11 @@ class MainService extends Service
      * @param string $type
      * @param string|null $where
      *
-     * @return Collection
+     * @return Collection|null
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function getStockInfo(string $type, ?string $where = null): Collection
+    public function getStockInfo(string $type, ?string $where = null): ?Collection
     {
         $stockInfo = collect();
 
@@ -133,12 +133,15 @@ class MainService extends Service
      * @param string $type
      * @param string|null $where
      *
-     * @return Collection
+     * @return Collection|null
      * @throws JsonMapper_Exception|FileNotFoundException
      */
-    public function getRefinedData(string $type, ?string $where = null): Collection
+    public function getRefinedData(string $type, ?string $where = null): ?Collection
     {
         $rawData = $this->getRawData($type, $where);
+        if(is_null($rawData)){
+            return null;
+        }
 
         $refinedData = collect();
 

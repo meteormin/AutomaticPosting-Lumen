@@ -30,8 +30,9 @@ class MainController extends Controller
      */
     public function index()
     {
-        $response = $this->service->getTreeMapChart('theme', '140');
-        return view('sb-admin.content', ['google_chart' => $response]);
+        $treemap = $this->service->getTreeMapChart('theme');
+        $barchart = $this->service->getBarChart('theme');
+        return view('sb-admin.content', ['google_chart' => ['treemap' => $treemap, 'bar' => $barchart]]);
     }
 
     /**
@@ -45,8 +46,8 @@ class MainController extends Controller
     public function show(Request $request, string $type, string $code)
     {
         $treemap = $this->service->getTreeMapChart($type, $code);
-        $barchart = $this->service->getBarChart($type,$code);
+        $barchart = $this->service->getBarChart($type, $code);
 
-        return view('sb-admin.category', ['google_chart' => ['treemap'=>$treemap,'bar'=>$barchart]]);
+        return view('sb-admin.category', ['google_chart' => ['treemap' => $treemap, 'bar' => $barchart]]);
     }
 }

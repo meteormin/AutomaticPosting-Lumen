@@ -14,35 +14,76 @@ use App\Data\DataTransferObjects\TreeMapOptions;
 use App\Services\Main\MainService;
 use App\Services\Service as BaseService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Collection;
 use JsonMapper_Exception;
-use function Illuminate\Events\queueable;
 
 class Service extends BaseService
 {
     protected MainService $service;
 
+    /**
+     * @var array
+     */
+    protected array $config;
+
     public function __construct(MainService $service)
     {
         $this->service = $service;
+        $this->config['theme'] = config('themes.kospi.themes_raw');
+        $this->config['sector'] = config('sectors.kospi.sectors_raw');
+    }
+
+    /**
+     * @param string $type
+     * @param string $code
+     * @return Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
+     */
+    protected function getRefinedDataByCode(string $type, string $code): Collection
+    {
+        $refinedData = $this->service->getRefinedData($type, $code);
+
+        if (is_null($refinedData)) {
+            return collect();
+        }
+
+        return collect([
+            $code => $refinedData->get('data')
+        ]);
+    }
+
+    /**
+     * @param string $type
+     * @return Collection
+     * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
+     */
+    protected function getRefinedDataByType(string $type): Collection
+    {
+        $codes = $this->config[$type];
+        $rsList = collect();
+        foreach ($codes as $code) {
+            $refinedData = $this->service->getRefinedData($type, $code);
+            if (!is_null($refinedData)) {
+                $rsList->put($code, $refinedData->get('data'));
+            }
+        }
+
+        return $rsList;
     }
 
     /**
      *
      * @param string $type
-     * @param string $code
+     * @param string|null $code
      * @return array
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function getTreeMapChart(string $type, string $code): array
+    public function getTreeMapChart(string $type, string $code = null): array
     {
-        $refinedData = $this->service->getRefinedData($type, $code);
-
-        $chartCollection = new GoogleChartCollection();
-        $id = config("themes.kospi.themes_raw.{$code}");
-
         $chartData = TreeMapChartData::newInstance();
-        $chartData->setId($id);
         $chartData->setParentId(null);
         $chartData->setSize(0);
         $chartData->setColor(0);
@@ -53,22 +94,39 @@ class Service extends BaseService
             'color' => '당기순이익'
         ]);
 
-        $chartCollection->add($chartData);
-        $refinedData->get('data')->each(function (Refine $item, $key) use ($id, $type,&$chartCollection) {
-            $chartData = TreeMapChartData::newInstance();
-            $chartData->setId($item->getName()." (적자횟수: {$item->getDeficitCount()})");
-            $chartData->setParentId($id);
-            $chartData->setSize($item->getCapital());
-            $chartData->setColor($item->getNetIncome());
-            $chartData->setLabels([
-                'id' => '종목',
-                'parentId' => $type,
-                'size' => '당기순이익',
-                'color' => '적자횟수'
-            ]);
+        if (is_null($code)) {
+            $chartData->setId('');
+            $refinedData = $this->getRefinedDataByType($type);
+        } else {
+            $id = $this->config[$type][$code];
+            $chartData->setId($id);
+            $refinedData = $this->getRefinedDataByCode($type, $code);
+        }
 
-            $chartCollection->add($chartData);
-        });
+        if($refinedData->isEmpty()){
+            return [];
+        }
+
+        $chartCollection = new GoogleChartCollection();
+        $chartCollection->add($chartData);
+
+        foreach ($refinedData as $collection) {
+            $collection->each(function (Refine $item, $key) use ($id, $type, &$chartCollection) {
+                $chartData = TreeMapChartData::newInstance();
+                $chartData->setId($item->getName() . " (적자횟수: {$item->getDeficitCount()})");
+                $chartData->setParentId($id);
+                $chartData->setSize($item->getCapital());
+                $chartData->setColor($item->getNetIncome());
+                $chartData->setLabels([
+                    'id' => '종목',
+                    'parentId' => $type,
+                    'size' => '당기순이익',
+                    'color' => '적자횟수'
+                ]);
+
+                $chartCollection->add($chartData);
+            });
+        }
 
         $response['chart'] = 'treemap';
         $response['element'] = 'treemap-chart';
@@ -79,18 +137,27 @@ class Service extends BaseService
     }
 
     /**
-     * @throws JsonMapper_Exception
+     * @param string $type
+     * @param string|null $code
+     * @return array
      * @throws FileNotFoundException
+     * @throws JsonMapper_Exception
      */
-    public function getBarChart(string $type, string $code): array
+    public function getBarChart(string $type, string $code = null): array
     {
-        $refinedData = $this->service->getRefinedData($type, $code);
         $chartCollection = new GoogleChartCollection();
-        $id = config("themes.kospi.themes_raw.{$code}");
+
+        if (is_null($code)) {
+            $id = $type;
+            $refinedData = $this->getRefinedDataByType($type);
+        } else {
+            $id = $this->config[$type][$code];
+            $refinedData = $this->getRefinedDataByCode($type, $code);
+        }
 
         $refinedData->get('data')->each(function (Refine $item, $key) use ($id, &$chartCollection) {
             $chartData = BarChartData::newInstance();
-            $chartData->setId($item->getName()." (적자횟수: {$item->getDeficitCount()})");
+            $chartData->setId($item->getName() . " (적자횟수: {$item->getDeficitCount()})");
             $chartData->setValue($item->getNetIncome());
             $chartData->setRole('blue');
 
