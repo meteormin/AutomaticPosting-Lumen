@@ -26,10 +26,10 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-table me-1"></i>
-                                    Tree Map Chart Example
+                                    최근 업데이트: TreeMap
                                 </div>
                                 <div class="card-body g-chart">
-                                    <div id="google-chart"></div>
+                                    <div id="treemap-chart"></div>
                                 </div>
                             </div>
                         </div>
@@ -37,10 +37,10 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
-                            DataTable Example
+                            최근 업데이트: BarChart
                         </div>
                         <div class="card-body">
-
+                            <div id="bar-chart" style="width: 100%; height: 500px;"></div>
                         </div>
                     </div>
                 </div>
