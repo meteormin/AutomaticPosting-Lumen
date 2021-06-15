@@ -40,8 +40,6 @@ class UpdateStockInfo extends Command
     /**
      * @param MainService $service
      * @return int
-     * @throws FileNotFoundException
-     * @throws JsonMapper_Exception
      */
     public function handle(MainService $service): int
     {
