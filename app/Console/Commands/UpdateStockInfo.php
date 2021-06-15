@@ -4,6 +4,7 @@
 namespace App\Console\Commands;
 
 
+use App\Exceptions\ApiErrorException;
 use App\Services\Main\MainService;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -58,7 +59,12 @@ class UpdateStockInfo extends Command
 
         foreach (array_keys($list) as $code) {
             $service->updateStockInfo($type, $code);
-            $service->updateOpenDart($type, $code);
+
+            try {
+                $service->updateOpenDart($type, $code);
+            } catch (\Throwable $e) {
+                $this->error($e->getMessage());
+            }
             $this->info("$type: $code");
         }
 
