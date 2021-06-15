@@ -4,11 +4,8 @@
 namespace App\Console\Commands;
 
 
-use App\Exceptions\ApiErrorException;
 use App\Services\Main\MainService;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use JsonMapper_Exception;
 use Throwable;
 
 class UpdateStockInfo extends Command
