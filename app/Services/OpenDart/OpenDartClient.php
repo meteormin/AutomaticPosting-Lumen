@@ -236,12 +236,10 @@ class OpenDartClient extends Client
         });
 
         if ($acnts->isNotEmpty()) {
-            $acnts->each(function (Acnt $acnt) use (&$rsList) {
-                if (!$rsList->has($acnt->getStockCode())) {
-                    $rsList->put($acnt->getStockCode(), collect());
+            $acnts->each(function (Collection $acnt,$code) use (&$rsList) {
+                if (!$rsList->has($code)) {
+                    $rsList->put($code,$acnt);
                 }
-
-                $rsList->get($acnt->getStockCode())->add($acnt);
             });
         }
 
