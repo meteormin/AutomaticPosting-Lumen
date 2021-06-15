@@ -27,15 +27,15 @@
         });
     } else {
         google.charts.setOnLoadCallback(function () {
-            drawChart();
+            drawTreeMapChart
         });
     }
 
     $(window).resize(function () {
-        drawChart();
+        drawTreeMapChart
     });
 
     let target = document.body;
 
-    let classWatcher = new ClassWatcher(target, 'sb-sidenav-toggled', drawChart, drawChart);
+    let classWatcher = new ClassWatcher(target, 'sb-sidenav-toggled', drawTreeMapChart, drawTreeMapChart);
 </script>

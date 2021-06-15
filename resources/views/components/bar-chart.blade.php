@@ -18,5 +18,5 @@
 
     target = document.body;
 
-    barChartclassWatcher = new ClassWatcher(target, 'sb-sidenav-toggled', drawChart, drawChart);
+    barChartclassWatcher = new ClassWatcher(target, 'sb-sidenav-toggled', drawBarChart, drawBarChart);
 </script>
