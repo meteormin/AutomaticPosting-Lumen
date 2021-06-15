@@ -154,15 +154,16 @@ class Service extends BaseService
             $id = $this->config[$type][$code];
             $refinedData = $this->getRefinedDataByCode($type, $code);
         }
+        foreach ($refinedData as $collection) {
+            $collection->each(function (Refine $item, $key) use ($id, &$chartCollection) {
+                $chartData = BarChartData::newInstance();
+                $chartData->setId($item->getName() . " (적자횟수: {$item->getDeficitCount()})");
+                $chartData->setValue($item->getNetIncome());
+                $chartData->setRole('blue');
 
-        $refinedData->get('data')->each(function (Refine $item, $key) use ($id, &$chartCollection) {
-            $chartData = BarChartData::newInstance();
-            $chartData->setId($item->getName() . " (적자횟수: {$item->getDeficitCount()})");
-            $chartData->setValue($item->getNetIncome());
-            $chartData->setRole('blue');
-
-            $chartCollection->add($chartData);
-        });
+                $chartCollection->add($chartData);
+            });
+        }
 
         $response['chart'] = 'bar';
         $response['element'] = 'bar-chart';
