@@ -60,7 +60,6 @@ class UpdateStockInfo extends Command
 
         foreach (array_keys($list) as $code) {
             $service->updateStockInfo($type, $code);
-
             try {
                 $service->updateOpenDart($type, $code);
             } catch (Throwable $e) {
