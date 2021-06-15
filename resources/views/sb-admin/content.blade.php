@@ -49,7 +49,8 @@
         </div>
     </div>
     @isset($google_chart)
-        @include('components.google-chart',$google_chart)
+        @include('components.treemap-chart',['treemap'=>$google_chart['treemap']])
+        @include('components.bar-chart',['bar'=>$google_chart['bar']])
     @endisset
     @include('components.script-zone')
 @endsection
