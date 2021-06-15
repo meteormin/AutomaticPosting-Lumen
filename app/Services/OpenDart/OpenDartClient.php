@@ -231,7 +231,7 @@ class OpenDartClient extends Client
             }
         });
 
-        $rsList->each(function (Collection $acnt, $code) {
+        $rsList->each(function (Acnt $acnt, $code) {
             $this->disk->put("opendart/acnts/{$code}.json", $acnt->toJson());
         });
 
