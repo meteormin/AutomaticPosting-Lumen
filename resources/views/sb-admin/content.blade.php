@@ -48,6 +48,9 @@
             @include('layouts.sb-admin.footer')
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{{url('/js/sb-admin/class-watcher.js')}}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     @isset($google_chart)
         @include('components.treemap-chart',['treemap'=>$google_chart['treemap']])
         @include('components.bar-chart',['bar'=>$google_chart['bar']])
