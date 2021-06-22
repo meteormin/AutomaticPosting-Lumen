@@ -39,12 +39,11 @@ class AutoPost extends Command
      * Execute the console command.
      *
      * @param PostsService $posts
-     * @param WpPostService $wp
      * @return int
      * @throws FileNotFoundException
      * @throws JsonMapper_Exception
      */
-    public function handle(PostsService $posts,WpPostService $wp): int
+    public function handle(PostsService $posts): int
     {
         if (is_null($this->argument('name'))) {
             $this->error('name parameter is requried');

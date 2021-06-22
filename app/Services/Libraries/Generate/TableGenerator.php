@@ -26,20 +26,20 @@ class TableGenerator extends Generator
      *
      * @var array
      */
-    protected array $datas;
+    protected array $data;
 
     /**
      * TableGenerator constructor.
      * @param string $title
      * @param string $name
      * @param string $date
-     * @param array $datas
+     * @param array $data
      */
-    public function __construct(string $title, string $name, string $date, array $datas)
+    public function __construct(string $title, string $name, string $date, array $data)
     {
         parent::__construct($name);
         $this->maker = new MakeClass();
-        $this->datas = $datas;
+        $this->data = $data;
         $this->title = $title;
         $this->name = $name;
         $this->date = $date;
@@ -48,7 +48,7 @@ class TableGenerator extends Generator
     public function generate(): ?string
     {
         $body = '';
-        foreach ($this->datas as $data) {
+        foreach ($this->data as $data) {
             $body .= $this->maker->run('tbody', $data) . '\\n';
         }
 
