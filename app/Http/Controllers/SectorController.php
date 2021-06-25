@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Response\ErrorCode;
+use App\Services\Kiwoom\KoaService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -15,11 +17,17 @@ class SectorController extends DefaultController
      *
      * @var Collection
      */
-    protected $config;
+    protected Collection $config;
 
-    public function __construct()
+    /**
+     * @var KoaService
+     */
+    protected KoaService $koa;
+
+    public function __construct(KoaService $koa)
     {
         $this->config = collect(config('sectors'));
+        $this->koa = $koa;
     }
 
     /**
@@ -27,9 +35,9 @@ class SectorController extends DefaultController
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         // 코스피 고정
         return $this->response($this->config);
@@ -41,9 +49,9 @@ class SectorController extends DefaultController
      * @param Request $request
      * @param string $market
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show(Request $request, string $market = 'kospi')
+    public function show(Request $request, string $market = 'kospi'): JsonResponse
     {
         if ($this->config->has($market)) {
             $res = $this->config->get($market);
@@ -53,7 +61,7 @@ class SectorController extends DefaultController
         return $this->error(ErrorCode::NOT_FOUND, "{$market} is not found");
     }
 
-    public function store(Request $request, string $market = 'kospi')
+    public function store(Request $request, string $market = 'kospi'): JsonResponse
     {
         $data = null;
         $validator = Validator::make($request->all(), [
