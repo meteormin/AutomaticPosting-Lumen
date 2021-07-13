@@ -17,7 +17,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Collection;
 use JsonMapper_Exception;
 
-class Service extends BaseService
+class InfographicService extends BaseService
 {
     protected MainService $service;
 

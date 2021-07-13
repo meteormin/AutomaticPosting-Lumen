@@ -3,17 +3,15 @@
 namespace App\Services\Main;
 
 use App\Data\Abstracts\Dto;
-use App\Data\Abstracts\DtoInterface;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Response\ErrorCode;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use App\Data\DataTransferObjects\Paginator;
 use App\Data\DataTransferObjects\Posts as PostsDto;
 use App\Services\AutoPostInterface;
-use App\Services\Libraries\Generate\TableGenerator;
+use App\Libraries\Generate\TableGenerator;
 use Illuminate\Support\Collection;
 use JsonMapper_Exception;
 

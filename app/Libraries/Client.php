@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\Libraries;
+namespace App\Libraries;
 
 use Illuminate\Http\Client\Response;
-
 
 /**
  * Laravel Http Client wrapper

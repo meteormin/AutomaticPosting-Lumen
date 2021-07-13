@@ -1,5 +1,32 @@
 # Change Log
 
+## 2021.07.13
+> Version 1.0.0
+- 안정화 작업
+  
+- 불필요한 코드 제거
+    - tistory
+    - medium
+- libraries 디렉터리 이동
+    - app\Services/Libraries => app/Libraries
+    
+## 2021.06.02 ~ 2021.07.09
+> Version 0.6.x ~ Version 0.7.1
+
+- SB-Admin 템플릿을 이용한 Demo 사이트 구현
+    - 사이트 경로: /infographics/* 
+    - Infographics Service 구현
+        - App\Services\Infographics\Service
+        
+    - Google Chart 제어를 위한 데이터 클래스들 생성
+        - BarChartColumns
+        - BarChartData
+        - BarChartOptions
+        - GoogleChartCollection
+        - GoogleCHartData
+        - TreeMapChartData
+        - TreeMapChartOptions
+
 ## 2021.06.01
 
 > Version: 0.5.0

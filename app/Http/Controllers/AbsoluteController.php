@@ -11,6 +11,10 @@ use Illuminate\View\View;
 use JsonMapper_Exception;
 use Laravel\Lumen\Application;
 
+/**
+ * Class AbsoluteController
+ * @package App\Http\Controllers
+ */
 class AbsoluteController extends DefaultController
 {
     /**

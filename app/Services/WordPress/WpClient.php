@@ -4,7 +4,7 @@ namespace App\Services\WordPress;
 
 use App\Data\DataTransferObjects\WpMedia;
 use App\Data\DataTransferObjects\WPosts;
-use App\Services\Libraries\Client;
+use App\Libraries\Client;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Http;

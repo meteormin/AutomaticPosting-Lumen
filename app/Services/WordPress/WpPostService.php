@@ -9,7 +9,6 @@ use App\Data\DataTransferObjects\WPosts;
 use App\Models\Posts;
 use App\Data\DataTransferObjects\Posts as Dto;
 use App\Services\AutoPostInterface;
-use App\Services\Libraries\Client;
 use App\Services\Service;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;

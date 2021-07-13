@@ -13,16 +13,6 @@
 |
 */
 
-// $router->get('/', function () use ($router) {
-//     $res = $router->app->version();
-//     return $res;
-// });
-
-$router->get('tistory/callback', [
-    'as' => 'tistory.callback',
-    'uses' => 'TistoryController@callback'
-]);
-
 $router->get('/', 'PostsController@index');
 
 $router->get('posts/{id}', 'PostsController@show');
@@ -45,7 +35,6 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
 
     // 테마 리스트 저장
     $router->post('themes', 'ThemeController@store');
-
 
     //  get sotck list
     $router->get('stocks/sectors', 'StockController@sectors');

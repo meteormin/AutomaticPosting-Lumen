@@ -8,7 +8,7 @@ use App\Data\DataTransferObjects\Refine;
 use App\Data\DataTransferObjects\TreeMapChartData;
 use App\Data\DataTransferObjects\TreeMapOptions;
 use App\Http\Controllers\Controller;
-use App\Services\Infographics\Service;
+use App\Services\Infographics\InfographicService;
 use App\Services\Main\MainService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
@@ -20,11 +20,11 @@ use Laravel\Lumen\Application;
 class AjaxController extends Controller
 {
     /**
-     * @var Service
+     * @var InfographicService
      */
-    protected Service $service;
+    protected InfographicService $service;
 
-    public function __construct(Service $service)
+    public function __construct(InfographicService $service)
     {
         $this->service = $service;
     }

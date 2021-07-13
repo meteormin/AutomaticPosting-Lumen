@@ -10,7 +10,7 @@ use JsonMapper_Exception;
 use ZipArchive;
 use Illuminate\Filesystem\FilesystemAdapter;
 use App\Data\DataTransferObjects\Acnt;
-use App\Services\Libraries\Client;
+use App\Libraries\Client;
 use Illuminate\Support\Collection;
 use App\Data\DataTransferObjects\CorpCode;
 use Illuminate\Support\Facades\Storage;

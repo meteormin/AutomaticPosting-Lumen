@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Libraries\Generate;
+namespace App\Libraries\Generate;
 
-use App\Services\Libraries\Generate\Generator;
+use App\Libraries\Generate\Generator;
 
 class TableGenerator extends Generator
 {

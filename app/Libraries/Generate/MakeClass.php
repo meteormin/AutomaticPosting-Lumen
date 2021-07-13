@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Libraries\Generate;
+namespace App\Libraries\Generate;
 
 class MakeClass extends Maker
 {

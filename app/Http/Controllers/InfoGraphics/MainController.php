@@ -4,10 +4,9 @@
 namespace App\Http\Controllers\InfoGraphics;
 
 use App\Http\Controllers\Controller;
-use App\Services\Infographics\Service;
+use App\Services\Infographics\InfographicService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use JsonMapper_Exception;
@@ -16,11 +15,11 @@ use Laravel\Lumen\Application;
 class MainController extends Controller
 {
     /**
-     * @var Service
+     * @var InfographicService
      */
-    protected Service $service;
+    protected InfographicService $service;
 
-    public function __construct(Service $service)
+    public function __construct(InfographicService $service)
     {
         $this->service = $service;
     }
