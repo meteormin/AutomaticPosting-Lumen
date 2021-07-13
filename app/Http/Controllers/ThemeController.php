@@ -16,7 +16,7 @@ class ThemeController extends DefaultController
      *
      * @var Collection
      */
-    protected $config;
+    protected Collection $config;
 
     /**
      * @var KoaService

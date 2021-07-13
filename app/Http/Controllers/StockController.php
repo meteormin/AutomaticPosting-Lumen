@@ -15,14 +15,14 @@ class StockController extends DefaultController
      *
      * @var OpenDartService
      */
-    protected $openDart;
+    protected OpenDartService $openDart;
 
     /**
      * koa service
      *
      * @var KoaService
      */
-    protected $koa;
+    protected KoaService $koa;
 
     public function __construct(OpenDartService $OpenDartService, KoaService $koa)
     {
