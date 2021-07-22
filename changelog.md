@@ -1,5 +1,14 @@
 # Change Log
 
+## 2021.07.22
+> Version 1.1.0
+- Tistory 관련 추가
+    - Tistory api client 
+- add my private packages
+    - miniyus/mapper
+    - miniyus/restful-api-client
+
+
 ## 2021.07.13
 > Version 1.0.0
 - 안정화 작업
