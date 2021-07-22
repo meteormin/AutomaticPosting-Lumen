@@ -2,7 +2,8 @@
 
 namespace App\Libraries\Generate;
 
-use App\Libraries\Generate\Generator;
+use Miniyus\Mapper\Generate\Generator;
+use Miniyus\Mapper\Generate\MakeClass;
 
 class TableGenerator extends Generator
 {

@@ -4,7 +4,7 @@
 namespace App\Data\DataTransferObjects;
 
 
-use App\Data\Abstracts\Dto;
+use Miniyus\Mapper\Data\Dto;
 use JsonMapper_Exception;
 
 class WPosts extends Dto

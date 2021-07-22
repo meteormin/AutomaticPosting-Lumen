@@ -77,6 +77,9 @@ $app->configure('winssh');
 $app->configure('medium');
 $app->configure('maketable');
 $app->configure('wordpress');
+$app->configure('mapper');
+$app->configure('make_class');
+$app->configure('api_server');
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +119,8 @@ $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Laravel\Tinker\TinkerServiceProvider::class);
 $app->register(\Laracademy\Generators\GeneratorsServiceProvider::class);
+$app->register(\Miniyus\Mapper\Provider\MapperServiceProvider::class);
+$app->register(\Miniyus\RestfulApiClient\ApiClientServiceProvider::class);
 
 if ($app->environment() !== 'production') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

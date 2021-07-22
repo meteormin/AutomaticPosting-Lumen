@@ -2,9 +2,11 @@
 
 namespace App\Data\DataTransferObjects;
 
+use ArrayAccess;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
-use App\Data\Abstracts\Dynamic;
+use Miniyus\Mapper\Data\Contracts\Mapable;
+use Miniyus\Mapper\Data\Dynamic;
 
 /**
  * Class FinanceData
@@ -28,7 +30,6 @@ use App\Data\Abstracts\Dynamic;
  * @method int getFlowRate()
  * @method int getDebtRate()
  */
-
 class FinanceData extends Dynamic
 {
     /**
@@ -79,13 +80,60 @@ class FinanceData extends Dynamic
     }
 
     /**
-     * @param mixed $input
+     * @param $data
+     * @param callable|Closure|null $callback
+     * @return FinanceData|Collection|Mapable
+     */
+    public function map($data, $callback = null): Mapable
+    {
+        if ($data instanceof Arrayable) {
+            return $this->fill($data->toArray());
+        } else if (is_array($data) || $data instanceof ArrayAccess) {
+            return $this->fill($data);
+        }
+        return $this;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return $this
+     */
+    protected function setFlowRate(): FinanceData
+    {
+        $currentAssets = $this->getAttribute('current_assets');
+        $floatingDebt = $this->getAttribute('floating_debt');
+        if (is_numeric($currentAssets) && is_numeric($floatingDebt)) {
+            $flowRate = (int)($currentAssets / $floatingDebt * 100);
+        }
+        return $this->setAttribute('flow_rate', $flowRate ?? '');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return $this
+     */
+    protected function setDebtRate(): FinanceData
+    {
+        $totalDebt = $this->getAttribute('total_debt');
+        $totalAssets = $this->getAttribute('total_assets');
+        if (is_numeric($totalDebt) && is_numeric($totalAssets)) {
+            $debtRate = (int)($totalDebt / $totalAssets * 100);
+        }
+
+        return $this->setAttribute('debt_rate', $debtRate ?? '');
+    }
+
+    /**
+     * @param $data
+     * @param null $callback
      * @return Collection
      */
-    public static function map($input): Collection
+    public function mapList($data, $callback = null): Collection
     {
-        if ($input instanceof Arrayable) {
-            $input = $input->toArray();
+        if ($data instanceof Arrayable) {
+            $data = $data->toArray();
         }
 
         $current = (new static);
@@ -96,7 +144,7 @@ class FinanceData extends Dynamic
 
         // 데이터는 기본적으로 {계정 명}:[당기, 전기, 전전기] 형식의 데이터로 구성되어 있음
         // 하지만 데이터가 항상 3기 모두 존재하지 않으므로 루프문으로 처리
-        foreach ($input as $origin) {
+        foreach ($data as $origin) {
             foreach ($table as $key => $value) {
                 foreach ($value as $k => $v) {
                     if ($origin[$key] == $v) {
@@ -146,36 +194,5 @@ class FinanceData extends Dynamic
         }
 
         return $rsList;
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return $this
-     */
-    protected function setFlowRate(): FinanceData
-    {
-        $currentAssets = $this->getAttribute('current_assets');
-        $floatingDebt = $this->getAttribute('floating_debt');
-        if (is_numeric($currentAssets) && is_numeric($floatingDebt)) {
-            $flowRate = (int)($currentAssets / $floatingDebt * 100);
-        }
-        return $this->setAttribute('flow_rate', $flowRate ?? '');
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return $this
-     */
-    protected function setDebtRate(): FinanceData
-    {
-        $totalDebt = $this->getAttribute('total_debt');
-        $totalAssets = $this->getAttribute('total_assets');
-        if (is_numeric($totalDebt) && is_numeric($totalAssets)) {
-            $debtRate = (int)($totalDebt / $totalAssets * 100);
-        }
-
-        return $this->setAttribute('debt_rate', $debtRate ?? '');
     }
 }

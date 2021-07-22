@@ -3,10 +3,10 @@
 namespace App\Data\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use App\Data\Abstracts\Dto;
+use Miniyus\Mapper\Data\Dto;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Data\Abstracts\DtoInterface;
+use Miniyus\Mapper\Data\Contracts\Mapable;
 use JsonMapper_Exception;
 
 class Paginator extends Dto
@@ -17,7 +17,7 @@ class Paginator extends Dto
     protected int $currentPage;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected ?string $lastPageUrl;
 
@@ -49,11 +49,11 @@ class Paginator extends Dto
     /**
      * Paginator constructor.
      * @param LengthAwarePaginator $paginate
+     * @param Mapable $mapInstance
      * @param string $data
-     * @param DtoInterface $mapInstance
      * @throws JsonMapper_Exception
      */
-    public function __construct(LengthAwarePaginator $paginate, DtoInterface $mapInstance, string $data = 'data')
+    public function __construct(LengthAwarePaginator $paginate, Mapable $mapInstance, string $data = 'data')
     {
         parent::__construct();
         $this->setCurrentPage($paginate->currentPage());

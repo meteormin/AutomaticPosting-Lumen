@@ -1,7 +1,11 @@
 {
     "name": "laravel/lumen",
     "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "lumen"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -12,8 +16,12 @@
         "guzzlehttp/guzzle": "^7.3",
         "laravel/lumen-framework": "^8.0",
         "laravel/tinker": "^2.6",
-        "netresearch/jsonmapper": "4.0.0",
-        "nomadnt/lumen-passport": "^10.1"
+        "laravelista/lumen-vendor-publish": "^8.0",
+        "miniyus/mapper": "v2.5.3",
+        "miniyus/restful-api-client": "^1.0",
+        "netresearch/jsonmapper": "^4.0.0",
+        "nomadnt/lumen-passport": "^10.1",
+        "spatie/crawler": "^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
@@ -46,5 +54,15 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ]
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:miniyus/Mapper.git"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:miniyus/restful-api-client.git"
+        }
+    ]
 }

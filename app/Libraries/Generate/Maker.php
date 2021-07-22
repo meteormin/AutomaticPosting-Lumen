@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Libraries\Generate;
+namespace App\Libraries\Generate;
 
 use Illuminate\Support\Arr;
 use TypeError;
@@ -56,7 +56,7 @@ class Maker
      * 실행
      *
      * @param string $class 생성할 stub파일 이름
-     * @param string $name  생성할 클래스(파일)이름
+     * @param string $name 생성할 클래스(파일)이름
      * @param array $parameters stub파일의 대입될 매개변수들
      *
      * @return bool

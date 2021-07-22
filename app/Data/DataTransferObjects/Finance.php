@@ -3,7 +3,7 @@
 namespace App\Data\DataTransferObjects;
 
 use Illuminate\Support\Collection;
-use App\Data\Abstracts\Dto;
+use Miniyus\Mapper\Data\Dto;
 use JsonMapper_Exception;
 
 class Finance extends Dto
@@ -154,7 +154,7 @@ class Finance extends Dto
 
         $refineData = new Refine;
         $refineData->map($this->getStock());
-        $refineData->setFinanceData(FinanceData::map($acnt));
+        $refineData->setFinanceData((new FinanceData)->mapList($acnt));
 
         if ($refineData->getFinanceData()->isEmpty()) {
             return null;

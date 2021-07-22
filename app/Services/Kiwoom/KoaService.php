@@ -13,12 +13,14 @@ use function PHPUnit\Framework\directoryExists;
 class KoaService extends Service
 {
     /**
-     * Undocumented variable
-     *
      * @var Stocks
      */
     protected Stocks $module;
 
+    /**
+     * KoaService constructor.
+     * @param Stocks $module
+     */
     public function __construct(Stocks $module)
     {
         $this->module = $module;

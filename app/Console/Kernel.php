@@ -19,7 +19,8 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\AutoPost::class,
         \App\Console\Commands\MediumPost::class,
         \App\Console\Commands\WpPost::class,
-        \App\Console\Commands\UpdateStockInfo::class
+        \App\Console\Commands\UpdateStockInfo::class,
+        \Laravelista\LumenVendorPublish\VendorPublishCommand::class
     ];
 
     /**
@@ -32,10 +33,10 @@ class Kernel extends ConsoleKernel
     {
 //        $schedule->command( \App\Console\Commands\MediumPost::class,['theme'])->weekly();
         $schedule->command(\App\Console\Commands\OpenDart::class)->quarterly();
-        $schedule->command(\App\Console\Commands\AutoPost::class,['theme'])->weekly();
-        $schedule->command(\App\Console\Commands\AutoPost::class,['sector'])->weekly();
-        $schedule->command(\App\Console\Commands\WpPost::class,['theme'])->weekly();
-        $schedule->command(\App\Console\Commands\WpPost::class,['sector'])->weekly();
+        $schedule->command(\App\Console\Commands\AutoPost::class, ['theme'])->weekly();
+        $schedule->command(\App\Console\Commands\AutoPost::class, ['sector'])->weekly();
+        $schedule->command(\App\Console\Commands\WpPost::class, ['theme'])->weekly();
+        $schedule->command(\App\Console\Commands\WpPost::class, ['sector'])->weekly();
         $schedule->command(\App\Console\Commands\UpdateStockInfo::class, ['theme'])->daily();
         $schedule->command(\App\Console\Commands\UpdateStockInfo::class, ['sector'])->daily();
     }

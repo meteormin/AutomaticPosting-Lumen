@@ -13,12 +13,18 @@
 |
 */
 
+use Laravel\Lumen\Http\Request;
+
 $router->get('/', 'PostsController@index');
 
 $router->get('posts/{id}', 'PostsController@show');
 
 // stand alone page only include header
 $router->get('api/posts/{id}', 'PostsController@show');
+
+$router->get('tistory/callback', function (Request $request) {
+    return response()->json($request->all());
+});
 
 // api: json response
 $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($router) {
@@ -71,8 +77,8 @@ $router->group(['prefix' => 'api', 'middleware' => 'client'], function () use ($
 $router->group(['prefix' => 'infographics'], function () use ($router) {
     $router->get('/', [
         'as' => 'infographics.home',
-        'uses'=>'InfoGraphics\MainController@index'
+        'uses' => 'InfoGraphics\MainController@index'
     ]);
 
-    $router->get('/{type}/{code}','InfoGraphics\MainController@show');
+    $router->get('/{type}/{code}', 'InfoGraphics\MainController@show');
 });
