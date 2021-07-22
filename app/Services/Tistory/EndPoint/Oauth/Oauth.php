@@ -46,7 +46,9 @@ class Oauth extends AbstractEndPoint
             $token = $this->access_token()->request($clientId, $clientSecret, $redirectUri, $result['code']);
         }
 
-        $this->setToken($token['access_token'] ?? '', 'storage');
+        if (isset($token)) {
+            $this->setToken($token['access_token'], 'storage');
+        }
 
         return $token;
     }
