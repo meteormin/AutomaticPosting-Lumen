@@ -26,7 +26,7 @@ class Authorize extends AbstractSubClient
      */
     public function request(string $clientId, string $redirectUri, string $responseType, string $state)
     {
-        return $this->response(Http::post($this->url, [
+        return $this->response(Http::get($this->url, [
             'client_id' => $clientId, 'redirect_uri' => $redirectUri, 'response_type' => $responseType, 'state' => $state
         ]));
     }
