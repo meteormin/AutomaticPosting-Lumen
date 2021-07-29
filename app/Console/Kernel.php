@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\StartChromeDriver;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\MediumPost::class,
         \App\Console\Commands\WpPost::class,
         \App\Console\Commands\UpdateStockInfo::class,
+        \App\Console\Commands\StartChromeDriver::class,
         \Laravelista\LumenVendorPublish\VendorPublishCommand::class
     ];
 

@@ -13,7 +13,7 @@
 |
 */
 
-use Laravel\Lumen\Http\Request;
+use Illuminate\Http\Request;
 
 $router->get('/', 'PostsController@index');
 
@@ -23,6 +23,9 @@ $router->get('posts/{id}', 'PostsController@show');
 $router->get('api/posts/{id}', 'PostsController@show');
 
 $router->get('tistory/callback', function (Request $request) {
+    if (count($request->all()) == 0) {
+        return response()->json($request->query());
+    }
     return response()->json($request->all());
 });
 

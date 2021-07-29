@@ -12,7 +12,7 @@ return [
         ],
         'end_point' => []
     ],
-    'tistory'=>[
+    'tistory' => [
         'host' => 'https://www.tistory.com',
         'module_namespace' => '\\App\\Services\\Tistory\\EndPoint',
         'token_storage' => [
@@ -23,12 +23,18 @@ return [
         ],
         'client_id' => env('TISTORY_APP_ID'),
         'client_secret' => env('TISTORY_API_KEY'),
-        'redirect_uri' => 'http://34.72.111.228/tistory/callback',
+        'redirect_uri' => 'http://localhost:8080/tistory/callback',
         'response_type' => 'code',
         'state' => '',
-        'end_point'=>[
-            'oauth'=>[],
-            'apis'=>[],
+        'end_point' => [
+            'oauth' => [],
+            'apis' => [
+                'post' => [
+                    'list' => [
+                        'blogName' => env('TISTORY_BLOG_NAME')
+                    ]
+                ]
+            ],
         ],
         'method' => [
             'authorize' => [

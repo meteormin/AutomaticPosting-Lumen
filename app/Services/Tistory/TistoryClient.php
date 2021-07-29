@@ -4,29 +4,39 @@
 namespace App\Services\Tistory;
 
 
+use App\Services\Tistory\EndPoint\Apis\Apis;
 use App\Services\Tistory\EndPoint\Oauth\Oauth;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Miniyus\RestfulApiClient\Api\ApiClient;
 
 
 /**
  * Class TistoryClient
  * @package App\Services\Tistory
- * @method Oauth oauth()
- * @method Apis apis()
+ * @method static Oauth oauth()
+ * @method static Apis apis()
  */
 class TistoryClient extends ApiClient
 {
     /**
      * TistoryClient constructor.
      * @param string|null $host
-     * @param string $type
+     * @param string|null $type
+     * @param string $server
      */
-    public function __construct(string $host = null, string $type = 'storage')
+    public function __construct(string $host = null, ?string $type = 'storage', string $server = 'tistory')
     {
-        if (is_null($host)) {
-            $host = config('tistory.host');
-        }
+        parent::__construct($host, $type, $server);
+    }
 
-        parent::__construct($host, $type, 'tistory');
+    /**
+     * @return static
+     * @throws FileNotFoundException
+     */
+    public static function login(): TistoryClient
+    {
+        $instance = self::newInstance();
+        $token = $instance->oauth()->auth();
+        return $instance->setToken($token['access_token'], $instance->type);
     }
 }

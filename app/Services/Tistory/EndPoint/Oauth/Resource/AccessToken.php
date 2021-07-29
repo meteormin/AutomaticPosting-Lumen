@@ -4,24 +4,13 @@
 namespace App\Services\Tistory\EndPoint\Oauth\Resource;
 
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Miniyus\RestfulApiClient\Api\EndPoint\AbstractSubClient;
 
-class Access_token extends AbstractSubClient
+class AccessToken extends AbstractSubClient
 {
-    /**
-     * AccessToken constructor.
-     * @param string|null $host
-     */
-    public function __construct(string $host = null)
-    {
-        if (is_null($host)) {
-            $host = config('tistory.host');
-        }
-
-        parent::__construct($host);
-    }
-
     /**
      * @param string $clientId
      * @param string $clientSecret
@@ -32,8 +21,16 @@ class Access_token extends AbstractSubClient
      */
     public function request(string $clientId, string $clientSecret, string $redirectUri, string $code, string $grantType = 'authorization_code')
     {
+        Log::info('request access_token');
+        Log::info($this->url . '?' . Arr::query([
+                'client_id' => $clientId,
+                'client_secret' => $clientSecret,
+                'redirect_uri' => $redirectUri,
+                'code' => $code,
+                'grant_type' => $grantType
+            ]));
         return $this->response(
-            Http::get($this->getHost(), [
+            Http::get($this->url, [
                 'client_id' => $clientId,
                 'client_secret' => $clientSecret,
                 'redirect_uri' => $redirectUri,

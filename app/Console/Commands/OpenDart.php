@@ -34,12 +34,13 @@ class OpenDart extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @param OpenDartService $openDart
+     * @return int
      */
-    public function handle(OpenDartService $opendart)
+    public function handle(OpenDartService $openDart): int
     {
         $this->info('get corp-codes...');
-        $opendart->saveCorpCodes();
+        $openDart->saveCorpCodes();
 
         $this->info('success save corp-codes!');
         return 0;

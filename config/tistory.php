@@ -3,6 +3,10 @@
 return [
     'host' => 'https://www.tistory.com',
     'module_namespace' => '\\App\\Services\\Tistory\\EndPoint',
+    'py_module' => [
+        'interpreter' => 'python3',
+        'filename' => 'py_module/main.py'
+    ],
     'token_storage' => [
         'storage' => ['name' => 'access_token'],
         'model' => ['name' => null],
@@ -14,9 +18,9 @@ return [
     'redirect_uri' => 'http://34.72.111.228/tistory/callback',
     'response_type' => 'code',
     'state' => '',
-    'end_point'=>[
-        'oauth'=>[],
-        'apis'=>[],
+    'end_point' => [
+        'oauth' => [],
+        'apis' => [],
     ],
     'method' => [
         'authorize' => [

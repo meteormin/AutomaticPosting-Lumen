@@ -80,6 +80,7 @@ $app->configure('wordpress');
 $app->configure('mapper');
 $app->configure('make_class');
 $app->configure('api_server');
+$app->configure('webdriver');
 
 /*
 |--------------------------------------------------------------------------
