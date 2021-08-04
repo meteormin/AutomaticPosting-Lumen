@@ -56,28 +56,4 @@ class Oauth extends AbstractEndPoint
         Log::info($name . ': ' . $token);
         return [$name => $token];
     }
-
-//    public function auth()
-//    {
-//        $token = null;
-//        $clientId = config('tistory.client_id');
-//        $clientSecret = config('tistory.client_secret');
-//        $redirectUri = config('tistory.redirect_uri');
-//        $responseType = config('tistory.response_type');
-//        $state = 'miniyus';
-//
-//        $result = $this->authorize()->request($clientId, $redirectUri, $responseType, $state);
-//
-//        if (isset($result['code'])) {
-//            $token = $this->access_token()->request($clientId, $clientSecret, $redirectUri, $result['code']);
-//        }
-//
-//        if (isset($token)) {
-//            $this->setToken($token['access_token'], 'storage');
-//        }
-//
-//        return $token;
-//    }
-
-
 }

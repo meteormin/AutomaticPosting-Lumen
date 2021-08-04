@@ -62,14 +62,10 @@ class Authorize extends AbstractSubClient
         $driver->findElement(WebDriverBy::id(config('webdriver.kakao_login.email_input.id')))
             ->sendKeys(config('webdriver.kakao_login.email_input.parameter'));
         Log::info('input email');
-        Log::info('sleep 3s');
-        sleep(3);
 
         $driver->findElement(WebDriverBy::id(config('webdriver.kakao_login.pass_input.id')))
             ->sendKeys(config('webdriver.kakao_login.pass_input.parameter'));
         Log::info('input password');
-        Log::info('sleep 3s');
-        sleep(3);
 
         $driver->findElement(WebDriverBy::className(config('webdriver.kakao_login.login_submit.className')))->click();
         Log::info('submit login form');

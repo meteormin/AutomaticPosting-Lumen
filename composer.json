@@ -19,7 +19,7 @@
         "laravel/tinker": "^2.6",
         "laravelista/lumen-vendor-publish": "^8.0",
         "miniyus/mapper": "v2.5.3",
-        "miniyus/restful-api-client": "^1.0",
+        "miniyus/restful-api-client": "^1.1",
         "netresearch/jsonmapper": "^4.0.0",
         "nomadnt/lumen-passport": "^10.1",
         "php-webdriver/webdriver": "^1.11",

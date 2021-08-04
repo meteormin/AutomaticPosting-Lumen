@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33ff70dee1a6e31aa72c7be83d7fe0f1",
+    "content-hash": "1c65bae4a5f7f06d74b44ac656d4ca99",
     "packages": [
         {
             "name": "brick/math",
@@ -3092,11 +3092,11 @@
         },
         {
             "name": "miniyus/restful-api-client",
-            "version": "v1.0.17",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "git@github.com:miniyus/restful-api-client.git",
-                "reference": "e180fe0ffedaf40e16b5bfe2340e9c9a441d44b5"
+                "reference": "e4976b3981358713e9237e6b09fd846ea4cc973c"
             },
             "require": {
                 "ext-json": "*",
@@ -3132,7 +3132,7 @@
                 }
             ],
             "description": "restful api client",
-            "time": "2021-07-29T00:04:45+00:00"
+            "time": "2021-07-29T05:41:07+00:00"
         },
         {
             "name": "monolog/monolog",

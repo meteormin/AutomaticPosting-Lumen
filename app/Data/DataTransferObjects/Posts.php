@@ -2,6 +2,7 @@
 
 namespace App\Data\DataTransferObjects;
 
+use App\Libraries\HtmlToImage\WkHtmlToImage;
 use Miniyus\Mapper\Data\Dto;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
@@ -336,10 +337,19 @@ class Posts extends Dto
         $host = config('app.static_ip');
         $port = config('app.app_port');
 
-        $command = "wkhtmltoimage http://{$host}:{$port}/api/posts/{$this->id} {$filePath}";
-        $output = exec($command, $output, $code);
-
-        if ($code === 0) {
+        $output = WkHtmlToImage::newInstance([
+            'host' => $host,
+            'port' => $port,
+            'path' => "/api/posts/$this->id",
+            'save_file' => $filePath
+        ])->capture();
+//        $command = "wkhtmltoimage http://{$host}:{$port}/api/posts/{$this->id} {$filePath}";
+//        $output = exec($command, $output, $code);
+//
+//        if ($code === 0) {
+//            return $this->getContentImg();
+//        }
+        if ($output['code'] === 0) {
             return $this->getContentImg();
         }
 

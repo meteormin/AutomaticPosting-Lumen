@@ -9,11 +9,11 @@ use App\Data\DataTransferObjects\WPosts;
 use App\Models\Posts;
 use App\Data\DataTransferObjects\Posts as Dto;
 use App\Services\AutoPostInterface;
-use App\Services\Service;
+use App\Services\AutoPostService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use JsonMapper_Exception;
 
-class WpPostService extends Service implements AutoPostInterface
+class WpPostService extends AutoPostService implements AutoPostInterface
 {
     protected WpClient $client;
 
@@ -33,18 +33,7 @@ class WpPostService extends Service implements AutoPostInterface
     {
         $posts = Posts::getForAutoPost($type, $postsId);
         $dto = Dto::newInstance($posts);
-        $publicImgFile = "img/posts/{$dto->getId()}.png";
-
-        if (!file_exists(base_path('public/img/posts'))) {
-            mkdir(base_path('public/img/posts'));
-        }
-
-        if (file_put_contents(base_path('public/' . $publicImgFile), $dto->getContentImg()) === false) {
-            $this->throw(self::SERVER_ERROR, 'fail put file...');
-        }
-        $host = config('app.static_ip') . ':' . config('app.app_port');
-
-        $url = "http://{$host}/{$publicImgFile}";
+        $this->makePublicImg($dto);
 
         $media = WpMedia::newInstance([
             'title' => $dto->getTitle(),

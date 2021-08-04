@@ -2,7 +2,6 @@
 
 namespace App\Services\Main;
 
-use App\Data\Abstracts\Dto;
 use App\Models\Posts;
 use App\Services\Service;
 use App\Response\ErrorCode;
@@ -14,6 +13,7 @@ use App\Services\AutoPostInterface;
 use App\Libraries\Generate\TableGenerator;
 use Illuminate\Support\Collection;
 use JsonMapper_Exception;
+use Miniyus\Mapper\Data\Dto;
 
 /**
  * Posts Service
@@ -194,6 +194,7 @@ class PostsService extends Service implements AutoPostInterface
         }
 
         $this->throw(ErrorCode::CONFLICT, '포스팅 실패');
+        return 0;
     }
 
     /**
@@ -212,6 +213,7 @@ class PostsService extends Service implements AutoPostInterface
         }
 
         $this->throw(ErrorCode::CONFLICT, '포스트 수정 실패');
+        return 0;
     }
 
     /**

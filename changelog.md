@@ -1,5 +1,13 @@
 # Change Log
-
+## 2021.08.04
+> Version 1.1.1
+- Tistory api client
+  - php-webdriver(crawler) 패키지로 로그인 해결 
+  - post 관련 api 메서드 작성
+- Tistory service
+  - autoPost 메서드 작성
+    - 테스트 해야함
+  
 ## 2021.07.22
 > Version 1.1.0
 - Tistory 관련 추가
